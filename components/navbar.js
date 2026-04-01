@@ -22,7 +22,7 @@ const navLinks = [
 const contactInfo = {
   phone: "+91 98765 43210",
   whatsapp: "+91 98765 43210",
-  location: "Mumbai, Maharashtra",
+  location: "Delhi NCR, India",
 };
 
 export default function Navbar() {
