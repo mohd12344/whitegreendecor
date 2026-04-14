@@ -12,37 +12,73 @@ const ContactPage = () => {
     eventType: "",
     message: "",
   });
-  const handleSubmit = (e) => {
+
+  const [phoneErr, setPhoneErr] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const handlePhone = (val) => {
+    const digits = val.replace(/\D/g, "").slice(0, 10);
+    setFormData((p) => ({ ...p, phone: digits }));
+
+    if (digits.length > 0 && digits.length < 10)
+      setPhoneErr("Enter valid 10-digit number");
+    else if (digits.length === 10 && digits[0] === "0")
+      setPhoneErr("Number shouldn't start with 0");
+    else setPhoneErr("");
+  };
+
+  const valid =
+    formData.name.trim() &&
+    formData.phone.length === 10 &&
+    formData.phone[0] !== "0" &&
+    formData.message.trim() &&
+    !phoneErr;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Add your form submission logic
+    if (!valid) return;
+    setSending(true);
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        eventType: formData.eventType,
+        message: formData.message,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Failed to send");
+    }
+    setSending(false);
+    setSent(true);
   };
 
   const contactInfo = [
     {
       icon: "📞",
       title: "Call Us",
-      info: "+91 98765 43210",
-      link: "tel:+919876543210",
+      info: "+91 63984 84419",
+      link: "tel:+916398484419",
     },
     {
       icon: "💬",
       title: "WhatsApp",
-      info: "+91 98765 43210",
-      link: "https://wa.me/919876543210",
+      info: "+91 63984 84419",
+      link: "https://wa.me/6398484419",
     },
     {
       icon: "✉️",
       title: "Email Us",
-      info: "hello@whitegreen.in",
-      link: "mailto:hello@whitegreen.in",
+      info: "enquiry@whitegreendecors.com",
+      link: "mailto:enquiry@whitegreendecors.com",
     },
-    {
-      icon: "📍",
-      title: "Location",
-      info: "NCR Delhi, India",
-      link: "#map",
-    },
+    { icon: "📍", title: "Location", info: "NCR Delhi, India", link: "#map" },
   ];
 
   return (
@@ -55,7 +91,7 @@ const ContactPage = () => {
             <span className="text-white/90 text-sm">Get In Touch</span>
           </span>
           <h1 className="font-['Playfair_Display'] text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            Contact <span className="text-[#d4af37]">Us</span>{" "}
+            Contact <span className="text-[#d4af37]">Us</span>
           </h1>
           <p className="text-white/70 text-sm md:text-base max-w-lg mx-auto">
             Have a question or ready to book? We'd love to hear from you.
@@ -85,119 +121,213 @@ const ContactPage = () => {
               </Link>
             ))}
           </div>
-        </div>{" "}
+        </div>
       </section>
 
-      {/* Form & Map Section */}
+      {/* Form & Map */}
       <section className="py-12 md:py-16 bg-[#f8f9fa]">
         <div className="max-w-[1400px] mx-auto px-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Contact Form */}
+            {/* Form */}
             <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm">
               <h2 className="font-['Playfair_Display'] text-xl sm:text-2xl md:text-3xl font-bold text-[#0d2818] mb-2">
                 Send Us a Message
               </h2>
               <p className="text-gray-500 text-sm mb-8">
                 Fill out the form and we'll get back to you within 24 hours.
-              </p>{" "}
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              </p>
+
+              {/* ── Success State ── */}
+              {sent ? (
+                <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-8 h-8 text-[#1a4d2e]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-[#0d2818] font-semibold text-lg">
+                    Message Sent!
+                  </h3>
+                  <p className="text-gray-500 text-sm max-w-xs">
+                    Thank you for reaching out. We'll get back to you within 24
+                    hours.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSent(false);
+                      setFormData({
+                        name: "",
+                        phone: "",
+                        email: "",
+                        eventType: "",
+                        message: "",
+                      });
+                    }}
+                    className="mt-2 text-sm text-[#1a4d2e] font-medium underline underline-offset-2"
+                  >
+                    Send another message
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Name + Phone */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-[#0d2818] text-sm font-medium mb-2">
+                        Your Name <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a4d2e] focus:ring-2 focus:ring-[#1a4d2e]/10 transition-all"
+                        placeholder="Rohit Sharma"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[#0d2818] text-sm font-medium mb-2">
+                        Phone Number <span className="text-red-400">*</span>
+                      </label>
+                      {/* +91 prefix */}
+                      <div
+                        className={`flex items-center bg-[#f8f9fa] border rounded-xl overflow-hidden transition-all focus-within:border-[#1a4d2e] focus-within:ring-2 focus-within:ring-[#1a4d2e]/10 ${phoneErr ? "border-red-400" : "border-gray-200"}`}
+                      >
+                        <span className="px-3 text-sm text-gray-500 border-r border-gray-200 py-3 bg-gray-100 flex-shrink-0">
+                          +91
+                        </span>
+                        <input
+                          type="tel"
+                          required
+                          value={formData.phone}
+                          onChange={(e) => handlePhone(e.target.value)}
+                          className="flex-1 px-3 py-3 bg-transparent text-sm focus:outline-none"
+                          placeholder="98765 43210"
+                          maxLength={10}
+                        />
+                      </div>
+                      {phoneErr && (
+                        <p className="text-red-400 text-xs mt-1">{phoneErr}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Email */}
                   <div>
                     <label className="block text-[#0d2818] text-sm font-medium mb-2">
-                      Your Name *
+                      Email Address
                     </label>
                     <input
-                      type="text"
-                      required
-                      value={formData.name}
+                      type="email"
+                      value={formData.email}
                       onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
+                        setFormData({ ...formData, email: e.target.value })
                       }
                       className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a4d2e] focus:ring-2 focus:ring-[#1a4d2e]/10 transition-all"
-                      placeholder="John Doe"
-                    />
-                  </div>{" "}
-                  <div>
-                    <label className="block text-[#0d2818] text-sm font-medium mb-2">
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a4d2e] focus:ring-2 focus:ring-[#1a4d2e]/10 transition-all"
-                      placeholder="+91 98765 43210"
+                      placeholder="rohit@example.com"
                     />
                   </div>
-                </div>{" "}
-                <div>
-                  <label className="block text-[#0d2818] text-sm font-medium mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a4d2e] focus:ring-2 focus:ring-[#1a4d2e]/10 transition-all"
-                    placeholder="john@example.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#0d2818] text-sm font-medium mb-2">
-                    {" "}
-                    Event Type
-                  </label>
-                  <select
-                    value={formData.eventType}
-                    onChange={(e) =>
-                      setFormData({ ...formData, eventType: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a4d2e] focus:ring-2 focus:ring-[#1a4d2e]/10 transition-all cursor-pointer"
+
+                  {/* Event Type */}
+                  <div>
+                    <label className="block text-[#0d2818] text-sm font-medium mb-2">
+                      Event Type
+                    </label>
+                    <select
+                      value={formData.eventType}
+                      onChange={(e) =>
+                        setFormData({ ...formData, eventType: e.target.value })
+                      }
+                      className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a4d2e] focus:ring-2 focus:ring-[#1a4d2e]/10 transition-all cursor-pointer"
+                    >
+                      <option value="">Select event type</option>
+                      <option value="mehndi">Mehndi Decor</option>
+                      <option value="haldi">Haldi Decor</option>
+                      <option value="ring">Ring Ceremony</option>
+                      <option value="wedding">Wedding Decor</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label className="block text-[#0d2818] text-sm font-medium mb-2">
+                      Your Message <span className="text-red-400">*</span>
+                    </label>
+                    <textarea
+                      rows={4}
+                      required
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a4d2e] focus:ring-2 focus:ring-[#1a4d2e]/10 transition-all resize-none"
+                      placeholder="Tell us about your event — date, location, budget..."
+                    />
+                  </div>
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={!valid || sending}
+                    className={`w-full py-4 font-semibold rounded-xl transition-all text-white ${
+                      valid && !sending
+                        ? "bg-[#1a4d2e] hover:bg-[#0d2818] hover:shadow-lg cursor-pointer"
+                        : "bg-gray-300 cursor-not-allowed"
+                    }`}
                   >
-                    <option value="">Select event type</option>
-                    <option value="mehndi">Mehndi Decor</option>
-                    <option value="haldi">Haldi Decor</option>
-                    <option value="ring">Ring Ceremony</option>
-                    <option value="wedding">Wedding Decor</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>{" "}
-                <div>
-                  <label className="block text-[#0d2818] text-sm font-medium mb-2">
-                    Your Message
-                  </label>
-                  <textarea
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a4d2e] focus:ring-2 focus:ring-[#1a4d2e]/10 transition-all resize-none"
-                    placeholder="Tell us about your event..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full py-4 bg-[#1a4d2e] text-white font-semibold rounded-xl hover:bg-[#0d2818] hover:shadow-lg transition-all"
-                >
-                  Send Message
-                </button>
-              </form>
+                    {sending ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg
+                          className="w-4 h-4 animate-spin"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8z"
+                          />
+                        </svg>
+                        Sending...
+                      </span>
+                    ) : (
+                      "Send Message"
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
-            {/* Map & Quick Contact */}
+
+            {/* Map + WhatsApp */}
             <div className="flex flex-col gap-6">
-              {/* Map */}
               <div
                 id="map"
                 className="bg-white rounded-3xl overflow-hidden shadow-sm flex-1 min-h-[300px]"
               >
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d448196.52633258584!2d76.76abortedt7426456!3d28.643684899999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1699999999999!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499.1597002696967!2d77.09792967529228!3d28.71477297561992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d07becaec3587%3A0x61be9fd67d1dc2fe!2sWhite%20Green%20Decors%20-%20Wedding%2C%20Haldi%2C%20Mehndi%20%26%20House%20Flower%20Decoration%2C%20Delhi!5e0!3m2!1sen!2sin!4v1776060015607!5m2!1sen!2sin"
                   width="100%"
                   height="100%"
                   style={{ border: 0, minHeight: "300px" }}
@@ -207,27 +337,30 @@ const ContactPage = () => {
                 />
               </div>
 
-              {/* Quick WhatsApp CTA */}
               <div className="bg-[#1a4d2e] rounded-3xl p-6 md:p-8 text-center">
                 <div className="text-4xl mb-4">💬</div>
                 <h3 className="text-white font-semibold text-lg mb-2">
                   Prefer WhatsApp?
                 </h3>
                 <p className="text-white/70 text-sm mb-5">
-                  {" "}
                   Get instant replies on WhatsApp. We're online 9 AM - 9 PM.
                 </p>
                 <Link
-                  href="https://wa.me/919876543210?text=Hi! I'm interested in your decoration services."
+                  href="https://wa.me/6398484419?text=Hi! I'm interested in your decoration services."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white font-semibold rounded-full hover:bg-[#20bd5a] hover:shadow-lg transition-all"
                 >
-                  <Image src={"/svg-icons/Whatsapp.svg"} width={20} height={20} alt="logo"/>
+                  <Image
+                    src="/svg-icons/Whatsapp.svg"
+                    width={20}
+                    height={20}
+                    alt="whatsapp"
+                  />
                   Chat on WhatsApp
                 </Link>
               </div>
-            </div>{" "}
+            </div>
           </div>
         </div>
       </section>

@@ -3,152 +3,140 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import SearchBar from "./home/SearchBar";
 
-const navLinks = [
+const staticNavLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
-  {
-    name: "Services",
-    href: "/services",
-    dropdown: [
-      { name: "Mehndi Decor", href: "/services/mehndi-decor" },
-      { name: "Ring Decor", href: "/services/ring-decor" },
-      { name: "Haldi Decor", href: "/services/haldi-decor" },
-    ],
-  },
+  { name: "Services", href: "/services", dropdown: [] }, 
   { name: "Contact", href: "/contact" },
 ];
 
 const contactInfo = {
-  phone: "+91 98765 43210",
-  whatsapp: "+91 98765 43210",
+  phone: "+91 6398484419",
+  whatsapp: "+91 6398484419",
   location: "Delhi NCR, India",
 };
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [openDropdown, setopenDropdown] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 100);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const [navLinks, setNavLinks] = useState(staticNavLinks);
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
   }, [mobileMenuOpen]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) console.log("Searching:", searchQuery);
-  };
+  useEffect(() => {
+    fetch("/api/sections/nav")
+      .then((r) => r.json())
+      .then((sections) => {
+        setNavLinks((prev) =>
+          prev.map((link) =>
+            link.name === "Services"
+              ? {
+                  ...link,
+                  dropdown: sections.map((s) => ({
+                    name: s.title,
+                    href: `/services/${s.slug}`,
+                  })),
+                }
+              : link,
+          ),
+        );
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <>
-      {/* Top Bar */}
-      <div className="bg-gradient-to-r from-[#0d2818] to-[#1a4d2e] py-2.5 border-b border-white/10">
-        <div className="max-w-[1400px] mx-auto px-5 flex flex-row justify-between items-center gap-2.5 md:gap-0">
-          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6">
+      <div className="bg-white border-t-4 border-t-green-900 sm:border-b-[1px] sm:border-b-zinc-300">
+        <div className="px-2 sm:px-5 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setMobileMenuOpen(!mobileMenuOpen);
+              }}
+              className="flex lg:hidden flex-col gap-[5px] bg-transparent border-none cursor-pointer hover:bg-gray-100 pt-1.5 rounded-lg transition-colors"
+            >
+              <span
+                className={`w-[22px] h-0.5 bg-[#1a4d2e] rounded transition-all ${mobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""}`}
+              />
+              <span
+                className={`w-[22px] h-0.5 bg-[#1a4d2e] rounded transition-all ${mobileMenuOpen ? "opacity-0" : ""}`}
+              />
+              <span
+                className={`w-[22px] h-0.5 bg-[#1a4d2e] rounded transition-all ${mobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`}
+              />
+            </button>
+
+            <Link
+              href="/"
+              className="relative w-14 h-14 md:w-16 md:h-16 flex-shrink-0"
+            >
+              <Image
+                src="/logo.jpg"
+                fill
+                alt="Logo"
+                className="object-contain"
+              />
+            </Link>
+
+            <div className="hidden md:flex">
+              <SearchBar />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 md:gap-5">
+            <Link
+              href="/contact"
+              className="hidden sm:flex items-center gap-1.5 text-[13px] hover:text-[#d4af37] transition-colors"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span className="hidden lg:inline">Help</span>
+            </Link>
+            <div className="flex items-center gap-1.5 text-[13px]">
+              <Image
+                src="/svg-icons/location.svg"
+                width={14}
+                height={14}
+                alt="location"
+                className="invert"
+              />
+              <span>Delhi NCR</span>
+            </div>
             <a
               href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
-              className="text-white/90 text-[13px] flex items-center gap-1 hover:text-[#d4af37] transition-colors"
+              className="hidden sm:flex items-center gap-1.5 text-[13px] hover:text-[#d4af37] transition-colors"
             >
               <Image
-                src={"/svg-icons/phone.svg"}
-                className=""
-                width={18}
-                height={18}
+                src="/svg-icons/phone.svg"
+                width={14}
+                height={14}
                 alt="phone"
-              />{" "}
-              {contactInfo.phone}
-            </a>
-            <a
-              href={`https://wa.me/${contactInfo.whatsapp.replace(/[^0-9]/g, "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/90 text-[13px] flex items-center gap-2 hover:text-[#d4af37] transition-colors"
-            >
-              <Image
-                src={"/svg-icons/whatsapp.svg"}
-                className=""
-                width={16}
-                height={16}
-                alt="whtaspp"
-              />{" "}
-              {contactInfo.whatsapp}{" "}
-            </a>
-            <a
-              href="#"
-              className="text-white/90 text-[13px] flex items-center gap-2 hover:text-[#d4af37] transition-colors"
-            >
-              <Image
-                src={"/svg-icons/location.svg"}
-                className=""
-                width={16}
-                height={16}
-                alt="location"
-              />{" "}
-              {contactInfo.location}
-            </a>
-          </div>
-          <div className="flex gap-4">
-            <a
-              href="#"
-              className="w-[30px] h-[30px] border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-[#d4af37] hover:border-[#d4af37] hover:-translate-y-0.5 transition-all"
-            >
-              <Image
-                src={"/svg-icons/facebook.svg"}
-                className=""
-                width={16}
-                height={16}
-                alt="location"
+                className="invert"
               />
+              <span>{contactInfo.phone}</span>
             </a>
-            <a
-              href="#"
-              className="w-[30px] h-[30px] border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-[#d4af37] hover:border-[#d4af37] hover:-translate-y-0.5 transition-all"
-            >
-              <Image
-                src={"/svg-icons/instagram.svg"}
-                className=""
-                width={16}
-                height={16}
-                alt="location"
-              />
-            </a>
-            <a
-              href="#"
-              className="w-[30px] h-[30px] border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-[#d4af37] hover:border-[#d4af37] hover:-translate-y-0.5 transition-all"
-            >
-              <Image
-                src={"/svg-icons/pintrest.svg"}
-                className=""
-                width={16}
-                height={16}
-                alt="location"
-              />
-            </a>{" "}
           </div>
         </div>
       </div>
 
-      {/* Main Navbar */}
-      <nav
-        className={`bg-white sticky top-0 z-[1000] transition-shadow ${scrolled ? "shadow-[0_4px_30px_rgba(0,0,0,0.12)]" : "shadow-[0_4px_30px_rgba(0,0,0,0.08)]"}`}
-      >
-        <div className="max-w-[1400px] mx-auto px-5 flex justify-between items-center h-[70px] md:h-[85px]">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="relative w-16 md:w-20 h-16 md:h-20 flex items-center gap-3"
-          >
-            <Image src={"/logo.jpg"} fill alt="logo" />
-          </Link>{" "}
-          {/* Desktop Nav Links */}
-          <ul className="hidden lg:flex list-none gap-1">
+      <nav className="z-20 py-1.5 pb-2 sm:py-2">
+        <div className="px-5 flex justify-center sm:justify-between items-center">
+          <ul className="hidden md:flex list-none gap-1">
             {navLinks.map((link) => (
               <li key={link.name} className="relative group">
                 <Link
@@ -160,17 +148,16 @@ export default function Navbar() {
                     <ChevronIcon className="group-hover:rotate-180 transition-transform" />
                   )}
                 </Link>
-                {link.dropdown && (
-                  <ul
-                    className={`absolute top-full left-0 min-w-[220px] bg-white rounded-lg shadow-[0_15px_50px_rgba(0,0,0,0.15)] list-none py-2.5 ${openDropdown ? "visible opacity-100 translate-y-0" : "opacity-0 invisible translate-y-2.5"}  group-hover:opacity-100  group-hover:visible  group-hover:translate-y-0 transition-all border border-gray-200`}
-                  >
+
+                {link.dropdown && link.dropdown.length > 0 && (
+                  <ul className="absolute top-full left-0 min-w-[220px] bg-white rounded-lg shadow-[0_15px_50px_rgba(0,0,0,0.15)] list-none py-2.5 opacity-0 invisible translate-y-2.5 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all border border-gray-200 z-50">
                     {link.dropdown.map((item) => (
                       <li key={item.name}>
                         <Link
                           href={item.href}
                           className="block px-6 py-3 text-[#0d2818] text-sm border-l-[3px] border-transparent hover:bg-[#1a4d2e]/5 hover:text-[#1a4d2e] hover:border-[#d4af37] hover:pl-7 transition-all"
                         >
-                          {item.name}{" "}
+                          {item.name}
                         </Link>
                       </li>
                     ))}
@@ -179,172 +166,123 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-5">
-            <form
-              onSubmit={handleSearch}
-              className="flex items-center bg-gray-50 border border-gray-200 rounded-full pl-4 pr-1 py-1 focus-within:border-[#2d6a4f] focus-within:shadow-[0_0_0_3px_rgba(45,106,79,0.1)] transition-all"
-            >
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-none bg-transparent outline-none w-32 xl:w-40 text-[13px] text-[#0d2818] placeholder:text-gray-400"
-              />
-              <button
-                type="submit"
-                className="w-9 h-9 bg-[#1a4d2e] text-white rounded-full flex items-center justify-center hover:bg-[#0d2818] hover:scale-105 transition-all cursor-pointer"
-              >
-                <Image
-                  src={"/svg-icons/search.svg"}
-                  className=""
-                  width={16}
-                  height={16}
-                  alt="location"
-                />
-              </button>
-            </form>
+
+          <div className="hidden md:flex items-center gap-5">
             <Link
-              href="tel:+919876543210"
-              className="flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-[#1a4d2e] to-[#0d2818] text-white text-[13px] font-semibold tracking-wide rounded-full shadow-[0_4px_15px_rgba(26,77,46,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_25px_rgba(26,77,46,0.4)] transition-all"
+              href="tel:+916398484419"
+              className="flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-[#1a4d2e] to-[#0d2818] text-white text-[13px] font-semibold tracking-wide rounded-full shadow-[0_4px_15px_rgba(26,77,46,0.3)] hover:-translate-y-0.5 transition-all"
             >
               <Image
-                src={"/svg-icons/phone.svg"}
-                className=""
+                src="/svg-icons/phone.svg"
                 width={16}
                 height={16}
-                alt="location"
-              />{" "}
+                alt="phone"
+              />
               Book Now
             </Link>
           </div>
-          {/* Mobile Toggle */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setMobileMenuOpen(!mobileMenuOpen);
-            }}
-            className="flex lg:hidden flex-col gap-[5px] bg-transparent border-none cursor-pointer p-2.5"
-          >
-            <span
-              className={`w-[25px] h-0.5 bg-[#1a4d2e] rounded transition-all ${mobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""}`}
-            />
-            <span
-              className={`w-[25px] h-0.5 bg-[#1a4d2e] rounded transition-all ${mobileMenuOpen ? "opacity-0" : ""}`}
-            />
-            <span
-              className={`w-[25px] h-0.5 bg-[#1a4d2e] rounded transition-all ${mobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`}
-            />
-          </button>
+
+          <div className="flex md:hidden">
+            <SearchBar />
+          </div>
         </div>
       </nav>
 
       {/* Mobile Menu */}
       <div
-        className={`fixed top-[140px] pt-24 pb-12 md:top-[125px] left-0 right-0 bottom-0 bg-white p-5 md:p-8 z-[999] overflow-y-auto transition-transform lg:hidden ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-[70px] left-0 right-0 bottom-0 bg-white z-[999] overflow-y-auto transition-all duration-300 lg:hidden ${mobileMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-4"}`}
       >
-        <form
-          onSubmit={handleSearch}
-          className="flex bg-gray-50 border border-gray-200 rounded-full pl-5 pr-1 py-1 mb-8"
-        >
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 border-none bg-transparent outline-none text-[15px]"
-          />
-          <button
-            type="submit"
-            className="w-11 h-11 bg-[#1a4d2e] text-white rounded-full flex items-center justify-center cursor-pointer"
-          >
-            <Image
-              src={"/svg-icons/search.svg"}
-              className=""
-              width={16}
-              height={16}
-              alt="location"
-            />
-          </button>
-        </form>
-        <ul className="list-none">
-          {navLinks.map((link) => (
-            <li key={link.name} className="border-b border-gray-200">
-              <Link
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-[18px] text-[#0d2818] text-base font-medium"
-              >
-                {link.name}{" "}
-              </Link>
-              {link.dropdown && (
-                <ul className="list-none pb-4 pl-5">
-                  {link.dropdown.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2.5 text-[#2d6a4f] text-sm"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>{" "}
-        <div className="flex flex-col gap-4 p-5 bg-gray-50 rounded-xl">
+        <div className="p-5 pt-6">
+          <ul className="list-none">
+            {navLinks.map((link) => (
+              <li key={link.name} className="border-b border-gray-100">
+                <Link
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between py-4 text-[#0d2818] text-[15px] font-medium hover:text-[#1a4d2e] transition-colors"
+                >
+                  {link.name}
+                  {link.dropdown && (
+                    <ChevronIcon className="w-4 h-4 text-gray-400" />
+                  )}
+                </Link>
+
+                {link.dropdown && link.dropdown.length > 0 && (
+                  <ul className="list-none pb-3 pl-4 border-l-2 border-[#d4af37]/30 ml-2">
+                    {link.dropdown.map((item) => (
+                      <li key={item.name}>
+                        <Link
+                          href={item.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block py-2.5 text-gray-600 text-sm hover:text-[#1a4d2e] transition-colors"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+
           <a
             href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
-            className="flex items-center gap-3 text-[#0d2818] text-sm"
+            className="flex items-center justify-center gap-2 w-full mt-6 py-4 bg-gradient-to-r from-[#1a4d2e] to-[#0d2818] text-white text-sm font-semibold rounded-full shadow-lg"
           >
-            <span className="w-9 h-9 bg-[#1a4d2e] text-white rounded-full flex items-center justify-center">
-              <Image
-                src={"/svg-icons/phone.svg"}
-                className=""
-                width={16}
-                height={16}
-                alt="location"
-              />
-            </span>
-            {contactInfo.phone}
+            <Image
+              src="/svg-icons/phone.svg"
+              width={16}
+              height={16}
+              alt="phone"
+            />
+            Book Now
           </a>
-          <a
-            href={`https://wa.me/${contactInfo.whatsapp.replace(/[^0-9]/g, "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 text-[#0d2818] text-sm"
-          >
-            <span className="w-9 h-9 bg-[#1a4d2e] text-white rounded-full flex items-center justify-center">
-              <Image
-                src={"/svg-icons/whatsapp.svg"}
-                className=""
-                width={16}
-                height={16}
-                alt="location"
-              />
-            </span>
-            WhatsApp
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-3 text-[#0d2818] text-sm"
-          >
-            <span className="w-9 h-9 bg-[#1a4d2e] text-white rounded-full flex items-center justify-center">
-              <Image
-                src={"/svg-icons/location.svg"}
-                className=""
-                width={16}
-                height={16}
-                alt="location"
-              />
-            </span>
-            {contactInfo.location}
-          </a>
-        </div>{" "}
+
+          <div className="flex flex-col gap-3 mt-6 p-4 bg-gray-50 rounded-xl">
+            <a
+              href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
+              className="flex items-center gap-3 text-[#0d2818] text-sm"
+            >
+              <span className="w-9 h-9 bg-[#1a4d2e] text-white rounded-full flex items-center justify-center">
+                <Image
+                  src="/svg-icons/phone.svg"
+                  width={14}
+                  height={14}
+                  alt="phone"
+                />
+              </span>
+              {contactInfo.phone}
+            </a>
+            <a
+              href={`https://wa.me/${contactInfo.whatsapp.replace(/[^0-9]/g, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-[#0d2818] text-sm"
+            >
+              <span className="w-9 h-9 bg-[#25D366] text-white rounded-full flex items-center justify-center">
+                <Image
+                  src="/svg-icons/whatsapp.svg"
+                  width={14}
+                  height={14}
+                  alt="whatsapp"
+                />
+              </span>
+              WhatsApp
+            </a>
+            <div className="flex items-center gap-3 text-[#0d2818] text-sm">
+              <span className="w-9 h-9 bg-[#1a4d2e] text-white rounded-full flex items-center justify-center">
+                <Image
+                  src="/svg-icons/location.svg"
+                  width={14}
+                  height={14}
+                  alt="location"
+                />
+              </span>
+              {contactInfo.location}
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

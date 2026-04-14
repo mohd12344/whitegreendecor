@@ -1,0 +1,98 @@
+Virat Poddar
+
+
+viratpoddar2012@gmail.com
++91 8383960922
+96a, FARIDABAD, India
+https://viratpod.vercel.app
+https://www.linkedin.com/in/virat-pod-636b79317/
+https://x.com/ViratPod
+https://github.com/virat-pod/
+https://instagram.com/viratpod/
+
+
+
+------------------------
+Full Stack Developer (MERN) | Prisma & PostgreSQL
+
+
+------------------------
+Full stack developer skilled in building scalable and modern web applications using the MERN stack, Next.js, Prisma, and PostgreSQL. Experienced in creating dynamic user interfaces, handling backend logic, and working with databases. Familiar with Linux environments and Git for efficient development workflows. Passionate about building real-world projects and continuously improving technical expertise.
+
+
+Skills
+------------------------
+-Soft Skill: HTML5, CSS3, JavaScript (ES6)
+-Frontend: Tailwind css, REACT.js, NEXT.js,
+-Backend: Node.js, Express.js
+-Database: Mongodb, Postgresql, Prisma,  mongoose (orm)
+-Tools: Git, Github, Gitbash
+-Consept: Rest Api's, Authentication, Dynamic routing
+
+
+
+Languages
+------------------------
+-English ✅- (60/100)
+-Hindi ✅- (80/100)
+
+
+
+Interests
+------------------------
+-• Web Development
+-• Backend Architecture
+-• Problem Solving & System Design
+-• Learning Ai/ML Currently
+-• Ai agents / Ai integration
+
+
+
+Work Experience
+------------------------
+Self-Taught Full Stack Developer
+Personal Projects & Self-Learning
+07/2025 - Present
+Achievements/Tasks
+- <!--StartFragment-->Built multiple full stack web applications using MERN and Next.js<!--EndFragment--> 
+- <!--StartFragment-->Developed scalable backend APIs and integrated databases (PostgreSQL, MongoDB)  <!--EndFragment--> 
+- <!--StartFragment-->Implemented authentication, dynamic routing, and responsive UI systems<!--EndFragment--> 
+x-t-c2-color: Virat Poddar - viratpoddar2012@gmail.com
+
+
+
+
+
+Personal Selected projects
+------------------------
+Social media (web application)
+02/2026 - 02/2026
+- Created a MERN stack social media app with CRUD features for posting, editing, and deleting content with razorpay (testing) payment integration in full stack next.js 
+
+
+Document Maker (web application)
+03/2026 - 03/2026
+- Developed a web application using Prisma and PostgreSQL to generate documents such as resumes, certificates, and quotations, while gaining hands-on experience in database design and ORM integration in full stack next.js 
+
+
+Discipline Maker (web application)
+03/2026 - 03/2026
+- Developed a gamified discipline-building web application with task and workflow management features using Next.js and Express.js. Implemented REST APIs to handle backend logic and gain hands-on experience in understanding scalable backend architecture. 
+
+
+
+
+
+Education
+------------------------
+Study Program
+Secondary Education (Open School – Class 9) Currently Pursuing
+India, Haryana faridabad
+Courses
+- <!--StartFragment--> Sigma Web Development Cource<!--EndFragment--><!--EndFragment--> 
+- <!--StartFragment-->Self-learning through AI tools and developer mentorship<!--EndFragment--> 
+
+
+
+
+

@@ -1,7 +1,14 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { NotificationProvider } from "@/lib/contexts/serviceContext";
+import LivePopup from "@/components/services/popup";
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,23 +21,38 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "White Green Decors",
-  description: "White Green Decors | NCR Delhi top1 at decoration",
+  title: "White Green Decors | Wedding & Event Decoration Services",
+  description:
+    "White Green Decors offers premium wedding and event decoration services including Haldi decor, Mehndi decor, ring ceremony setups, car decoration, and customized event styling. Trusted for quality and reliable service.",
+  alternates: {
+    canonical: "https://whitegreendecors.com",
+  },
+  openGraph: {
+    title: "White Green Decors",
+    description:
+      "Premium wedding and event decoration services for Haldi, Mehndi, ring ceremony, and more.",
+    url: "https://whitegreendecors.com",
+    siteName: "White Green Decors",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${outfit.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar/>
-        <div className="min-h-screen">
-        {children}
-        </div>
-        <Footer/>
-        </body>
+        <NotificationProvider>
+          <Navbar />
+          <div className="min-h-screen border-t-3 border-t-zinc-300">
+            {children}
+            <LivePopup />
+          </div>
+          <Footer />
+        </NotificationProvider>
+      </body>
     </html>
   );
 }

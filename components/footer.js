@@ -3,28 +3,39 @@ import Image from "next/image";
 
 const Footer = () => {
   const needHelpLinks = [
-    { name: "WhatsApp Us", href: "https://wa.me/919876543210" },
+    { name: "WhatsApp Us", href: "https://wa.me/916398484419" },
     { name: "Contact Us", href: "/contact" },
     { name: "Terms and Conditions", href: "/terms" },
-    { name: "Privacy Policy", href: "/privacy" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Refund Policy", href: "/refund" },
   ];
 
   const importantLinks = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
-    { name: "FAQ", href: "/faq" },
-    { name: "Call Us", href: "tel:+919876543210" },
+    { name: "Call Us", href: "tel:+916398484419" },
     { name: "Email Us", href: "mailto:info@elegancedecorations.com" },
   ];
 
   const socialLinks = [
-    { name: "Facebook", href: "#", icon: "/svg-icons/facebook.svg" },
-    { name: "Instagram", href: "#", icon: "/svg-icons/instagram.svg" },
-    { name: "Pinterest", href: "#", icon: "/svg-icons/pintrest.svg" },
+    {
+      name: "Facebook",
+      href: "https://www.facebook.com/p/White-Green-Decors-61562226630588/",
+      icon: "/svg-icons/facebook.svg",
+    },
+    {
+      name: "Instagram",
+      href: "https://www.instagram.com/whitegreendecors/",
+      icon: "/svg-icons/instagram.svg",
+    },
+    {
+      name: "Pinterest",
+      href: "https://in.pinterest.com/whitegreendecors/",
+      icon: "/svg-icons/pintrest.svg",
+    },
     {
       name: "WhatsApp",
-      href: "https://wa.me/919876543210",
+      href: "https://wa.me/916398484419",
       icon: "/svg-icons/whatsapp.svg",
     },
   ];
