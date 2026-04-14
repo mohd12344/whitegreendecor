@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { ServicesShowSkeleton } from "@/components/services/skeletons/SectionSkeleton";
+import { fetchAllSections } from "@/lib/api";
 import ServicesShow from "./components/sectionShow";
 
 export const metadata = {
@@ -20,10 +21,7 @@ export const metadata = {
 };
 
 const Services = async () => {
-  const service = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection`,
-  );
-  const services = await service.json();
+  const services = await fetchAllSections();
 
   return (
     <Suspense fallback={<ServicesShowSkeleton />}>
