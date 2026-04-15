@@ -1,9 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import ServiceCardSection from "@/components/home/ServiceCardSection";
+import { ServicesSkeleton } from "@/components/services/skeletons/SectionSkeleton";
 
 export default function ProductCards() {
   const [sections, setSections] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getCards();
@@ -16,12 +18,14 @@ export default function ProductCards() {
       setSections(data);
     } catch (err) {
       console.error("Error fetching:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <section className="">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-5">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-5 flex flex-col gap-10">
         {/* Section Header */}
         <div className="text-center mb-10">
           <span className="inline-block text-[#d4af37] text-sm font-medium tracking-wider uppercase mb-3">
@@ -39,13 +43,17 @@ export default function ProductCards() {
         {/* Services Cards Container */}
         <div className="flex flex-col gap-10 md:gap-14">
           {/* Haldi Decor Section */}
-          {sections.map((section) => (
-            <ServiceCardSection
-              key={section._id}
-              title={`${section.title}`}
-              cards={section.cards}
-            />
-          ))}
+          {isLoading ? (
+            <ServicesSkeleton />
+          ) : (
+            sections.map((section) => (
+              <ServiceCardSection
+                key={section._id}
+                title={`${section.title}`}
+                cards={section.cards}
+              />
+            ))
+          )}
         </div>
       </div>
     </section>

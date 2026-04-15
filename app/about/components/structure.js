@@ -72,7 +72,6 @@ const AboutPage = () => {
           <div className="flex justify-center items-center">
             {" "}
             {/* Left - Image Grid */}
-            
             {/* Right - Content */}
             <div className="order-1 lg:order-2">
               <span className="inline-block text-[#d4af37] text-sm font-semibold tracking-wider uppercase mb-4">
@@ -148,12 +147,17 @@ const AboutPage = () => {
                   </svg>
                 </Link>
                 <a
-                  href="https://wa.me/919876543210"
+                  href="https://wa.me/+916398484419"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#25D366] text-white font-semibold rounded-full hover:bg-[#20bd5a] hover:shadow-lg transition-all"
                 >
-                  <Image src={"/svg-icons/whatsapp.svg"} width={20} height={20} alt="log"/>
+                  <Image
+                    src={"/svg-icons/whatsapp.svg"}
+                    width={20}
+                    height={20}
+                    alt="log"
+                  />
                   WhatsApp Us
                 </a>{" "}
               </div>
@@ -300,14 +304,19 @@ const AboutPage = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="tel:+919876543210"
+              href="tel:+916398484419"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#1a4d2e] text-white font-semibold rounded-full hover:bg-[#0d2818] hover:shadow-xl transition-all"
             >
-              <Image src={"/svg-icons/phone.svg"} width={20} height={20} alt="log"/>
+              <Image
+                src={"/svg-icons/phone.svg"}
+                width={20}
+                height={20}
+                alt="log"
+              />
               Call Now
             </a>
             <a
-              href="https://wa.me/919876543210"
+              href="https://wa.me/+916398484419"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] text-white font-semibold rounded-full hover:bg-[#20bd5a] hover:shadow-xl transition-all"
