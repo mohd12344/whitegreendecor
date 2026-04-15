@@ -134,7 +134,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <nav className="z-20 py-1.5 pb-2 sm:py-2">
+      <nav className="z-20 py-1.5 pb-3.5 sm:py-2">
         <div className="px-5 flex justify-center sm:justify-between items-center">
           <ul className="hidden md:flex list-none gap-1">
             {navLinks.map((link) => (
