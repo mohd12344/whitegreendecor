@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { ServicesShowSkeleton } from "@/components/services/skeletons/SectionSkeleton";
-import { fetchAllSections } from "@/lib/api";
+import { fetchAllSections } from "@/lib/db/queries";
 import ServicesShow from "./components/sectionShow";
 
 export const metadata = {
