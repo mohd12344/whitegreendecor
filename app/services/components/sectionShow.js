@@ -28,7 +28,7 @@ export default function ServicesShow({ services }) {
                 className="group relative h-[280px] sm:h-[320px] md:h-[400px] rounded-3xl overflow-hidden"
               >
                 <Image
-                  src={service.image}
+                  src={service.image || "/section/"}
                   fill
                   alt={service.title}
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
