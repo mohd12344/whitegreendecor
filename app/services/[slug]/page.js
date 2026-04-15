@@ -1,7 +1,5 @@
 import ShowDecorService from "../components/singleServiceShow";
-import { DecorsSkeleton } from "@/components/services/skeletons/SectionSkeleton";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -39,9 +37,5 @@ export default async function Decors({ params }) {
     notFound();
   }
 
-  return (
-    <Suspense fallback={<DecorsSkeleton />}>
-      <ShowDecorService products={products} slug={slug} />
-    </Suspense>
-  );
+  return <ShowDecorService products={products} slug={slug} />;
 }

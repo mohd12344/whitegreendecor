@@ -1,27 +1,27 @@
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { FetchSingleProduct } from "@/lib/db/queries";
 import { ProductDetailSkeleton } from "@/components/services/skeletons/SectionSkeleton";
 import ProductStructure from "../../components/product";
+import ScrollToTop from "@/components/services/scrollTop";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/items/${slug}`,
-  );
+  const { item } = await FetchSingleProduct(slug);
 
-  const data = await res.json();
-  const item = data.item;
+  if (!item) {
+    return { title: "Not Found | White Green Decors" };
+  }
 
   return {
     title: `${item.title} | White Green Decors`,
     description:
       item.description?.slice(0, 150) ||
       "Premium decoration services by White Green Decors.",
-
     alternates: {
       canonical: `https://whitegreendecors.com/services/${slug}`,
     },
-
     openGraph: {
       title: item.title,
       description:
@@ -45,18 +45,16 @@ export async function generateMetadata({ params }) {
 export default async function Product({ params }) {
   const { slug } = await params;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/items/${slug}`,
-  );
-  const data = await res.json();
+  const { item, similarProduct } = await FetchSingleProduct(slug);
+
+  if (!item) {
+    notFound();
+  }
 
   return (
     <Suspense fallback={<ProductDetailSkeleton />}>
-      {" "}
-      <ProductStructure
-        item={data.item}
-        similarProducts={data.similarProduct}
-      />
+      <ScrollToTop />{" "}
+      <ProductStructure item={item} similarProducts={similarProduct} />
     </Suspense>
   );
 }

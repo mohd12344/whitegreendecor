@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-import { ServicesShowSkeleton } from "@/components/services/skeletons/SectionSkeleton";
 import { fetchAllSections } from "@/lib/db/queries";
 import ServicesShow from "./components/sectionShow";
 
@@ -23,11 +21,7 @@ export const metadata = {
 const Services = async () => {
   const services = await fetchAllSections();
 
-  return (
-    <Suspense fallback={<ServicesShowSkeleton />}>
-      <ServicesShow services={services.result} />
-    </Suspense>
-  );
+  return <ServicesShow services={services.result} />;
 };
 
 export default Services;
