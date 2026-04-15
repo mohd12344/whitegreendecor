@@ -8,7 +8,7 @@ import SearchBar from "./home/SearchBar";
 const staticNavLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
-  { name: "Services", href: "/services", dropdown: [] }, 
+  { name: "Services", href: "/services", dropdown: [] },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -21,6 +21,7 @@ const contactInfo = {
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [navLinks, setNavLinks] = useState(staticNavLinks);
+  const [OpenServiceLink, setOpenServiceLink] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
@@ -203,25 +204,37 @@ export default function Navbar() {
                 >
                   {link.name}
                   {link.dropdown && (
-                    <ChevronIcon className="w-4 h-4 text-gray-400" />
+                    <div
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setOpenServiceLink(!OpenServiceLink);
+                      }}
+                      className=""
+                    >
+                      <ChevronIcon
+                        className={`w-5 h-4 ${OpenServiceLink ? "rotate-180" : "rotate-0"} text-gray-500 transition-transform`}
+                      />
+                    </div>
                   )}
                 </Link>
-
-                {link.dropdown && link.dropdown.length > 0 && (
-                  <ul className="list-none pb-3 pl-4 border-l-2 border-[#d4af37]/30 ml-2">
-                    {link.dropdown.map((item) => (
-                      <li key={item.name}>
-                        <Link
-                          href={item.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="block py-2.5 text-gray-600 text-sm hover:text-[#1a4d2e] transition-colors"
-                        >
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {OpenServiceLink &&
+                  link.dropdown &&
+                  link.dropdown.length > 0 && (
+                    <ul className="list-none pb-3 pl-4 border-l-2 border-[#d4af37]/30 ml-2">
+                      {link.dropdown.map((item) => (
+                        <li key={item.name}>
+                          <Link
+                            href={item.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="block py-2.5 text-gray-600 text-sm hover:text-[#1a4d2e] transition-colors"
+                          >
+                            {item.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </li>
             ))}
           </ul>

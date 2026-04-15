@@ -6,7 +6,7 @@ export async function GET() {
   await connectDB();
   const sections = await Section.find({ isActive: true })
     .sort({ order: 1 })
-    .limit(3)
+    .limit(15)
     .select("title slug")
     .lean();
 
