@@ -11,6 +11,7 @@ export default function ProductStructure({ item, similarProducts }) {
   const containerRef = useRef(null);
   const [zoomed, setZoomed] = useState(false);
   const params = useParams();
+  const [loading, setloading] = useState(false);
 
   const tabsData = {
     description: item.description || "No description available.",
@@ -299,6 +300,9 @@ export default function ProductStructure({ item, similarProducts }) {
               <Link
                 key={item._id}
                 href={`/store/${params.type}/${item.slug}`}
+                onClick={() => {
+                  setloading(true);
+                }}
                 className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all"
               >
                 <div className="relative aspect-square overflow-hidden">
@@ -322,6 +326,11 @@ export default function ProductStructure({ item, similarProducts }) {
           </div>
         </div>
       </div>
+      {loading && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/5 backdrop-blur-[2px]">
+          <div className="h-5 w-5 border-2 border-gray-300 border-t-black rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   );
 }

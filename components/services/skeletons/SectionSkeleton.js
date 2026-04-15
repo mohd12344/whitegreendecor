@@ -46,7 +46,7 @@ export function ServicesSkeleton() {
     );
   }
   return (
-    <div className="flex mt-22 flex-col gap-10 md:gap-14">
+    <div className="flex mt-8 flex-col gap-10 md:gap-14">
       <SectionSkeleton />
       <SectionSkeleton />
     </div>
@@ -103,7 +103,6 @@ export function ServicesShowSkeleton() {
   );
 }
 
-
 export function DecorsSkeleton() {
   function CardSkeleton() {
     return (
@@ -149,5 +148,92 @@ export function DecorsSkeleton() {
         </div>
       </section>
     </main>
+  );
+}
+
+export function ProductDetailSkeleton() {
+  return (
+    <div className="min-h-screen bg-gray-50 border-t border-t-zinc-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-10">
+        {/* MAIN SECTION */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* LEFT IMAGE SKELETON */}
+          <div className="w-full lg:w-1/2">
+            <div className="aspect-square rounded-2xl overflow-hidden">
+              <Skeleton height="100%" />
+            </div>
+          </div>
+
+          {/* RIGHT INFO SKELETON */}
+          <div className="w-full lg:w-1/2 flex flex-col gap-4">
+            {/* Breadcrumb */}
+            <Skeleton width={200} height={14} />
+
+            {/* Stars */}
+            <Skeleton width={120} height={20} />
+
+            {/* Title */}
+            <Skeleton width="90%" height={40} />
+
+            {/* Type badge */}
+            <Skeleton width={90} height={28} borderRadius={999} />
+
+            {/* Price */}
+            <Skeleton width={160} height={40} />
+
+            {/* Button */}
+            <Skeleton height={50} borderRadius={999} />
+
+            <Skeleton width={220} height={14} />
+
+            {/* Why choose us box */}
+            <div className="bg-white border border-gray-100 rounded-xl p-4 space-y-3">
+              <Skeleton width={120} height={18} />
+              <Skeleton count={4} height={14} />
+            </div>
+
+            {/* Warning box */}
+            <div className="p-4 rounded-xl border border-gray-200 space-y-2">
+              <Skeleton width="80%" height={14} />
+              <Skeleton width="60%" height={14} />
+            </div>
+          </div>
+        </div>
+
+        {/* TABS */}
+        <div className="mt-12 md:mt-16">
+          <div className="flex gap-4 border-b border-gray-200 pb-3">
+            <Skeleton width={100} height={20} />
+            <Skeleton width={100} height={20} />
+            <Skeleton width={100} height={20} />
+          </div>
+
+          <div className="py-6 space-y-3">
+            <Skeleton width="90%" height={14} />
+            <Skeleton width="85%" height={14} />
+            <Skeleton width="80%" height={14} />
+          </div>
+        </div>
+
+        {/* SIMILAR PRODUCTS */}
+        <div className="mt-12 md:mt-16 pb-10">
+          <Skeleton width={200} height={28} className="mb-6" />
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {Array(4)
+              .fill(null)
+              .map((_, i) => (
+                <div key={i} className="space-y-2">
+                  <div className="aspect-square">
+                    <Skeleton height="100%" />
+                  </div>
+                  <Skeleton width="80%" height={14} />
+                  <Skeleton width="50%" height={14} />
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

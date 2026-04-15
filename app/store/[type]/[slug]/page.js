@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import { ProductDetailSkeleton } from "@/components/services/skeletons/SectionSkeleton";
 import ProductStructure from "../../components/product";
 
 export async function generateMetadata({ params }) {
@@ -49,6 +51,12 @@ export default async function Product({ params }) {
   const data = await res.json();
 
   return (
-    <ProductStructure item={data.item} similarProducts={data.similarProduct} />
+    <Suspense fallback={<ProductDetailSkeleton />}>
+      {" "}
+      <ProductStructure
+        item={data.item}
+        similarProducts={data.similarProduct}
+      />
+    </Suspense>
   );
 }
