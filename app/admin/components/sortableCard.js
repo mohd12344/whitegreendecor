@@ -134,6 +134,7 @@ export default function SortableCard({
           <div className="flex flex-col gap-2 mt-1">
             <input
               value={card.title}
+              type="number"
               onChange={(e) => onChange("title", e.target.value)}
               className="border border-gray-200 rounded-lg px-2 py-1 text-sm font-semibold text-[#0d2818] outline-none focus:border-[#1a4d2e] w-full"
               placeholder="Title"
