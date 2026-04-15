@@ -120,7 +120,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Copyright */}
             <p className="text-white/50 text-sm text-center md:text-left">
-              © {new Date().getFullYear()} Elegance Decorations. All rights
+              © {new Date().getFullYear()} White Green Decors. All rights
               reserved.
             </p>
 
