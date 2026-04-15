@@ -25,11 +25,7 @@ export default function ProductCards() {
 
   return (
     <section className="">
-<<<<<<< HEAD
       <div className="max-w-[1400px] mx-auto px-4 sm:px-5 flex flex-col gap-1 sm:gap-10">
-=======
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-5 flex flex-col sm:gap-10">
->>>>>>> 11ea927d948c035852451f5c88ee9d217fb26a56
         {/* Section Header */}
         <div className="text-center mb-10">
           <span className="inline-block text-[#d4af37] text-sm font-medium tracking-wider uppercase mb-3">
