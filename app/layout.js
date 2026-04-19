@@ -23,14 +23,14 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "White Green Decors | Wedding & Event Decoration Services",
   description:
-    "White Green Decors offers premium wedding and event decoration services including Haldi decor, Mehndi decor, ring ceremony setups, car decoration, and customized event styling. Trusted for quality and reliable service.",
+    "White Green Decors provides premium wedding decor and wedding decoration services including Haldi decor, Mehndi decor, ring ceremony setups, car decoration, and complete event styling. Trusted for creative and elegant wedding decoration setups.",
   alternates: {
     canonical: "https://whitegreendecors.com",
   },
   openGraph: {
-    title: "White Green Decors",
+    title: "White Green Decors | Wedding Decor & Wedding Decoration",
     description:
-      "Premium wedding and event decoration services for Haldi, Mehndi, ring ceremony, and more.",
+      "Premium wedding decor & wedding decoration services by White Green Decors. Haldi, Mehndi, ring ceremony, car decor & full event styling.",
     url: "https://whitegreendecors.com",
     siteName: "White Green Decors",
     type: "website",
