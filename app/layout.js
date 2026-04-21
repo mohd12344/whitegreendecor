@@ -24,13 +24,14 @@ export const metadata = {
   title: "White Green Decors | Wedding & Event Decoration Services",
   description:
     "White Green Decors offers premium flower decoration services in Delhi NCR including Delhi, Rohini, Gurugram & Noida. Expert in Haldi, Mehndi, wedding décor, mandap, reception, engagement, birthday, pooja & festival decorations.",
+
   alternates: {
     canonical: "https://whitegreendecors.com",
   },
   openGraph: {
-    title: "White Green Decors",
+    title: "White Green Decors | Wedding Decor & Wedding Decoration",
     description:
-      "Premium wedding and event decoration services for Haldi, Mehndi, ring ceremony, and more.",
+      "Premium wedding decor & wedding decoration services by White Green Decors. Haldi, Mehndi, ring ceremony, car decor & full event styling.",
     url: "https://whitegreendecors.com",
     siteName: "White Green Decors",
     type: "website",
