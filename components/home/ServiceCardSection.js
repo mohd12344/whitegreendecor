@@ -76,9 +76,27 @@ export default function ({ title, cards }) {
               {/* Overlay on hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               {/* Quick View Button */}{" "}
-              <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                <button className="w-full py-2.5 md:py-3 bg-white text-[#0d2818] font-semibold rounded-full text-sm hover:bg-[#d4af37] transition-colors">
-                  View Details
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  window.open(
+                    `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${title}/${card.slug}`,
+                    "_blank",
+                    "noopener,noreferrer",
+                  );
+                }}
+                className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+              >
+                <button className="group relative flex justify-center gap-2 items-center w-full py-3 bg-white text-[#0d2818] font-semibold rounded-full text-base overflow-hidden transition-all duration-300 hover:bg-amber-300 active:scale-[0.98]">
+                  <Image
+                    src="/svg-icons/whatsapp.svg"
+                    width={18}
+                    height={18}
+                    className="invert relative z-10 transition-transform duration-300 group-hover:scale-110"
+                    alt="WhatsApp"
+                  />
+                  <span className="relative z-10 tracking-wide">Book now</span>
                 </button>
               </div>
               {/* Price Tag */}

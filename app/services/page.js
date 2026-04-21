@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { fetchAllSections } from "@/lib/db/queries";
 import ServicesShow from "./components/sectionShow";
 

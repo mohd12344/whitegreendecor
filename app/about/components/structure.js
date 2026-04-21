@@ -77,19 +77,39 @@ const AboutPage = () => {
               <span className="inline-block text-[#d4af37] text-sm font-semibold tracking-wider uppercase mb-4">
                 ✦ Who We Are
               </span>
-              <h2 className="font-['Playfair_Display'] text-2xl sm:text-3xl md:text-4xl font-bold text-[#0d2818] mb-6 leading-tight">
+              <h2 className="font-['Playfair_Display'] text-2xl sm:text-3xl md:text-4xl font-bold text-[#0d2818] mb-4 leading-tight">
                 Turning Your Dreams Into{" "}
                 <span className="text-[#1a4d2e]">Beautiful Reality</span>
               </h2>
 
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-5">
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-3">
                 Welcome to{" "}
                 <strong className="text-[#0d2818]">
                   WhiteGreen Decoration
                 </strong>{" "}
-                — your premier destination for stunning event decorations in NCR
-                Delhi, India. Since 2019, we've been transforming ordinary
-                venues into extraordinary experiences.
+                White Green Decors offers premium flower decoration services
+                across Delhi NCR, including Delhi, Rohini, Gurugram, and Noida,
+                transforming every celebration into a memorable experience. We
+                specialize in Haldi decoration, Mehndi decoration, and complete
+                wedding decoration including elegant wedding stage décor, entry
+                gate décor, and stylish table arrangements & centerpieces. From
+                grand wedding reception decoration, mandap decoration, and
+                vibrant sangeet decoration to luxurious cocktail party and
+                destination wedding décor, we cover it all.
+              </p>
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-3">
+                We also design beautiful setups for ring ceremony decoration,
+                roka ceremony decoration, engagement (sagai) decoration, and
+                personalized wedding house decoration. Our services extend to
+                wedding car decoration, romantic first night room decoration,
+                and elegant bed decoration. Beyond weddings, we create stunning
+                décor for birthday party decoration, pooja decoration, and grah
+                pravesh decoration. Celebrate festivals with our creative Ganesh
+                Chaturthi decoration, Ganpati decoration, Janmashtami
+                decoration, and dazzling Diwali/Deepavali decoration. At White
+                Green Decors, we bring creativity, elegance, and freshness to
+                every occasion across Delhi NCR with our expert floral and event
+                decoration services.
               </p>
 
               <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-8">

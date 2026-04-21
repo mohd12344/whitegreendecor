@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "White Green Decors | Wedding & Event Decoration Services",
   description:
-    "White Green Decors offers premium wedding and event decoration services including Haldi decor, Mehndi decor, ring ceremony setups, car decoration, and customized event styling. Trusted for quality and reliable service.",
+    "White Green Decors offers premium flower decoration services in Delhi NCR including Delhi, Rohini, Gurugram & Noida. Expert in Haldi, Mehndi, wedding décor, mandap, reception, engagement, birthday, pooja & festival decorations.",
   alternates: {
     canonical: "https://whitegreendecors.com",
   },
