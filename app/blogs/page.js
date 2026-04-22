@@ -8,7 +8,7 @@ import { BlogListSkeleton } from "@/components/services/skeletons/SectionSkeleto
 const featured = {
   category: "White Green Decors",
   title:
-    "We don’t just write blogs; we create decent literary pieces to enrich your knowledge about traditional and contemporary décor ideas with or without balloons.",
+    "We don’t just write blogs; we create decent literary pieces to enrich your knowledge about traditional and contemporary décor ideas and turning into reality",
   date: "April 14, 2025",
   image: "/services/mehndi-2.jpg",
 };
