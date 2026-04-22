@@ -52,7 +52,7 @@ export default function BlogPage() {
             </div>
             <Link
               href={"#blogs"}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1a4d2e] mt-4 group-hover:gap-2.5 transition-all duration-200"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1a4d2e] mt-4 sm:mt-6.5 group-hover:gap-2.5 transition-all duration-200"
             >
               See blogs
               <svg
