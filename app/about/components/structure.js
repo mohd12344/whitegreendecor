@@ -29,7 +29,7 @@ const AboutPage = () => {
       {/* Hero Banner */}
       <section className="relative h-[40vh] min-h-[300px] md:h-[50vh] md:min-h-[400px]">
         <Image
-          src="/about/about-banner.jpg"
+          src="/banner/weds7.png"
           fill
           alt="About WhiteGreen Decoration"
           className="object-cover"

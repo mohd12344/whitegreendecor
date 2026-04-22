@@ -25,6 +25,8 @@ import {
   Logout,
 } from "@/lib/api";
 
+import Blogs from "./components/blogs/blogs";
+
 import { NotificationContext } from "@/lib/contexts/serviceContext";
 
 export default function AdminPage() {
@@ -112,7 +114,8 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 sm:px-6 md:px-10 py-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto flex flex-col gap-26">
+      <div className="">
         <div className="flex items-center justify-between mb-10">
           <div>
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0d2818]">
@@ -198,6 +201,13 @@ export default function AdminPage() {
             </div>
           </SortableContext>
         </DndContext>
+      </div>
+      <div className="flex flex-col gap-10">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0d2818]">
+          Manage Blogs
+        </h1>
+        <Blogs />
+      </div>
       </div>
     </div>
   );

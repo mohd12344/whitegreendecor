@@ -11,11 +11,7 @@ import {
 
 import { horizontalListSortingStrategy } from "@dnd-kit/sortable";
 
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-  arrayMove,
-} from "@dnd-kit/sortable";
+import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
 import {
   fetchProduct,
@@ -99,14 +95,7 @@ export default function AdminSection({
 
   async function handleSaveCard(card) {
     showLoading("Saving");
-    const res = await patchProduct(card._id, {
-      title: card.title,
-      price: card.price,
-      type: card.type,
-      description: card.description,
-      inclusion: card.inclusion,
-      image: card.image,
-    });
+    const res = await patchProduct(card._id, { ...card });
     if (!res.success) {
       hideLoading();
       showNotification(res.error, "error");
@@ -133,7 +122,14 @@ export default function AdminSection({
     const image = await uploadImage(file);
     if (!image) {
       showNotification("Something went wrong", "error");
+      hideLoading();
+      return;
     }
+    const card = cards.find((c) => c._id === id);
+    await patchProduct(id, {
+      ...card,
+      image,
+    });
     setCards((prev) => prev.map((c) => (c._id === id ? { ...c, image } : c)));
     hideLoading();
     return image;

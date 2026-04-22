@@ -237,3 +237,128 @@ export function ProductDetailSkeleton() {
     </div>
   );
 }
+
+export const BlogListSkeleton = () => {
+  function BlogCard() {
+    return (
+      <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
+        {/* Image */}
+        <Skeleton height={200} style={{ display: "block" }} />
+
+        {/* Content */}
+        <div className="p-5 flex flex-col gap-3">
+          {/* Category badge */}
+          <Skeleton width={80} height={24} borderRadius={999} />
+
+          {/* Title */}
+          <div className="flex flex-col gap-2">
+            <Skeleton height={18} />
+            <Skeleton height={18} />
+            <Skeleton width="60%" height={18} />
+          </div>
+
+          {/* Excerpt */}
+          <div className="flex flex-col gap-1.5 mt-1">
+            <Skeleton height={13} />
+            <Skeleton height={13} />
+            <Skeleton width="70%" height={13} />
+          </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-between pt-3 mt-1 border-t border-gray-100">
+            <div className="flex items-center gap-2">
+              <Skeleton circle width={28} height={28} />
+              <Skeleton width={90} height={12} />
+            </div>
+            <Skeleton width={55} height={12} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {Array(4)
+        .fill(null)
+        .map((_, i) => (
+          <BlogCard key={i} />
+        ))}
+    </>
+  );
+};
+
+export function BlogPostSkeleton() {
+  return (
+    <main className="min-h-screen bg-white">
+
+      {/* ── POST HERO ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 pb-4">
+
+        {/* Back button */}
+        <Skeleton width={120} height={16} className="mb-8" />
+
+        {/* Title */}
+        <div className="flex flex-col gap-2 mb-4">
+          <Skeleton height={44} />
+          <Skeleton height={44} />
+          <Skeleton width="60%" height={44} />
+        </div>
+
+        {/* Meta — date · readtime · category */}
+        <div className="flex items-center gap-3 mb-8">
+          <Skeleton width={90} height={14} />
+          <Skeleton circle width={6} height={6} />
+          <Skeleton width={70} height={14} />
+          <Skeleton width={100} height={28} borderRadius={999} />
+        </div>
+
+        {/* Hero image */}
+        <div className="relative w-full mb-10" style={{ aspectRatio: "16/9" }}>
+          <Skeleton height="100%" style={{ display: "block", borderRadius: "16px" }} />
+        </div>
+      </section>
+
+      {/* ── CONTENT ── */}
+      <article className="max-w-5xl mx-auto px-4 sm:px-6 pb-20">
+
+        {/* Paragraph lines */}
+        <div className="flex flex-col gap-2 mb-8">
+          <Skeleton height={16} />
+          <Skeleton height={16} />
+          <Skeleton height={16} />
+          <Skeleton width="85%" height={16} />
+        </div>
+
+        <div className="flex flex-col gap-2 mb-8">
+          <Skeleton height={16} />
+          <Skeleton height={16} />
+          <Skeleton width="70%" height={16} />
+        </div>
+
+        {/* Subheading */}
+        <Skeleton width="50%" height={28} className="mb-4" />
+
+        <div className="flex flex-col gap-2 mb-8">
+          <Skeleton height={16} />
+          <Skeleton height={16} />
+          <Skeleton height={16} />
+          <Skeleton width="90%" height={16} />
+        </div>
+
+        <div className="flex flex-col gap-2 mb-8">
+          <Skeleton height={16} />
+          <Skeleton width="75%" height={16} />
+        </div>
+
+        {/* CTA box skeleton */}
+        <div className="mt-24 p-6 sm:p-8 bg-gray-100 rounded-2xl flex flex-col items-center gap-3">
+          <Skeleton width={160} height={14} />
+          <Skeleton width={220} height={24} />
+          <Skeleton width={180} height={44} borderRadius={999} />
+        </div>
+
+      </article>
+    </main>
+  );
+}
