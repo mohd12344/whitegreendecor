@@ -263,7 +263,7 @@ export default function Navbar() {
               height={16}
               alt="phone"
             />
-            Book Now
+            Call Now
           </a>
 
           <div className="flex flex-col gap-3 mt-6 p-4 bg-gray-50 rounded-xl">
