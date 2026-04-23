@@ -113,21 +113,49 @@ export default function LivePopup() {
           </div>
         </div>
       )}
-      <a
-        href="https://wa.me/916398484419"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="cta hidden md:fixed bottom-8 right-7 "
-      >
-        <div className="">
+      <div className="fixed bottom-34 sm:bottom-6 right-3 sm:right-6 z-50 flex flex-col items-center gap-3">
+        {/* WhatsApp Button */}
+        <a
+          href="https://wa.me/916398484419"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative flex items-center justify-center w-11 h-11 sm:w-14 sm:h-14 bg-[#25D366] rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(37,211,102,0.5)] transition-all duration-300 hover:scale-110 active:scale-95"
+          aria-label="Chat on WhatsApp"
+        >
+          {/* Pulse ring */}
+          <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30" />
           <Image
-            src={"/svg-icons/whatsapp-green.svg"}
-            width={38}
-            height={38}
-            alt="whatsapp"
+            src="/svg-icons/whatsapp-green.svg"
+            width={26}
+            height={26}
+            alt="WhatsApp"
+            className="relative z-10 brightness-0 invert"
           />
-        </div>
-      </a>
+          {/* Tooltip */}
+          <span className="absolute right-full mr-3 whitespace-nowrap bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none hidden sm:block">
+            Chat with us
+          </span>
+        </a>
+
+        {/* Phone Button */}
+        <a
+          href="tel:+916398484419"
+          className="group relative flex items-center justify-center w-11 h-11 sm:w-14 sm:h-14 bg-amber-500 rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(245,158,11,0.5)] transition-all duration-300 hover:scale-110 active:scale-95"
+          aria-label="Call us"
+        >
+          <Image
+            src="/svg-icons/phone.svg"
+            width={22}
+            height={22}
+            alt="Phone"
+            className="relative z-10 brightness-0 invert"
+          />
+          {/* Tooltip */}
+          <span className="absolute right-full mr-3 whitespace-nowrap bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none hidden sm:block">
+            Call us
+          </span>
+        </a>
+      </div>
     </div>
   );
 }

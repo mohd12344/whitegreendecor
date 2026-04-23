@@ -111,17 +111,14 @@ export default function Navbar() {
             </Link>
             <a
               href="tel:+916398484419"
-              className="flex sm:hidden items-center gap-1.5 px-3 mt-0.5 py-1.5 
-    border border-[#1a4d2e] text-[#1a4d2e] text-[13px] font-medium
-    rounded-full hover:bg-[#1a4d2e] hover:text-white
-    transition-all duration-200"
+              className="flex sm:hidden items-center gap-1.5 px-3 mt-0.5 py-2 bg-gradient-to-r from-[#1a4d2e] to-[#0d2818] text-white text-[13px] font-semibold tracking-wide rounded-full  hover:-translate-y-0.5 transition-all"
             >
               <Image
                 src="/svg-icons/phone.svg"
                 width={13}
                 height={13}
                 alt="phone"
-                className="opacity-80 invert pt-1"
+                className="opacity-80 pt-0.5"
               />
               <span>Call Now</span>
             </a>
