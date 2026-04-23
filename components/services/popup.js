@@ -117,7 +117,7 @@ export default function LivePopup() {
         href="https://wa.me/916398484419"
         target="_blank"
         rel="noopener noreferrer"
-        className="cta fixed bottom-8 right-7 "
+        className="cta hidden md:fixed bottom-8 right-7 "
       >
         <div className="">
           <Image

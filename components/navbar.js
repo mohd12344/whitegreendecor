@@ -107,8 +107,24 @@ export default function Navbar() {
                   d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="hidden lg:inline">Help</span>
+              <span className="hidden sm:inline">Help</span>
             </Link>
+            <a
+              href="tel:+916398484419"
+              className="flex sm:hidden items-center gap-1.5 px-3 mt-0.5 py-1.5 
+    border border-[#1a4d2e] text-[#1a4d2e] text-[13px] font-medium
+    rounded-full hover:bg-[#1a4d2e] hover:text-white
+    transition-all duration-200"
+            >
+              <Image
+                src="/svg-icons/phone.svg"
+                width={13}
+                height={13}
+                alt="phone"
+                className="opacity-80 invert pt-1"
+              />
+              <span>Call Now</span>
+            </a>
             <div className="flex items-center gap-1.5 text-[13px]">
               <Image
                 src="/svg-icons/location.svg"
@@ -187,20 +203,6 @@ export default function Navbar() {
           <div className="flex md:hidden">
             <SearchBar />
           </div>
-          <a
-            href="https://wa.me/916398484419"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cta flex md:hidden"
-          >
-            {" "}
-            <Image
-              src={"/svg-icons/whatsapp-green.svg"}
-              width={28}
-              height={28}
-              alt="whatsapp"
-            />
-          </a>
         </div>
       </nav>
 
