@@ -59,7 +59,7 @@ export default function Navbar() {
                 e.stopPropagation();
                 setMobileMenuOpen(!mobileMenuOpen);
               }}
-              className="flex lg:hidden flex-col gap-[5px] bg-transparent border-none cursor-pointer hover:bg-gray-100 pt-1.5 rounded-lg transition-colors"
+              className="flex md:hidden flex-col gap-[5px] bg-transparent border-none cursor-pointer hover:bg-gray-100 pt-1.5 rounded-lg transition-colors"
             >
               <span
                 className={`w-[22px] h-0.5 bg-[#1a4d2e] rounded transition-all ${mobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""}`}
@@ -137,7 +137,7 @@ export default function Navbar() {
       </div>
 
       <nav className="z-20 py-1.5 pb-3.5 sm:py-2">
-        <div className="px-5 flex justify-center sm:justify-between items-center">
+        <div className="px-5 flex justify-center gap-4 md:gap-0 md:justify-between items-center">
           <ul className="hidden md:flex list-none gap-1">
             {navLinks.map((link) => (
               <li key={link.name} className="relative group">
@@ -187,6 +187,20 @@ export default function Navbar() {
           <div className="flex md:hidden">
             <SearchBar />
           </div>
+          <a
+            href="https://wa.me/916398484419"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta flex md:hidden"
+          >
+            {" "}
+            <Image
+              src={"/svg-icons/whatsapp-green.svg"}
+              width={28}
+              height={28}
+              alt="whatsapp"
+            />
+          </a>
         </div>
       </nav>
 

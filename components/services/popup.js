@@ -76,41 +76,58 @@ export default function LivePopup() {
     };
   }, [products]);
 
-  if (!popup) return null;
-
   return (
-    <div
-      className={`fixed bottom-6 left-4 sm:left-6 z-50 bg-white shadow-2xl rounded-2xl px-4 py-3 flex items-center gap-4 w-[280px] sm:w-[320px]
+    <div className="flex">
+      {popup && (
+        <div
+          className={`fixed bottom-6 left-4 sm:left-6 z-50 bg-white shadow-2xl rounded-2xl px-4 py-3 flex items-center gap-4 w-[280px] sm:w-[320px]
   transition-all duration-500 ease-out
   ${
     visible
       ? "opacity-100 translate-y-0 scale-100"
       : "opacity-0 translate-y-6 scale-95 pointer-events-none"
   }`}
-    >
-      <div className="relative w-14 h-14 flex-shrink-0">
-        <Image
-          src={popup.product.image}
-          alt=""
-          fill
-          className="rounded-lg object-cover"
-        />
-      </div>
-
-      <div className="flex flex-col text-sm overflow-hidden">
-        <p className="font-semibold text-gray-800 truncate">{popup.name}</p>
-
-        <p className="text-gray-500 text-xs truncate">
-          just viewed {popup.product.title}
-        </p>
-
-        <Link
-          href={`/store/${popup.product.type}/${popup.product.slug}`}
-          className="text-amber-500 self-start text-start text-xs font-medium mt-1 hover:underline"
         >
-          View →
-        </Link>
-      </div>
+          <div className="relative w-14 h-14 flex-shrink-0">
+            <Image
+              src={popup.product.image}
+              alt=""
+              fill
+              className="rounded-lg object-cover"
+            />
+          </div>
+
+          <div className="flex flex-col text-sm overflow-hidden">
+            <p className="font-semibold text-gray-800 truncate">{popup.name}</p>
+
+            <p className="text-gray-500 text-xs truncate">
+              just viewed {popup.product.title}
+            </p>
+
+            <Link
+              href={`/store/${popup.product.type}/${popup.product.slug}`}
+              className="text-amber-500 self-start text-start text-xs font-medium mt-1 hover:underline"
+            >
+              View →
+            </Link>
+          </div>
+        </div>
+      )}
+      <a
+        href="https://wa.me/916398484419"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="cta fixed bottom-8 right-7 "
+      >
+        <div className="">
+          <Image
+            src={"/svg-icons/whatsapp-green.svg"}
+            width={38}
+            height={38}
+            alt="whatsapp"
+          />
+        </div>
+      </a>
     </div>
   );
 }
