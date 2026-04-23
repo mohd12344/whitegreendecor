@@ -193,7 +193,7 @@ export default function Navbar() {
                 height={16}
                 alt="phone"
               />
-              Book Now
+              Call Now
             </Link>
           </div>
 
