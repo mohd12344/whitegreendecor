@@ -87,7 +87,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0e1a10] via-[#0e1a10]/80 to-transparent pointer-events-none" />
 
         <div className="absolute inset-0 flex items-center px-4 sm:px-8 z-10">
-          <div className="w-[65%] sm:w-[50%] md:max-w-[55%] space-y-2 md:space-y-3">
+          <div className="w-[65%] sm:w-[50%] md:max-w-[55%] space-y-2.5 md:space-y-3">
             <p className="text-sm hidden tracking-[0.2em] text-amber-400 uppercase sm:flex items-center gap-2 before:content-[''] before:w-3 before:h-px before:bg-amber-400 after:content-[''] after:w-3 after:h-px after:bg-amber-400">
               We Decorate Your Dreams
             </p>
