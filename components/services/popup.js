@@ -80,7 +80,7 @@ export default function LivePopup() {
     <div className="flex">
       {popup && (
         <div
-          className={`fixed bottom-6 left-4 sm:left-6 z-50 bg-white shadow-2xl rounded-2xl px-4 py-3 flex items-center gap-4 w-[280px] sm:w-[320px]
+          className={`fixed bottom-6 left-4 sm:left-6 z-50 bg-white shadow-2xl rounded-2xl px-1.5 sm:px-4 py-1.5 sm:py-3 flex items-center gap-4 w-[220px] sm:w-[320px]
   transition-all duration-500 ease-out
   ${
     visible
@@ -101,7 +101,7 @@ export default function LivePopup() {
             <p className="font-semibold text-gray-800 truncate">{popup.name}</p>
 
             <p className="text-gray-500 text-xs truncate">
-              just viewed {popup.product.title}
+              just purchased {popup.product.title}
             </p>
 
             <Link

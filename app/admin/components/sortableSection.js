@@ -8,6 +8,7 @@ export default function SortableSection({
   onRename,
   onDelete,
   onToggleActive,
+  onBannerChange,
 }) {
   const {
     attributes,
@@ -34,6 +35,7 @@ export default function SortableSection({
         onRename={onRename}
         onDelete={onDelete}
         onToggleActive={onToggleActive}
+        onBannerChange={onBannerChange}
       />
     </div>
   );

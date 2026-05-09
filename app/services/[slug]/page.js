@@ -1,3 +1,4 @@
+import product from "@/lib/models/product";
 import ShowDecorService from "../components/singleServiceShow";
 import { notFound } from "next/navigation";
 
@@ -31,11 +32,23 @@ export default async function Decors({ params }) {
   const data = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection/${slug}`,
   );
-  const products = await data.json();
+  const lowPrice = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection/${slug}/${30000}`,
+  );
 
-  if (!data) {
+  const products = await data.json();
+  const lowPriceProducts = await lowPrice.json();
+  console.log(lowPriceProducts)
+
+  if (!data && !lowPriceProducts) {
     notFound();
   }
 
-  return <ShowDecorService products={products} slug={slug} />;
+  return (
+    <ShowDecorService
+      products={products}
+      lowPriceProducts={lowPriceProducts}
+      slug={slug}
+    />
+  );
 }

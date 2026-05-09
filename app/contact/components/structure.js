@@ -31,6 +31,7 @@ const ContactPage = () => {
   const valid =
     formData.name.trim() &&
     formData.phone.length === 10 &&
+    formData.email &&
     formData.phone[0] !== "0" &&
     formData.message.trim() &&
     !phoneErr;

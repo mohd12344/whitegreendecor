@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useState, useEffect, useContext } from "react";
+import Image from "next/image";
 import SortableCard from "./sortableCard";
 import {
   DndContext,
@@ -31,6 +32,7 @@ export default function AdminSection({
   onRename,
   onDelete,
   onToggleActive,
+  onBannerChange,
 }) {
   const scrollRef = useRef(null);
   const [cards, setCards] = useState([]);
@@ -182,7 +184,41 @@ export default function AdminSection({
         </div>
 
         <div className="flex items-center gap-2 flex-wrap pb-3.5 sm:pb-0">
-          {/* isActive Toggle */}
+          <label className="relative w-28 sm:w-36 h-12 sm:h-16 rounded-xl overflow-hidden border-2 border-dashed border-gray-300 hover:border-[#1a4d2e] bg-white cursor-pointer group transition-colors shrink-0">
+            <input
+              type="file"
+              accept="image/*"
+              className="absolute inset-0 opacity-0 cursor-pointer z-10"
+              onChange={(e) => {
+                onBannerChange(e.target.files?.[0]);
+              }}
+            />
+
+            {section.bannerImage ? (
+              <Image
+                src={section.bannerImage}
+                fill
+                alt={section.title}
+                className="object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 group-hover:text-[#1a4d2e] transition-colors">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+
+                <span className="text-[10px] font-medium">Banner</span>
+              </div>
+            )}
+          </label>
+
           <button
             onClick={onToggleActive}
             className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border font-semibold transition-all ${

@@ -3,9 +3,11 @@ import ProductCards from "@/components/home/ServiceCardShowing";
 
 const Home = () => {
   return (
-    <main className="flex gap-12 flex-col pb-30">
+    <main className="flex gap-4 sm:gap-0 flex-col pb-12">
       <Hero />
-      <ProductCards />
+      <div className="px-3 sm:px-0">
+        <ProductCards />
+      </div>
     </main>
   );
 };

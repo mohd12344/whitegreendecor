@@ -23,6 +23,7 @@ import {
   removeSection,
   reorderSections,
   Logout,
+  uploadImage,
 } from "@/lib/api";
 
 import Blogs from "./components/blogs/blogs";
@@ -96,6 +97,33 @@ export default function AdminPage() {
     hideLoading();
   }
 
+  async function handleBannerUpload(sectionId, file) {
+    if (!file) return;
+
+    try {
+      showLoading("Uploading");
+
+      const bannerImage = await uploadImage(file);
+
+      const res = await patchSection(sectionId, {
+        bannerImage,
+      });
+
+      if (!res) {
+        throw new Error("Patch failed");
+      }
+
+      setSections((prev) =>
+        prev.map((s) => (s._id === sectionId ? { ...s, bannerImage } : s)),
+      );
+    } catch (err) {
+      console.error(err);
+      showNotification("Banner upload failed", "error");
+    } finally {
+      hideLoading();
+    }
+  }
+
   async function handleLogout() {
     const res = await Logout();
     if (!res.success) {
@@ -115,99 +143,102 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50 px-4 sm:px-6 md:px-10 py-8">
       <div className="max-w-7xl mx-auto flex flex-col gap-26">
-      <div className="">
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0d2818]">
-              Manage Services
-            </h1>
-            <div className="flex items-center gap-2 mt-1.5">
-              <span className="flex items-center gap-1.5 text-xs text-gray-400">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="text-gray-300"
-                >
-                  <circle cx="5" cy="4" r="1.2" />
-                  <circle cx="11" cy="4" r="1.2" />
-                  <circle cx="5" cy="8" r="1.2" />
-                  <circle cx="11" cy="8" r="1.2" />
-                  <circle cx="5" cy="12" r="1.2" />
-                  <circle cx="11" cy="12" r="1.2" />
-                </svg>
-                Drag to reorder
-              </span>
-              <span className="text-gray-200">•</span>
-              <span className="flex items-center gap-1.5 text-xs text-gray-400">
-                <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
-                Toggle to show/hide
-              </span>
+        <div className="">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0d2818]">
+                Manage Services
+              </h1>
+              <div className="flex items-center gap-2 mt-1.5">
+                <span className="flex items-center gap-1.5 text-xs text-gray-400">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="text-gray-300"
+                  >
+                    <circle cx="5" cy="4" r="1.2" />
+                    <circle cx="11" cy="4" r="1.2" />
+                    <circle cx="5" cy="8" r="1.2" />
+                    <circle cx="11" cy="8" r="1.2" />
+                    <circle cx="5" cy="12" r="1.2" />
+                    <circle cx="11" cy="12" r="1.2" />
+                  </svg>
+                  Drag to reorder
+                </span>
+                <span className="text-gray-200">•</span>
+                <span className="flex items-center gap-1.5 text-xs text-gray-400">
+                  <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
+                  Toggle to show/hide
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-4">
-            <button
-              onClick={handleAddSection}
-              className="flex items-center gap-2 px-4 py-2.5 bg-[#1a4d2e] text-white text-sm font-semibold rounded-full hover:bg-[#0d2818] active:scale-95 transition-all shadow-sm"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
+            <div className="flex gap-4">
+              <button
+                onClick={handleAddSection}
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#1a4d2e] text-white text-sm font-semibold rounded-full hover:bg-[#0d2818] active:scale-95 transition-all shadow-sm"
               >
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-              <span className="hidden sm:inline">Add Section</span>
-              <span className="sm:hidden">Add</span>
-            </button>
-            <button
-              onClick={handleLogout}
-              className="px-1 text-sm sm:text-base sm:px-5 py-0.5 sm:py-2 rounded-xl bg-white border border-red-400 text-red-500 
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                >
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                <span className="hidden sm:inline">Add Section</span>
+                <span className="sm:hidden">Add</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-1 text-sm sm:text-base sm:px-5 py-0.5 sm:py-2 rounded-xl bg-white border border-red-400 text-red-500 
                  hover:bg-red-50 hover:text-red-600 hover:border-red-500 
                  active:scale-95 transition-all duration-200 
                  shadow-sm hover:shadow-md font-medium"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleSectionDragEnd}
-        >
-          <SortableContext
-            items={sections.map((s) => s._id)}
-            strategy={verticalListSortingStrategy}
-          >
-            <div className="flex flex-col gap-10 md:gap-14">
-              {sections.map((section, index) => (
-                <SortableSection
-                  key={section._id}
-                  section={section}
-                  index={index}
-                  onRename={(t) => handleRename(section._id, t)}
-                  onDelete={() => handleDeleteSection(section._id)}
-                  onToggleActive={() =>
-                    handleToggleActive(section._id, section.isActive)
-                  }
-                />
-              ))}
+              >
+                Logout
+              </button>
             </div>
-          </SortableContext>
-        </DndContext>
-      </div>
-      <div className="flex flex-col gap-10">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0d2818]">
-          Manage Blogs
-        </h1>
-        <Blogs />
-      </div>
+          </div>
+
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleSectionDragEnd}
+          >
+            <SortableContext
+              items={sections.map((s) => s._id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <div className="flex flex-col gap-10 md:gap-14">
+                {sections.map((section, index) => (
+                  <SortableSection
+                    key={section._id}
+                    section={section}
+                    index={index}
+                    onRename={(t) => handleRename(section._id, t)}
+                    onBannerChange={(file) =>
+                      handleBannerUpload(section._id, file)
+                    }
+                    onDelete={() => handleDeleteSection(section._id)}
+                    onToggleActive={() =>
+                      handleToggleActive(section._id, section.isActive)
+                    }
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
+        </div>
+        <div className="flex flex-col gap-10">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0d2818]">
+            Manage Blogs
+          </h1>
+          <Blogs />
+        </div>
       </div>
     </div>
   );

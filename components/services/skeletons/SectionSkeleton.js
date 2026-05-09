@@ -3,53 +3,107 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export function ServicesSkeleton() {
-  function CardSkeleton() {
-    return (
-      <div className="flex-shrink-0 w-[180px] sm:w-[270px] md:w-[300px]">
-        <Skeleton
-          height={0}
-          style={{ paddingBottom: "120%", borderRadius: "16px" }}
-        />
+  return (
+    <section className="relative">
 
-        <div className="mt-3">
-          <Skeleton width={100} height={16} />
-        </div>
-
-        <Skeleton width="80%" height={20} className="mt-1" />
-
-        <Skeleton width="60%" height={16} className="mt-1" />
+      <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10 md:hidden">
+        <Skeleton circle width={40} height={40} />
       </div>
-    );
-  }
 
-  function SectionSkeleton() {
-    return (
-      <div className="max-w-[1400px] mx-auto px-5 flex flex-col gap-4 sm:gap-5">
-        {/* Title skeleton */}
-        <div className="flex justify-between items-center">
-          <Skeleton width={200} height={32} borderRadius={8} />
-          <div className="flex gap-2">
-            <Skeleton circle width={44} height={44} />
-            <Skeleton circle width={44} height={44} />
+      <div
+        className="flex gap-3 sm:gap-4 md:gap-5 overflow-x-auto pb-4"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {Array(3)
+          .fill(null)
+          .map((_, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 bg-white border border-gray-200 shadow-sm rounded-2xl w-55 sm:w-64 md:w-72 overflow-hidden"
+            >
+              {/* Image */}
+              <div className="w-full h-28 sm:h-40 md:h-50">
+                <Skeleton height="100%" />
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-col gap-3 sm:gap-3.5 md:gap-5 p-3">
+                {/* Title + Price */}
+                <div className="flex justify-between items-center gap-2">
+                  <Skeleton width="60%" height={20} />
+                  <Skeleton width={70} height={20} />
+                </div>
+
+                <ul className="flex flex-col gap-2">
+                  {Array(4)
+                    .fill(null)
+                    .map((_, idx) => (
+                      <li key={idx} className="flex items-center gap-2">
+                        <Skeleton circle width={12} height={12} />
+                        <Skeleton width="75%" height={12} />
+                      </li>
+                    ))}
+                </ul>
+
+                <Skeleton
+                  height={40}
+                  borderRadius={12}
+                  baseColor="#14532d"
+                  highlightColor="#166534"
+                />
+              </div>
+            </div>
+          ))}
+
+        {/* Last CTA Card */}
+        <div className="flex-shrink-0 w-55 sm:w-64 md:w-72 bg-[#0d2818] rounded-2xl overflow-hidden">
+          {/* Image */}
+          <div className="w-full h-28 sm:h-40 md:h-50">
+            <Skeleton
+              height="100%"
+              baseColor="#1a3a28"
+              highlightColor="#28543d"
+            />
+          </div>
+
+          {/* Content */}
+          <div className="px-3 sm:px-4 py-3 flex flex-col gap-3">
+            <Skeleton
+              width="80%"
+              height={28}
+              baseColor="#1a3a28"
+              highlightColor="#28543d"
+            />
+
+            <div className="space-y-2">
+              {Array(4)
+                .fill(null)
+                .map((_, i) => (
+                  <Skeleton
+                    key={i}
+                    width="90%"
+                    height={12}
+                    baseColor="#1a3a28"
+                    highlightColor="#28543d"
+                  />
+                ))}
+            </div>
+
+            <Skeleton
+              height={42}
+              borderRadius={10}
+              baseColor="#fbbf24"
+              highlightColor="#fde68a"
+            />
           </div>
         </div>
-
-        {/* Cards row skeleton */}
-        <div className="flex gap-4 md:gap-5 overflow-hidden">
-          {Array(4)
-            .fill(null)
-            .map((_, i) => (
-              <CardSkeleton key={i} />
-            ))}
-        </div>
       </div>
-    );
-  }
-  return (
-    <div className="flex mt-8 flex-col gap-10 md:gap-14">
-      <SectionSkeleton />
-      <SectionSkeleton />
-    </div>
+
+      {/* Right Arrow */}
+      <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10 md:hidden">
+        <Skeleton circle width={40} height={40} />
+      </div>
+    </section>
   );
 }
 
@@ -291,10 +345,8 @@ export const BlogListSkeleton = () => {
 export function BlogPostSkeleton() {
   return (
     <main className="min-h-screen bg-white">
-
       {/* ── POST HERO ── */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 pb-4">
-
         {/* Back button */}
         <Skeleton width={120} height={16} className="mb-8" />
 
@@ -315,13 +367,15 @@ export function BlogPostSkeleton() {
 
         {/* Hero image */}
         <div className="relative w-full mb-10" style={{ aspectRatio: "16/9" }}>
-          <Skeleton height="100%" style={{ display: "block", borderRadius: "16px" }} />
+          <Skeleton
+            height="100%"
+            style={{ display: "block", borderRadius: "16px" }}
+          />
         </div>
       </section>
 
       {/* ── CONTENT ── */}
       <article className="max-w-5xl mx-auto px-4 sm:px-6 pb-20">
-
         {/* Paragraph lines */}
         <div className="flex flex-col gap-2 mb-8">
           <Skeleton height={16} />
@@ -357,7 +411,6 @@ export function BlogPostSkeleton() {
           <Skeleton width={220} height={24} />
           <Skeleton width={180} height={44} borderRadius={999} />
         </div>
-
       </article>
     </main>
   );

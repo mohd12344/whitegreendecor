@@ -42,10 +42,53 @@ const Footer = () => {
 
   return (
     <footer className="bg-gradient-to-b from-[#0d2818] to-[#071510]">
-      {/* Main Footer */}
-      <div className="max-w-[1400px] mx-auto px-5 py-12 md:py-16">
+      <div className="relative h-36 sm:h-44 md:h-52 flex justify-center items-center text-white border-b border-b-gray-700">
+        <Image
+          src="/banner/footer-cta.png"
+          className="object-cover opacity-15"
+          priority
+          fill
+          alt="banner"
+        />
+        <div className="relative z-10 flex flex-col items-center gap-1.5 sm:gap-2 px-4 text-center">
+          <h1 className="font-serif text-xl sm:text-3xl md:text-4xl font-bold">
+            Planning Your Special Event?
+          </h1>
+          <p className="text-sm sm:text-base md:text-lg text-white/80">
+            Let's make it unforgettable together!
+          </p>
+          <div className="flex items-center gap-2 sm:gap-3 mt-2">
+            <Link
+              href="https://wa.me/916398484419"
+              target="_blank"
+              className="flex items-center gap-1.5 bg-green-600 hover:bg-green-500 px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 rounded-lg font-medium text-sm sm:text-base transition-colors"
+            >
+              <Image
+                src="/svg-icons/whatsapp.svg"
+                width={20}
+                height={20}
+                alt="whatsapp"
+              />
+              <span className="hidden sm:inline">Get Free Quote</span>
+              <span className="sm:hidden">WhatsApp</span>
+            </Link>
+            <Link
+              href="tel:+916398484419"
+              className="flex items-center gap-1.5 bg-yellow-500 hover:bg-yellow-400 px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 rounded-lg font-medium text-sm sm:text-base transition-colors"
+            >
+              <Image
+                src="/svg-icons/phone.svg"
+                width={20}
+                height={20}
+                alt="phone"
+              />
+              Call Now
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-[1400px] mx-auto px-5 py-2 sm:py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-          {/* Logo & About */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 mb-5">
               <Image
@@ -72,8 +115,7 @@ const Footer = () => {
               Delhi NCR, India
             </div>
           </div>
-
-          {/* Need Help */}
+    <div className="flex justify-between mb-2">
           <div>
             <h3 className="text-white font-semibold text-base mb-5 relative inline-block">
               Need Help
@@ -93,7 +135,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Important Links */}
           <div>
             <h3 className="text-white font-semibold text-base mb-5 relative inline-block">
               Important Links
@@ -112,9 +153,9 @@ const Footer = () => {
               ))}
             </ul>
           </div>
+          </div>
         </div>
       </div>{" "}
-      {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="max-w-[1400px] mx-auto px-5 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">

@@ -5,19 +5,18 @@ import Product from "@/lib/models/product";
 
 export async function GET(_, { params }) {
   await connectDB();
-  const { type } = await params;
-
+  const { type, filter } = await params;
   try {
     const section = await Section.findOne({ slug: type }).lean();
     const products = await Product.find({
-      sectionId: section._id,
       isActive: true,
+      sectionId: section._id,
+      price: { $lte: filter },
     })
       .sort({ order: 1 })
       .lean();
-
-    return NextResponse.json({ ...section, products });
-  } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(products);
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

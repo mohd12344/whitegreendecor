@@ -36,7 +36,7 @@ export async function proxy(req) {
     "/api/sections/nav",
     "/api/admin/login",
     "/api/contact",
-    "/api/blog/blogs"
+    "/api/blog/blogs",
   ];
 
   if (publicApiRoutes.some((route) => pathname.startsWith(route))) {

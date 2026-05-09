@@ -4,13 +4,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from "./home/SearchBar";
+import { MapPin, Star, Clock } from "lucide-react";
 
 const staticNavLinks = [
   { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
+  { name: "About us", href: "/about" },
   { name: "Services", href: "/services", dropdown: [] },
+  { name: "Packages", href: "/services" },
   { name: "Blogs", href: "/blogs" },
-  { name: "Contact", href: "/contact" },
+  { name: "Contact us", href: "/contact" },
 ];
 
 const contactInfo = {
@@ -18,6 +20,29 @@ const contactInfo = {
   whatsapp: "+91 6398484419",
   location: "Delhi NCR, India",
 };
+
+const socialLinks = [
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/p/White-Green-Decors-61562226630588/",
+    icon: "/svg-icons/facebook.svg",
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/whitegreendecors/",
+    icon: "/svg-icons/instagram.svg",
+  },
+  {
+    name: "Pinterest",
+    href: "https://in.pinterest.com/whitegreendecors/",
+    icon: "/svg-icons/pintrest.svg",
+  },
+  {
+    name: "WhatsApp",
+    href: "https://wa.me/916398484419",
+    icon: "/svg-icons/whatsapp.svg",
+  },
+];
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -51,7 +76,46 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="bg-white border-t-4 border-t-green-900 sm:border-b-[1px] sm:border-b-zinc-300">
+      <div className="bg-white sm:border-b-[1px] sm:border-b-zinc-300">
+        <div className="bg-green-950 px-3 sm:px-6 py-1 sm:py-0 sm:h-8 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3 sm:gap-8">
+            <div className="flex items-center gap-1 sm:gap-1.5 text-white">
+              <MapPin className="text-amber-300 w-3 h-3 shrink-0" />
+              <span className="text-xs sm:text-xs">Delhi NCR, India</span>
+            </div>
+            <div className="hidden sm:flex items-center gap-1.5 text-white">
+              <Star className="text-amber-300 w-3 h-3 shrink-0" />
+              <span className="text-xs">500+ Events Completed</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 sm:gap-6">
+            <div className="hidden sm:flex items-center gap-1.5 text-white">
+              <Clock className="text-amber-300 w-3 h-3 shrink-0" />
+              <span className="text-xs">Mon - Sun: 10am • 8pm</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.name}
+                  className="w-5 h-5 bg-white/10 rounded-full flex items-center justify-center hover:bg-amber-400 hover:-translate-y-0.5 transition-all group"
+                >
+                  <Image
+                    src={social.icon}
+                    width={11}
+                    height={11}
+                    alt={social.name}
+                    className=" opacity-70 group-hover:opacity-100 transition-opacity"
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="px-2 sm:px-5 flex justify-between items-center">
           <div className="flex items-center gap-4">
             <button
@@ -122,16 +186,6 @@ export default function Navbar() {
               />
               <span>Call Now</span>
             </a>
-            <div className="flex items-center gap-1.5 text-[13px]">
-              <Image
-                src="/svg-icons/location.svg"
-                width={14}
-                height={14}
-                alt="location"
-                className="invert"
-              />
-              <span>Delhi NCR</span>
-            </div>
             <a
               href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
               className="hidden sm:flex items-center gap-1.5 text-[13px] hover:text-[#d4af37] transition-colors"
@@ -203,9 +257,8 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       <div
-        className={`fixed top-[70px] left-0 right-0 bottom-0 bg-white z-[999] overflow-y-auto transition-all duration-300 lg:hidden ${mobileMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-4"}`}
+        className={`fixed top-[90px] left-0 right-0 bottom-0 bg-white z-[999] overflow-y-auto transition-all duration-300 lg:hidden ${mobileMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-4"}`}
       >
         <div className="p-5 pt-6">
           <ul className="list-none">
