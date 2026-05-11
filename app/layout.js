@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { NotificationProvider } from "@/lib/contexts/serviceContext";
 import LivePopup from "@/components/services/popup";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
           <Footer />
         </NotificationProvider>
       </body>
+      <GoogleAnalytics gaId="G-M003N54MX7" />
     </html>
   );
 }
