@@ -35,7 +35,7 @@ const trust_badge = [
   {
     icon: Clock3,
     title: "24/7",
-    desc: "Support",
+    desc: "Full Team Support",
   },
   {
     icon: Timer,
