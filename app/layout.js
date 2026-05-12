@@ -47,6 +47,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${outfit.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
+      <head><meta name="google-site-verification" content="wlyGMRS0fLKm-JNRVUrIr4NYageS9dldgOMhVLE3sIU" /></head>
       <body className="min-h-full flex flex-col">
         <NotificationProvider>
           <Navbar />
