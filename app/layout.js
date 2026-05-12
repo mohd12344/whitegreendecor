@@ -5,6 +5,7 @@ import Footer from "@/components/footer";
 import { NotificationProvider } from "@/lib/contexts/serviceContext";
 import LivePopup from "@/components/services/popup";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
           </div>
           <Footer />
         </NotificationProvider>
+        <Analytics />
       </body>
       <GoogleAnalytics gaId="G-M003N54MX7" />
     </html>
