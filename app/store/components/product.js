@@ -16,7 +16,6 @@ export default function ProductStructure({ item, similarProducts }) {
   const [activeImg, setActiveImg] = useState(0);
   const params = useParams();
 
-  // ── all images: images array ya fallback to single image
   const allImages = item.images?.length
     ? item.images
     : item.image
@@ -62,11 +61,11 @@ export default function ProductStructure({ item, similarProducts }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 border-t border-t-zinc-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-10">
+    <div className="min-h-screen bg-gray-50 border-t border-t-zinc-300 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-10 w-full">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* LEFT — Images */}
-          <div className="w-full lg:w-1/2 flex flex-col gap-3">
+          <div className="w-full lg:w-1/2 flex flex-col gap-3 min-w-0">
             {/* Main image */}
             <div
               className="relative w-full rounded-2xl overflow-hidden cursor-zoom-in"
@@ -83,7 +82,6 @@ export default function ProductStructure({ item, similarProducts }) {
                 className="object-cover"
                 priority
               />
-              {/* Arrow left */}
               {allImages.length > 1 && (
                 <>
                   <button
@@ -124,7 +122,6 @@ export default function ProductStructure({ item, similarProducts }) {
                       <path d="m9 18 6-6-6-6" />
                     </svg>
                   </button>
-                  {/* Counter */}
                   <div className="absolute bottom-3 right-3 bg-black/50 text-white text-xs px-2.5 py-1 rounded-full z-10">
                     {activeImg + 1} / {allImages.length}
                   </div>
@@ -135,8 +132,8 @@ export default function ProductStructure({ item, similarProducts }) {
             {/* Thumbnails */}
             {allImages.length > 1 && (
               <div
-                className="flex gap-2 overflow-x-auto pb-1"
-                style={{ scrollbarWidth: "none" }}
+                className="flex gap-2 overflow-x-auto pb-1 w-full"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 {allImages.map((src, i) => (
                   <button
@@ -155,9 +152,9 @@ export default function ProductStructure({ item, similarProducts }) {
             )}
           </div>
 
-          {/* RIGHT — Info — same as before */}
-          <div className="w-full lg:w-1/2 flex flex-col gap-4">
-            <nav className="flex items-center gap-1.5 text-sm text-gray-400">
+          {/* RIGHT — Info */}
+          <div className="w-full lg:w-1/2 flex flex-col gap-4 min-w-0">
+            <nav className="flex items-center gap-1.5 text-sm text-gray-400 flex-wrap">
               <span>Home</span>
               <span>/</span>
               <Link
@@ -167,10 +164,12 @@ export default function ProductStructure({ item, similarProducts }) {
                 Services
               </Link>
               <span>/</span>
-              <span className="text-gray-700">{item.type}</span>
+              <span className="text-gray-700 truncate max-w-[150px]">
+                {item.type}
+              </span>
             </nav>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <Image
                 src="/svg-icons/5star.svg"
                 width={100}
@@ -182,7 +181,7 @@ export default function ProductStructure({ item, similarProducts }) {
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight break-words">
               {item.title}
             </h1>
 
@@ -190,7 +189,7 @@ export default function ProductStructure({ item, similarProducts }) {
               {item.type}
             </span>
 
-            <div className="flex items-baseline gap-2">
+            <div className="flex items-baseline gap-2 flex-wrap">
               <span className="text-3xl sm:text-4xl font-bold text-zinc-800">
                 ₹{item.price?.toLocaleString("en-IN")}
               </span>
@@ -266,14 +265,17 @@ export default function ProductStructure({ item, similarProducts }) {
           </div>
         </div>
 
-        {/* Tabs — same as before */}
+        {/* Tabs */}
         <div className="mt-12 md:mt-16">
-          <div className="flex border-b border-gray-200">
+          <div
+            className="flex border-b border-gray-200 overflow-x-auto"
+            style={{ scrollbarWidth: "none" }}
+          >
             {["description", "inclusions", "exclusions", "faqs"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-5 sm:px-7 py-3 text-sm font-medium capitalize transition-colors ${
+                className={`px-4 sm:px-7 py-3 text-sm font-medium capitalize transition-colors whitespace-nowrap flex-shrink-0 ${
                   activeTab === tab
                     ? "text-[#1a4d2e] border-b-2 border-[#1a4d2e]"
                     : "text-gray-400 hover:text-gray-700"
@@ -285,7 +287,7 @@ export default function ProductStructure({ item, similarProducts }) {
           </div>
           <div className="py-6">
             {activeTab === "description" && (
-              <p className="text-gray-600 leading-relaxed max-w-3xl text-sm sm:text-base">
+              <p className="text-gray-600 leading-relaxed max-w-3xl text-sm sm:text-base break-words">
                 {tabsData.description}
               </p>
             )}
@@ -359,18 +361,18 @@ export default function ProductStructure({ item, similarProducts }) {
           </div>
         </div>
 
-        {/* Similar products — same */}
+        {/* Similar Products */}
         <div className="mt-12 md:mt-16 pb-10">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
             Similar Products
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {similarProducts.map((prod) => (
               <Link
                 key={prod._id}
                 href={`/store/${params.type}/${prod.slug}`}
                 onClick={() => setLoading(true)}
-                className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all"
+                className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all min-w-0"
               >
                 <div className="relative aspect-square overflow-hidden">
                   <Image
@@ -384,11 +386,11 @@ export default function ProductStructure({ item, similarProducts }) {
                     alt={prod.title}
                   />
                 </div>
-                <div className="p-3 sm:p-4">
-                  <h3 className="font-medium text-gray-900 text-sm truncate">
+                <div className="p-2 sm:p-3 md:p-4">
+                  <h3 className="font-medium text-gray-900 text-xs sm:text-sm truncate">
                     {prod.title}
                   </h3>
-                  <p className="text-[#1a4d2e] font-semibold text-sm mt-1">
+                  <p className="text-[#1a4d2e] font-semibold text-xs sm:text-sm mt-1">
                     ₹{prod.price?.toLocaleString("en-IN")}
                   </p>
                 </div>
@@ -398,7 +400,6 @@ export default function ProductStructure({ item, similarProducts }) {
         </div>
       </div>
 
-      {/* Lightbox */}
       <Lightbox
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
