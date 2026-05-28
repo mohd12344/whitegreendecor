@@ -119,7 +119,7 @@ function Gallery() {
       <button
         onClick={() => scroll("left")}
         aria-label="Scroll left"
-        className={`${showLeft ? "flex" : "hidden"} absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full border border-amber-400/40 bg-white text-amber-400 items-center justify-center hover:border-amber-400 hover:bg-amber-400/10 transition-all shadow-md`}
+        className={`${showLeft ? "hidden sm:flex" : "hidden"} absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full border border-amber-400/40 bg-white text-amber-400 items-center justify-center hover:border-amber-400 hover:bg-amber-400/10 transition-all shadow-md`}
       >
         <ChevronLeft className="w-4 h-4" />
       </button>
@@ -151,7 +151,7 @@ function Gallery() {
       <button
         onClick={() => scroll("right")}
         aria-label="Scroll right"
-        className={`${showRight ? "flex" : "hidden"} absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full border border-amber-400/40 bg-white text-amber-400 items-center justify-center hover:border-amber-400 hover:bg-amber-400/10 transition-all shadow-md`}
+        className={`${showRight ? "hidden sm:flex" : "hidden"} absolute right-0 top-20 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full border border-amber-400/40 bg-white text-amber-400 items-center justify-center hover:border-amber-400 hover:bg-amber-400/10 transition-all shadow-md`}
       >
         <ChevronRight className="w-4 h-4" />
       </button>
