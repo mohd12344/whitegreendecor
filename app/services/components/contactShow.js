@@ -53,7 +53,7 @@ const ContactPage = ({ title }) => {
   };
 
   return (
-    <section className="py-10 md:py-16 bg-stone-50">
+    <section className="py-10 pt-4 md:pt-8 md:py-16 bg-stone-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
           <div className="p-6 sm:p-10 flex flex-col gap-4">
@@ -163,12 +163,13 @@ const ContactPage = ({ title }) => {
 
                   <div className="grid grid-cols-2 gap-3">
                     <input
-                      type="date"
+                      type="text"
+                      placeholder="Event Date*"
                       value={formData.eventDate}
                       onChange={(e) =>
                         setFormData({ ...formData, eventDate: e.target.value })
                       }
-                      className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-zinc-500 focus:outline-none focus:border-[#1a4d2e] transition-all"
+                      className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1a4d2e] transition-all"
                     />
                     <input
                       type="text"
@@ -194,7 +195,11 @@ const ContactPage = ({ title }) => {
                   <button
                     type="submit"
                     disabled={!valid || sending}
-                    className={`w-full py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-all text-white text-sm ${valid && !sending ? "bg-green-600 hover:bg-green-700 cursor-pointer" : "bg-gray-300 cursor-not-allowed"}`}
+                    className={`w-full py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-300 text-sm shadow-sm ${
+                      valid && !sending
+                        ? "bg-amber-400 hover:bg-amber-300 text-[#0d2818] cursor-pointer"
+                        : "bg-[#1a4d2e] text-white/90 cursor-not-allowed"
+                    }`}
                   >
                     {sending ? (
                       <svg

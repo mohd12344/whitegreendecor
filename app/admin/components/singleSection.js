@@ -25,6 +25,7 @@ import {
 
 import { NotificationContext } from "@/lib/contexts/serviceContext";
 
+// AdminSection ko flagRow prop lo
 export default function AdminSection({
   section,
   index,
@@ -33,6 +34,7 @@ export default function AdminSection({
   onDelete,
   onToggleActive,
   onBannerChange,
+  flagRow, 
 }) {
   const scrollRef = useRef(null);
   const [cards, setCards] = useState([]);
@@ -78,10 +80,12 @@ export default function AdminSection({
     const newCard = await createProduct({
       sectionId: section._id,
       title: "New Item",
-      type: section.title,
+      type: section.slug, // ← section.title ki jagah section.slug use karo
       price: 0,
+      reviews: 128, // ← default fake count
       description: "",
       inclusion: "",
+      exclusion: "",
       image: "",
     });
     setCards((prev) => [newCard, ...prev]);
@@ -261,6 +265,8 @@ export default function AdminSection({
           </div>
         </div>
       </div>
+
+      {flagRow && <div className="pl-8">{flagRow}</div>}
 
       {/* Cards Row — horizontally sortable */}
       <DndContext

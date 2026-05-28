@@ -1,5 +1,4 @@
-import product from "@/lib/models/product";
-import ShowDecorService from "../components/singleServiceShow";
+import SingleServicesShow from "../components/singleServiceShow";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
@@ -33,19 +32,18 @@ export default async function Decors({ params }) {
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection/${slug}`,
   );
   const lowPrice = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection/${slug}/${30000}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection/${slug}/${10000}`,
   );
 
   const products = await data.json();
   const lowPriceProducts = await lowPrice.json();
-  console.log(lowPriceProducts)
 
   if (!data && !lowPriceProducts) {
     notFound();
   }
 
   return (
-    <ShowDecorService
+    <SingleServicesShow
       products={products}
       lowPriceProducts={lowPriceProducts}
       slug={slug}

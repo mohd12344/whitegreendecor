@@ -9,6 +9,7 @@ export default function SortableSection({
   onDelete,
   onToggleActive,
   onBannerChange,
+  flagRow
 }) {
   const {
     attributes,
@@ -36,6 +37,7 @@ export default function SortableSection({
         onDelete={onDelete}
         onToggleActive={onToggleActive}
         onBannerChange={onBannerChange}
+        flagRow={flagRow}
       />
     </div>
   );

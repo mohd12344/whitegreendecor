@@ -156,42 +156,50 @@ const Hero = () => {
         </div>
       </div>
       <div className="py-6 md:py-10 md:pb-0">
-        <div className="flex items-start justify-center gap-4 sm:gap-5 md:gap-6 px-4 sm:px-8 md:px-12">
-          {serviceShow.map((item) => (
-            <Link
-              href={item.link}
-              key={item.label}
-              className={`${item.bigscreen ? "hidden md:flex" : "flex"} flex-col items-center gap-1.5 w-14 sm:w-20 md:w-24 lg:w-28 xl:w-32 shrink-0`}
-            >
-              <div className="relative rounded-xl overflow-hidden w-full aspect-square">
-                <Image
-                  src={item.src}
-                  fill
-                  className="object-cover"
-                  alt={item.label}
-                />
-              </div>
-              <span className="font-medium text-zinc-700 text-center text-[10px] sm:text-sm leading-snug">
-                {item.label}
-              </span>
-            </Link>
-          ))}
+        <div className="grid grid-cols-2 md:flex md:items-start md:justify-center gap-4 sm:gap-5 md:gap-6 px-4 sm:px-8 md:px-12">
+  {serviceShow.map((item) => (
+    <Link
+      href={item.link}
+      key={item.label}
+      className={`
+        ${item.bigscreen ? "hidden md:flex" : "flex"}
+        flex-col items-center gap-2
+        w-full md:w-24 lg:w-28 xl:w-32
+      `}
+    >
+      <div className="relative rounded-2xl overflow-hidden w-full aspect-square shadow-sm">
+        <Image
+          src={item.src}
+          fill
+          className="object-cover"
+          alt={item.label}
+        />
+      </div>
 
-          <Link
-            href="/services"
-            className="w-14 sm:w-20 md:w-24 lg:w-28 xl:w-32 shrink-0"
-          >
-            <div className="flex py-2 pb-1.5 sm:p-0 flex-col items-center justify-center gap-1.5 w-full aspect-square bg-stone-50 border border-amber-400 rounded-xl group">
-              <LayoutGrid className="text-yellow-400 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-              <span className="font-medium text-[10px] sm:text-sm text-center leading-snug">
-                View All
-                <br />
-                Services
-              </span>
-              <MoveRight className="text-yellow-400 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-200" />
-            </div>
-          </Link>
-        </div>
+      <span className="font-medium text-zinc-700 text-center text-xs sm:text-sm leading-snug">
+        {item.label}
+      </span>
+    </Link>
+  ))}
+
+  {/* View All */}
+  <div className="col-span-2 flex justify-center mt-2 md:mt-0">
+    <Link
+      href="/services"
+      className="w-full sm:w-[220px] md:w-24 lg:w-28 xl:w-32"
+    >
+      <div className="flex flex-row md:flex-col items-center justify-center gap-2 md:gap-1.5 px-4 py-3 md:p-0 w-full md:aspect-square bg-stone-50 border border-amber-400 rounded-2xl group hover:bg-amber-50 transition-all duration-200">
+        <LayoutGrid className="text-yellow-500 w-5 h-5 md:w-6 md:h-6 shrink-0" />
+
+        <span className="font-medium text-xs sm:text-sm text-center leading-snug">
+          View All Services
+        </span>
+
+        <MoveRight className="text-yellow-500 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200 shrink-0" />
+      </div>
+    </Link>
+  </div>
+</div>
       </div>
     </section>
   );

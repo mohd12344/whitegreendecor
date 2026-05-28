@@ -8,13 +8,15 @@ const Footer = () => {
     { name: "Terms and Conditions", href: "/terms" },
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Refund Policy", href: "/refund" },
+    { name: "Call Us", href: "tel:+916398484419" },
+    { name: "Email Us", href: "mailto:info@elegancedecorations.com" },
   ];
 
   const importantLinks = [
     { name: "Home", href: "/" },
+    { name: "Blogs", href: "/blogs" },
+    { name: "Services", href: "/services" },
     { name: "About Us", href: "/about" },
-    { name: "Call Us", href: "tel:+916398484419" },
-    { name: "Email Us", href: "mailto:info@elegancedecorations.com" },
   ];
 
   const socialLinks = [
@@ -115,44 +117,44 @@ const Footer = () => {
               Delhi NCR, India
             </div>
           </div>
-    <div className="flex justify-between mb-2">
-          <div>
-            <h3 className="text-white font-semibold text-base mb-5 relative inline-block">
-              Need Help
-              <span className="absolute -bottom-2 left-0 w-8 h-0.5 bg-[#d4af37]"></span>
-            </h3>
-            <ul className="space-y-3">
-              {needHelpLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 text-sm hover:text-[#d4af37] hover:pl-1 transition-all inline-block"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="flex justify-between mb-2">
+            <div>
+              <h3 className="text-white font-semibold text-base mb-5 relative inline-block">
+                Need Help
+                <span className="absolute -bottom-2 left-0 w-8 h-0.5 bg-[#d4af37]"></span>
+              </h3>
+              <ul className="space-y-3">
+                {needHelpLinks.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-white/70 text-sm hover:text-[#d4af37] hover:pl-1 transition-all inline-block"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div>
-            <h3 className="text-white font-semibold text-base mb-5 relative inline-block">
-              Important Links
-              <span className="absolute -bottom-2 left-0 w-8 h-0.5 bg-[#d4af37]"></span>
-            </h3>{" "}
-            <ul className="space-y-3">
-              {importantLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 text-sm hover:text-[#d4af37] hover:pl-1 transition-all inline-block"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            <div>
+              <h3 className="text-white font-semibold text-base mb-5 relative inline-block">
+                Important Links
+                <span className="absolute -bottom-2 left-0 w-8 h-0.5 bg-[#d4af37]"></span>
+              </h3>{" "}
+              <ul className="space-y-3">
+                {importantLinks.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-white/70 text-sm hover:text-[#d4af37] hover:pl-1 transition-all inline-block"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>{" "}

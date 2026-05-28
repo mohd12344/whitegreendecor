@@ -25,7 +25,11 @@ export async function POST(req) {
     await Promise.all([
       transporter.sendMail({
         from: `"White Green Decors" <${process.env.EMAIL_USER}>`,
-        to: process.env.EMAIL_USER,
+        to: [
+          process.env.EMAIL_USER,
+          "enquiry@whitegreendecors.com",
+          "mdrihanzaidi1685@gmail.com",
+        ],
         replyTo: body.email,
         subject: "We received your message",
         text: "Thanks! We'll get back to you soon.",

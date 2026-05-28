@@ -36,7 +36,7 @@ export default function SortableCard({
       {/* Image */}
       <div className="relative w-full h-[200px] sm:h-[280px] md:h-[350px] rounded-2xl overflow-hidden mb-3 md:mb-4">
         <Image
-          src={card.image || "/services/"}
+          src={card.images?.[0] || card.image || "/services/placeholder.jpg"}
           fill
           alt={card.title}
           className={`object-cover transition-transform duration-500 ${
@@ -45,43 +45,71 @@ export default function SortableCard({
         />
 
         {isEditing ? (
-          // ── Edit mode — click to change image ──
-          <label className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/50 cursor-pointer">
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-white/20 border-2 border-white flex items-center justify-center">
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <span className="text-white text-sm font-semibold">
-                Edit Image
-              </span>
-              <span className="text-white/60 text-xs">Click to choose</span>
+          <div className="absolute inset-0 flex flex-col bg-black/50 p-2 gap-2 overflow-y-auto">
+            {/* Existing images */}
+            <div className="flex flex-wrap gap-1.5">
+              {(card.images || (card.image ? [card.image] : [])).map(
+                (url, idx) => (
+                  <div
+                    key={idx}
+                    className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0"
+                  >
+                    <Image src={url} fill alt="" className="object-cover" />
+                    <button
+                      onClick={() => {
+                        const updated = [...(card.images || [])].filter(
+                          (_, i) => i !== idx,
+                        );
+                        onChange("images", updated);
+                        onChange("image", updated[0] || "");
+                      }}
+                      className="absolute inset-0 bg-black/50 text-white text-xs flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ),
+              )}
+
+              {/* Add more images */}
+              <label className="w-14 h-14 rounded-lg border-2 border-dashed border-white/50 flex items-center justify-center cursor-pointer hover:border-white transition-colors shrink-0">
+                <span className="text-white text-xl leading-none">+</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={async (e) => {
+                    const files = Array.from(e.target.files);
+                    for (const file of files) {
+                      const url = await onImage(file);
+                      if (url) {
+                        const existing = card.images?.length
+                          ? card.images
+                          : card.image
+                            ? [card.image]
+                            : [];
+                        const updated = [...existing, url];
+                        onChange("images", updated);
+                        onChange("image", updated[0]);
+                      }
+                    }
+                  }}
+                />
+              </label>
             </div>
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={async (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                const uploadedUrl = await onImage(file);
-                onChange("image", uploadedUrl);
-              }}
-            />
-          </label>
+
+            <div className="mt-auto flex items-center justify-center">
+              <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md border border-white/15 px-3 py-1.5 rounded-full shadow-sm">
+                <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+
+                <span className="text-[10px] text-white/90 tracking-wide">
+                  First image will be used as thumbnail
+                </span>
+              </div>
+            </div>
+          </div>
         ) : (
-          // ── View mode — normal hover overlay ──
           <>
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
@@ -89,22 +117,25 @@ export default function SortableCard({
                 View Details
               </button>
             </div>
+            {/* Image count badge */}
+            {card.images?.length > 1 && (
+              <div className="absolute bottom-3 right-3 bg-black/50 text-white text-[10px] px-2 py-0.5 rounded-full">
+                +{card.images.length - 1} more
+              </div>
+            )}
           </>
         )}
 
-        {/* Top buttons */}
+        {/* Top buttons — same rakho */}
         <div className="absolute top-3 left-3 z-10">
-          {/* Card drag handle */}
           <div
             {...attributes}
             {...listeners}
             className="w-7 h-7 bg-white/90 rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing shadow"
-            title="Drag to reorder"
           >
             <DragIcon size={14} />
           </div>
         </div>
-
         <div className="absolute top-3 right-3 flex gap-1.5 z-10">
           <button
             onClick={onEdit}
@@ -120,7 +151,6 @@ export default function SortableCard({
           </button>
         </div>
       </div>
-
       {/* Info */}
       <div className="info flex flex-col gap-0.5">
         <Image
@@ -135,7 +165,7 @@ export default function SortableCard({
             <input
               value={card.title}
               onChange={(e) => onChange("title", e.target.value)}
-              className="border border-gray-200 rounded-lg px-2 py-1 text-sm font-semibold text-[#0d2818] outline-none focus:border-[#1a4d2e] w-full"
+              className="border border-gray-200 rounded-lg px-2 py-1.5 text-sm font-semibold text-[#0d2818] outline-none focus:border-[#1a4d2e] w-full"
               placeholder="Title"
             />
             <input
@@ -146,24 +176,37 @@ export default function SortableCard({
               placeholder="Price e.g. 13000"
             />
             <input
-              value={card.type}
-              onChange={(e) => onChange("type", e.target.value)}
+              value={`${card.type} (non changable)`}
+              readOnly
+              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full bg-gray-50 cursor-default"
+            />
+            <input
+              value={card.reviews ?? 128}
+              onChange={(e) => onChange("reviews", e.target.value)}
               className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full"
-              placeholder="Type"
+              placeholder="Reviews eg: 134"
+              type="number"
             />
             <textarea
               value={card.description}
               onChange={(e) => onChange("description", e.target.value)}
               rows={2}
-              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none"
+              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-16"
               placeholder="Description"
             />
             <textarea
               value={card.inclusion}
               onChange={(e) => onChange("inclusion", e.target.value)}
               rows={2}
-              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none"
+              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-16"
               placeholder="Inclusions (comma separated)"
+            />
+            <textarea
+              value={card.exclusion}
+              onChange={(e) => onChange("exclusion", e.target.value)}
+              rows={2}
+              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-16"
+              placeholder="Exclusions (comma separated)"
             />
             <button
               onClick={onSave}

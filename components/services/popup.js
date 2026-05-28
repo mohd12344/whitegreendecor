@@ -67,8 +67,8 @@ export default function LivePopup() {
 
       timeout = setTimeout(() => {
         setVisible(false);
-      }, 5000);
-    }, 7000);
+      }, 6000);
+    }, 11000);
 
     return () => {
       clearInterval(interval);

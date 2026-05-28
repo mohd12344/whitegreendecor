@@ -1,22 +1,37 @@
 "use client";
-
 import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { generateSlug } from "@/components/services/generateSlug";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 
 export default function ProductStructure({ item, similarProducts }) {
   const [activeTab, setActiveTab] = useState("description");
-  const imgRef = useRef(null);
-  const containerRef = useRef(null);
-  const [zoomed, setZoomed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [activeImg, setActiveImg] = useState(0);
   const params = useParams();
-  const [loading, setloading] = useState(false);
+
+  // ── all images: images array ya fallback to single image
+  const allImages = item.images?.length
+    ? item.images
+    : item.image
+      ? [item.image]
+      : ["/services/placeholder.jpg"];
+
+  const lightboxSlides = allImages.map((src) => ({ src }));
 
   const tabsData = {
     description: item.description || "No description available.",
     inclusions: item.inclusion
       ? item.inclusion.split(",").map((i) => i.trim())
+      : [],
+    exclusions: item.exclusion
+      ? item.exclusion.split(",").map((i) => i.trim())
       : [],
     faqs: [
       {
@@ -49,81 +64,112 @@ export default function ProductStructure({ item, similarProducts }) {
   return (
     <div className="min-h-screen bg-gray-50 border-t border-t-zinc-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-10">
-        {/* ── Main Section ── */}
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-          {/* LEFT — Image */}
-          <div className="w-full lg:w-1/2">
+          {/* LEFT — Images */}
+          <div className="w-full lg:w-1/2 flex flex-col gap-3">
+            {/* Main image */}
             <div
-              ref={containerRef}
-              className="relative rounded-2xl select-none"
-              style={{
-                aspectRatio: "1 / 1",
-                overflow: "hidden",
-                cursor: zoomed ? "zoom-out" : "zoom-in",
-              }}
-              onMouseMove={(e) => {
-                if (!imgRef.current || !containerRef.current) return;
-                const rect = containerRef.current.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 100;
-                const y = ((e.clientY - rect.top) / rect.height) * 100;
-                imgRef.current.style.transformOrigin = `${x}% ${y}%`;
-              }}
-              onMouseEnter={() => {
-                if (imgRef.current) imgRef.current.style.transform = "scale(2)";
-                setZoomed(true);
-              }}
-              onMouseLeave={() => {
-                if (imgRef.current) {
-                  imgRef.current.style.transform = "scale(1)";
-                  imgRef.current.style.transformOrigin = "center center";
-                }
-                setZoomed(false);
-              }}
+              className="relative w-full rounded-2xl overflow-hidden cursor-zoom-in"
+              style={{ aspectRatio: "1/1" }}
               onClick={() => {
-                if (imgRef.current) {
-                  const isZoomed =
-                    imgRef.current.style.transform === "scale(2)";
-                  imgRef.current.style.transform = isZoomed
-                    ? "scale(1)"
-                    : "scale(2)";
-                  setZoomed(!isZoomed);
-                }
+                setLightboxIndex(activeImg);
+                setLightboxOpen(true);
               }}
             >
-              <img
-                ref={imgRef}
-                src={item.image || "/sections/"}
+              <Image
+                src={allImages[activeImg]}
+                fill
                 alt={item.title}
-                draggable={false}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  transformOrigin: "center center",
-                  transition: "transform 0.1s ease",
-                  willChange: "transform",
-                  display: "block",
-                }}
+                className="object-cover"
+                priority
               />
+              {/* Arrow left */}
+              {allImages.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImg(
+                        (p) => (p - 1 + allImages.length) % allImages.length,
+                      );
+                    }}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center shadow hover:bg-white transition-all z-10"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="m15 18-6-6 6-6" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImg((p) => (p + 1) % allImages.length);
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center shadow hover:bg-white transition-all z-10"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </button>
+                  {/* Counter */}
+                  <div className="absolute bottom-3 right-3 bg-black/50 text-white text-xs px-2.5 py-1 rounded-full z-10">
+                    {activeImg + 1} / {allImages.length}
+                  </div>
+                </>
+              )}
             </div>
+
+            {/* Thumbnails */}
+            {allImages.length > 1 && (
+              <div
+                className="flex gap-2 overflow-x-auto pb-1"
+                style={{ scrollbarWidth: "none" }}
+              >
+                {allImages.map((src, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImg(i)}
+                    className={`relative shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 transition-all ${
+                      activeImg === i
+                        ? "border-[#1a4d2e]"
+                        : "border-transparent opacity-60 hover:opacity-100"
+                    }`}
+                  >
+                    <Image src={src} fill alt="" className="object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* RIGHT — Info */}
+          {/* RIGHT — Info — same as before */}
           <div className="w-full lg:w-1/2 flex flex-col gap-4">
-            {/* Breadcrumb */}
             <nav className="flex items-center gap-1.5 text-sm text-gray-400">
-              <span className="hover:text-[#1a4d2e] transition-colors">
-                Home
-              </span>
+              <span>Home</span>
               <span>/</span>
-              <span className="hover:text-[#1a4d2e] transition-colors">
-                Store
-              </span>
+              <Link
+                href={`/services/${generateSlug(item.type)}`}
+                className="hover:text-[#1a4d2e]"
+              >
+                Services
+              </Link>
               <span>/</span>
               <span className="text-gray-700">{item.type}</span>
             </nav>
 
-            {/* Stars */}
             <div className="flex items-center gap-2">
               <Image
                 src="/svg-icons/5star.svg"
@@ -131,20 +177,19 @@ export default function ProductStructure({ item, similarProducts }) {
                 height={20}
                 alt="5 stars"
               />
-              <span className="text-sm text-gray-500">(128 reviews)</span>
+              <span className="text-sm text-gray-500">
+                ({item.reviews || "128 reviews"})
+              </span>
             </div>
 
-            {/* Title */}
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
               {item.title}
             </h1>
 
-            {/* Type badge */}
             <span className="inline-block w-fit text-sm font-medium text-[#1a4d2e] bg-[#1a4d2e]/10 px-3 py-1 rounded-full">
               {item.type}
             </span>
 
-            {/* Price */}
             <div className="flex items-baseline gap-2">
               <span className="text-3xl sm:text-4xl font-bold text-zinc-800">
                 ₹{item.price?.toLocaleString("en-IN")}
@@ -157,10 +202,10 @@ export default function ProductStructure({ item, similarProducts }) {
                 href={`https://wa.me/916398484419?text=Hi! I'm interested in booking the ${item.title} link: ${process.env.NEXT_PUBLIC_BASE_URL}/store/${params.type}/${item.slug}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 w-full py-3 sm:py-4 bg-[#25D366] text-white font-semibold rounded-full hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                className="flex items-center justify-center gap-3 w-full py-3 sm:py-4 bg-[#045112] text-white font-semibold rounded-full hover:-translate-y-0.5 active:translate-y-0 transition-all"
               >
                 <Image
-                  src={"/svg-icons/whatsapp.svg"}
+                  src="/svg-icons/whatsapp.svg"
                   width={40}
                   height={40}
                   alt="whatsapp"
@@ -215,15 +260,16 @@ export default function ProductStructure({ item, similarProducts }) {
               </svg>
               <p className="text-sm text-amber-800">
                 <strong>Limited bookings during wedding season.</strong> Early
-                booking recommended to secure your date.
+                booking recommended.
               </p>
             </div>
           </div>
         </div>
 
+        {/* Tabs — same as before */}
         <div className="mt-12 md:mt-16">
           <div className="flex border-b border-gray-200">
-            {["description", "inclusions", "faqs"].map((tab) => (
+            {["description", "inclusions", "exclusions", "faqs"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -237,14 +283,12 @@ export default function ProductStructure({ item, similarProducts }) {
               </button>
             ))}
           </div>
-
           <div className="py-6">
             {activeTab === "description" && (
               <p className="text-gray-600 leading-relaxed max-w-3xl text-sm sm:text-base">
                 {tabsData.description}
               </p>
             )}
-
             {activeTab === "inclusions" && (
               <ul className="grid sm:grid-cols-2 gap-3 max-w-2xl">
                 {tabsData.inclusions.map((item, i) => (
@@ -270,7 +314,31 @@ export default function ProductStructure({ item, similarProducts }) {
                 ))}
               </ul>
             )}
-
+            {activeTab === "exclusions" && (
+              <ul className="grid sm:grid-cols-2 gap-3 max-w-2xl">
+                {tabsData.exclusions.map((item, i) => (
+                  <li
+                    key={i}
+                    className="flex items-center gap-2 text-gray-600 text-sm"
+                  >
+                    <svg
+                      className="w-4 h-4 text-red-500 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            )}
             {activeTab === "faqs" && (
               <div className="space-y-3 max-w-3xl">
                 {tabsData.faqs.map((faq, i) => (
@@ -291,34 +359,37 @@ export default function ProductStructure({ item, similarProducts }) {
           </div>
         </div>
 
+        {/* Similar products — same */}
         <div className="mt-12 md:mt-16 pb-10">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
             Similar Products
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {similarProducts.map((item) => (
+            {similarProducts.map((prod) => (
               <Link
-                key={item._id}
-                href={`/store/${params.type}/${item.slug}`}
-                onClick={() => {
-                  setloading(true);
-                }}
+                key={prod._id}
+                href={`/store/${params.type}/${prod.slug}`}
+                onClick={() => setLoading(true)}
                 className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all"
               >
                 <div className="relative aspect-square overflow-hidden">
                   <Image
-                    src={item.image || "/services/"}
+                    src={
+                      prod.images?.[0] ||
+                      prod.image ||
+                      "/services/placeholder.jpg"
+                    }
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    alt={item.title}
+                    alt={prod.title}
                   />
                 </div>
                 <div className="p-3 sm:p-4">
                   <h3 className="font-medium text-gray-900 text-sm truncate">
-                    {item.title}
+                    {prod.title}
                   </h3>
                   <p className="text-[#1a4d2e] font-semibold text-sm mt-1">
-                    ₹{item.price?.toLocaleString("en-IN")}
+                    ₹{prod.price?.toLocaleString("en-IN")}
                   </p>
                 </div>
               </Link>
@@ -326,6 +397,16 @@ export default function ProductStructure({ item, similarProducts }) {
           </div>
         </div>
       </div>
+
+      {/* Lightbox */}
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        slides={lightboxSlides}
+        index={lightboxIndex}
+        plugins={[Zoom]}
+      />
+
       {loading && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/5 backdrop-blur-[2px]">
           <div className="h-5 w-5 border-2 border-gray-300 border-t-black rounded-full animate-spin"></div>

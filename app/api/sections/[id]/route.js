@@ -9,6 +9,9 @@ export async function PATCH(req, { params }) {
   const body = await req.json();
   const { id } = await params;
 
+  console.log("PATCH body:", body); // ← ye dekho server logs mein
+  console.log("PATCH id:", id);
+
   if (typeof body.title === "string") {
     const alreadyExists = await Section.findOne({
       $or: [{ title: body.title }, { slug: generateSlug(body.title) }],
@@ -20,11 +23,15 @@ export async function PATCH(req, { params }) {
         { status: 400 },
       );
     }
+
+    await Product.updateMany({ sectionId: id }, { $set: { type: body.title } });
   }
 
   const updateData = {
     ...body,
     ...(typeof body.title === "string" && { slug: generateSlug(body.title) }),
+    ...(body.custom === true && { specific: true }),
+    ...(body.specific === false && { custom: false }),
   };
 
   const section = await Section.findByIdAndUpdate(id, updateData, {
