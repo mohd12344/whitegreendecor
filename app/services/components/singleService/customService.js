@@ -499,23 +499,6 @@ export default function ShowCustomService({
               </div>
             </div>
           </div>
-
-          {/* ── Starting Price badge (specific/custom only) ── */}
-          {isSpecific && minPrice && (
-            <div className="absolute bottom-4 right-3 sm:right-4 sm:top-4 sm:bottom-auto bg-amber-300 rounded-xl px-4 py-3 shadow-md text-right z-10 w-34 sm:w-fit">
-              <p className="text-[10px] font-medium  uppercase tracking-wide">
-                {isCustom ? "Packages Starting From" : "Starting Price"}
-              </p>
-              <p className="text-lg sm:text-2xl font-bold  leading-tight">
-                ₹{minPrice.toLocaleString("en-IN")}*
-              </p>
-              <p className="text-[9px] font-medium">
-                {isCustom
-                  ? "Price depends on venue, size & design requirement"
-                  : "Price varies as per size & requirement"}
-              </p>
-            </div>
-          )}
         </div>
       </section>
 
@@ -539,145 +522,12 @@ export default function ShowCustomService({
         </div>
       )}
 
-      <section className="w-full py-8 pt-0 md:py-10 md:pt-2 sm:max-w-7xl mx-auto">
+      <section className="w-full py-8 pt-0 md:py-10 md:pt-0 sm:max-w-7xl mx-auto">
         {/* ══════════════════════════════════════
             BUDGET FRIENDLY SECTION
             (for custom/wedding: shown as "Our Services" horizontal scroll)
             ══════════════════════════════════════ */}
-        <div className="w-full flex flex-col gap-10 py-10 pb-4 sm:pb-8 sm:py-14">
-          <div className="low-budget-section">
-            <SectionHeading
-              title={
-                isCustom
-                  ? `Our ${products.title.split(" ")[0]} Decor Services`
-                  : `Budget Friendly ${products.title.split(" ")[0]} ${lowPriceProducts.length > 1 ? "Decorations" : "Decoration"}`
-              }
-              subtitle={
-                isCustom
-                  ? "We handle everything, so you can enjoy every moment stress-free."
-                  : undefined
-              }
-            />
-
-            {!isCustom && <SortBar value={lowSort} onChange={setLowSort} />}
-
-            <div className="relative px-4 sm:px-8 md:px-12">
-              {lowArrows.left && (
-                <button
-                  onClick={() => scroll("left", lowScrollRef)}
-                  aria-label="Scroll left"
-                  className="absolute left-1 sm:left-2.5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 hidden sm:flex items-center justify-center bg-white border border-amber-200 rounded-full shadow-md hover:bg-amber-400 hover:border-amber-400 hover:text-white text-[#0d2818] transition-all duration-200"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-              )}
-
-              {/* Mobile: grid (default) | custom: always scroll | specific: grid */}
-              <div
-                ref={lowScrollRef}
-                onScroll={handleLowScroll}
-                className={
-                  isCustom
-                    ? "flex gap-4 overflow-x-auto scroll-smooth pb-2 mx-1 sm:mx-10"
-                    : "grid grid-cols-2 gap-3 sm:flex sm:gap-4 sm:overflow-x-auto sm:scroll-smooth sm:pb-2 sm:mx-10"
-                }
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              >
-                {sortedLowProducts.map((product) => (
-                  <Link
-                    key={product._id}
-                    href={`/store/${product.type}/${product.slug}`}
-                    className={`${isCustom ? "shrink-0 w-44 sm:w-52" : "w-full sm:shrink-0 sm:w-56 md:w-60"} bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col group`}
-                  >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden">
-                      <Image
-                        src={product.image || "/services/placeholder.jpg"}
-                        fill
-                        alt={product.title}
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      {/* custom: show label overlay */}
-                      {isCustom && (
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/70 via-transparent to-transparent" />
-                      )}
-                    </div>
-
-                    <div className="flex flex-col gap-2 pt-1.5 sm:pt-3 p-3 flex-1">
-                      {!isCustom && (
-                        <span className="text-sm text-amber-500 font-semibold">
-                          ₹{product.price?.toLocaleString("en-IN")}
-                        </span>
-                      )}
-                      <h3 className="text-sm font-semibold text-[#0d2818] leading-snug line-clamp-2">
-                        {product.title}
-                      </h3>
-                      {!isCustom && (
-                        <div className="flex flex-wrap gap-x-3 gap-y-1">
-                          {["Quick Setup", "Budget Friendly"].map((tag) => (
-                            <span
-                              key={tag}
-                              className="flex items-center gap-1.5 text-[11px] sm:text-xs text-zinc-600"
-                            >
-                              <Check className="w-3 h-3 shrink-0 text-amber-400" />
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      {isCustom && product.description && (
-                        <p className="text-[11px] text-zinc-500 line-clamp-2">
-                          {product.description}
-                        </p>
-                      )}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          window.open(
-                            `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type}/${product.slug}`,
-                            "_blank",
-                            "noopener,noreferrer",
-                          );
-                        }}
-                        className="mt-auto cursor-pointer flex items-center justify-center gap-1.5 w-full bg-green-600 hover:bg-green-800 text-white text-xs font-medium py-2 rounded-lg transition-colors duration-200"
-                      >
-                        <Image
-                          src="/svg-icons/whatsapp.svg"
-                          width={14}
-                          height={14}
-                          alt="whatsapp"
-                        />
-                        Book on WhatsApp
-                      </button>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              {lowArrows.right && (
-                <button
-                  onClick={() => scroll("right", lowScrollRef)}
-                  aria-label="Scroll right"
-                  className="absolute hidden sm:flex right-1 sm:right-2.5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 items-center justify-center bg-white border border-amber-200 rounded-full shadow-md hover:bg-amber-400 hover:border-amber-400 hover:text-white text-[#0d2818] transition-all duration-200"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              )}
-            </div>
-
-            {/* "Explore All Services" CTA for custom */}
-            {isCustom && (
-              <div className="flex justify-center mt-6">
-                <Link
-                  href="/services"
-                  className="flex items-center gap-2 border border-[#0d2818] text-[#0d2818] hover:bg-[#0d2818] hover:text-white text-xs sm:text-sm font-medium px-6 py-2.5 rounded-xl transition-colors duration-200"
-                >
-                  Explore All Services →
-                </Link>
-              </div>
-            )}
-          </div>
-
+        <div className="w-full flex flex-col gap-10 py-10 pb-4 sm:pb-8 sm:py-14 sm:pt-0">
           {/* Trust badge strip (default mode only) */}
           {!isSpecific && (
             <div className="mx-4 sm:mx-8 md:mx-12 border border-amber-100 rounded-2xl bg-white py-5 px-4 sm:px-8">
@@ -705,7 +555,7 @@ export default function ShowCustomService({
     WE DECORATE EVERY VENUE
     ══════════════════════════════════════ */}
         {!shouldHidePackages && (
-          <section className="w-full py-8 md:py-10 px-4 sm:px-8 md:px-12 pb-12">
+          <section className="w-full py-8 pt-0 md:py-10 md:pt-0  px-4 sm:px-8 md:px-12 pb-12">
             <SectionHeading
               title={
                 isCustom
@@ -718,6 +568,7 @@ export default function ShowCustomService({
                   : "Choose from our curated packages or customize as per your needs in the form."
               }
             />
+            <SortBar value={lowSort} onChange={setLowSort} />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {venueProducts.map((product) => (
                 <Link

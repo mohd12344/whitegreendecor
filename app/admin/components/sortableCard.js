@@ -191,21 +191,21 @@ export default function SortableCard({
               value={card.description}
               onChange={(e) => onChange("description", e.target.value)}
               rows={2}
-              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-16"
+              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-22"
               placeholder="Description"
             />
             <textarea
               value={card.inclusion}
               onChange={(e) => onChange("inclusion", e.target.value)}
               rows={2}
-              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-16"
+              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-30"
               placeholder="Inclusions (comma separated)"
             />
             <textarea
               value={card.exclusion}
               onChange={(e) => onChange("exclusion", e.target.value)}
               rows={2}
-              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-16"
+              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] outline-none focus:border-[#1a4d2e] w-full resize-none sm:h-30"
               placeholder="Exclusions (comma separated)"
             />
             <button

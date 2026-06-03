@@ -91,42 +91,58 @@ export default function ServiceCards({ cards = [], categoryLabel, categorySlug }
 function MobileCard({ card }) {
   return (
     <Link
-      href={`/store/${card.type}/${card.slug}`}
-      className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl overflow-hidden group"
-    >
-      <div className="relative w-full aspect-[4/3] overflow-hidden">
-        <Image
-          src={card.image || "/placeholder.png"}
-          fill
-          alt={card.title}
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/70 via-transparent to-transparent" />
-        <p className="absolute bottom-1.5 left-2 text-white font-bold text-xs leading-tight line-clamp-2 pr-1">
-          {card.title}
-        </p>
-      </div>
-      <div className="px-2 py-2 flex items-center justify-between">
-        <span className="text-[11px] text-green-800 font-semibold">
-          ₹{card.price?.toLocaleString("en-IN")}
-        </span>
-        <span
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            window.open(
-              `https://wa.me/916398484419?text=Hi! I'm interested in ${card.title}`,
-              "_blank",
-              "noopener,noreferrer"
-            );
-          }}
-          className="flex items-center gap-1 bg-green-800 text-white text-[10px] font-medium px-3.5 py-1.5 rounded-lg shrink-0"
-        >
-          <Image src="/svg-icons/whatsapp.svg" width={10} height={10} alt="wa" />
-          Book
-        </span>
-      </div>
-    </Link>
+  href={`/store/${card.type}/${card.slug}`}
+  className="flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+>
+  {/* Image */}
+  <div className="relative w-full aspect-[4/3] overflow-hidden">
+    <Image
+      src={card.image || "/placeholder.png"}
+      fill
+      alt={card.title}
+      className="object-cover group-hover:scale-105 transition-transform duration-500"
+    />
+  </div>
+
+  {/* Content */}
+  <div className="flex flex-col flex-1 py-1.5 px-1">
+    {/* Title */}
+    <h3 className="text-sm font-semibold text-gray-900 leading-snug">
+      {card.title}
+    </h3>
+
+    {/* Bottom Section */}
+    <div className="mt-auto pt-1.5 border-t border-gray-100">
+  <div className="mb-3">
+    <p className="text-[11px] text-gray-500">Starting From</p>
+    <p className="text-green-800 font-bold text-lg">
+      ₹{card.price?.toLocaleString("en-IN")}
+    </p>
+  </div>
+
+  <button
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(
+        `https://wa.me/916398484419?text=Hi! I'm interested in ${card.title}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }}
+    className="w-full flex items-center justify-center gap-2 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold py-1.5 rounded-lg transition-colors"
+  >
+    <Image
+      src="/svg-icons/whatsapp.svg"
+      width={14}
+      height={14}
+      alt="WhatsApp"
+    />
+    Book Now
+  </button>
+</div>
+  </div>
+</Link>
   );
 }
 

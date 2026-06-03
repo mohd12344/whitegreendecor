@@ -198,7 +198,7 @@ export default function ProductStructure({ item, similarProducts }) {
 
             <div className="flex flex-col gap-1">
               <a
-                href={`https://wa.me/916398484419?text=Hi! I'm interested in booking the ${item.title} link: ${process.env.NEXT_PUBLIC_BASE_URL}/store/${params.type}/${item.slug}`}
+                href={`https://wa.me/916398484419?text=Hi! I'm interested in booking the ${item.title} link: ${process.env.NEXT_PUBLIC_BASE_URL}/store/${encodeURIComponent(params.type)}/${item.slug}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 w-full py-3 sm:py-4 bg-[#045112] text-white font-semibold rounded-full hover:-translate-y-0.5 active:translate-y-0 transition-all"
