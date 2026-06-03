@@ -223,7 +223,7 @@ function PackageCard({ product, i, processEnv }) {
               {product.description}
             </p>
           )}
-          <div className="mt-1.5">
+          <div className="sm:mt-1.5">
             <p className="text-[11px] text-zinc-400">Starting from</p>
             <p className="text-lg sm:text-xl font-bold text-amber-600 leading-tight">
               ₹{Number(product.price).toLocaleString("en-IN")}
@@ -364,21 +364,13 @@ export default function ShowCustomService({
   const isCustom = !!products.custom;
   const isSpecific = !!products.specific || isCustom;
 
-  const shouldHidePackages = HIDE_PACKAGE_KEYWORDS.some((k) =>
-    products.title.toLowerCase().includes(k.toLowerCase()),
-  );
-  const shouldHideQuotationForm = HIDE_QUOTATION_FORM_KEYWORDS.some((k) =>
-    products.title.toLowerCase().includes(k.toLowerCase()),
+  const shouldHidePackages = HIDE_PACKAGE_KEYWORDS.some((keyword) =>
+    (products?.title ?? "").toLowerCase().includes(keyword.toLowerCase()),
   );
 
-  const sortedLowProducts = sortProducts(lowPriceProducts, lowSort);
   const sortedProducts = sortProducts(products.products, prodSort);
 
-  // ✅ custom page ke liye: venue mein sirf wo cards jo lowPriceProducts mein NAHI hain
-  const lowPriceIds = new Set(lowPriceProducts.map((p) => p._id?.toString()));
-  const venueProducts = isCustom
-    ? sortedProducts.filter((p) => !lowPriceIds.has(p._id?.toString()))
-    : sortedProducts;
+  const venueProducts = sortedProducts;
 
   // min price for hero badge
   const minPrice = products.products?.length
@@ -413,20 +405,13 @@ export default function ShowCustomService({
     };
   }
 
-  // trust badges for hero strip
-  const heroTrustBadges = isCustom
-    ? CUSTOM_TRUST_BADGES
-    : isSpecific
-      ? SPECIFIC_TRUST_BADGES
-      : null;
-
   return (
     <main className="bg-stone-50">
       {/* ══════════════════════════════════════
           HERO BANNER
           ══════════════════════════════════════ */}
       <section className="w-full overflow-hidden">
-        <div className="relative w-full h-62 sm:h-58 md:h-90 lg:h-[22rem] overflow-hidden">
+        <div className="relative w-full h-64 sm:h-72 md:h-80 lg:h-[22rem] overflow-hidden">
           <div className="relative flex-shrink-0 w-full h-full">
             <Image
               src={products.bannerImage || "/logo.png"}
@@ -440,10 +425,11 @@ export default function ShowCustomService({
           <div className="absolute inset-0 bg-gradient-to-r from-[#0e1a10] via-[#0e1a10]/80 to-transparent pointer-events-none" />
 
           <div className="absolute inset-0 flex items-center px-4 sm:px-8 z-10">
-            <div className="flex flex-col sm:gap-3">
-              <div className="flex items-center gap-2 sm:mb-2">
+            {/* ← cap width so long title never reaches the price badge */}
+            <div className="flex flex-col gap-2 sm:gap-3 w-[55%] sm:w-[60%] md:w-1/2 min-w-0">
+              <div className="flex items-center gap-2">
                 <span className="w-4 h-px bg-amber-500 shrink-0" />
-                <span className="text-amber-400 text-[10px] sm:text-xs tracking-widest italic leading-none">
+                <span className="text-amber-400 text-[10px] sm:text-xs tracking-widest italic leading-none truncate">
                   {isCustom
                     ? "We Design. You Celebrate."
                     : "Celebrate Tradition, Create Beautiful Memories"}
@@ -452,25 +438,25 @@ export default function ShowCustomService({
               </div>
 
               <h1
-                className="mt-2 sm:mt-0 text-2xl sm:text-4xl md:text-5xl font-bold text-white/90 leading-tight max-w-xs sm:max-w-sm md:max-w-md"
+                className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white/90 leading-tight break-words"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 {products.title}
               </h1>
 
-              <div className="hidden sm:flex items-center gap-0.5 mt-1">
-                <span className="w-12 sm:w-16 md:w-20 h-px bg-amber-400" />
-                <Heart size={20} className="shrink-0 fill-amber-400" />
-                <span className="w-12 sm:w-16 md:w-20 h-px bg-amber-400" />
+              <div className="hidden sm:flex items-center gap-0.5">
+                <span className="w-12 sm:w-16 h-px bg-amber-400" />
+                <Heart size={18} className="shrink-0 fill-amber-400" />
+                <span className="w-12 sm:w-16 h-px bg-amber-400" />
               </div>
 
-              <p className="text-white/75 sm:mt-0 text-xs sm:text-sm leading-relaxed max-w-[260px] sm:max-w-xs md:max-w-sm mt-1">
+              <p className="text-white/75 text-xs sm:text-sm leading-relaxed line-clamp-2">
                 {isCustom
-                  ? `From Haldi to Grand Wedding, We Decorate Every Moment Beautifully.`
-                  : `We decorate your home with love, creativity & perfection.`}
+                  ? "From Haldi to Grand Wedding, We Decorate Every Moment Beautifully."
+                  : "We decorate your home with love, creativity & perfection."}
               </p>
 
-              <div className="flex flex-wrap mt-4 items-center gap-2 sm:gap-3 sm:mt-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1 sm:mt-0">
                 <button
                   onClick={() =>
                     window.open(
@@ -479,7 +465,7 @@ export default function ShowCustomService({
                       "noopener,noreferrer",
                     )
                   }
-                  className="flex items-center gap-1.5 bg-green-600 hover:bg-green-800 text-white text-xs sm:text-sm font-medium px-4 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
+                  className="flex items-center gap-1.5 bg-green-600 hover:bg-green-800 text-white text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
                 >
                   <Image
                     src="/svg-icons/whatsapp.svg"
@@ -491,7 +477,7 @@ export default function ShowCustomService({
                 </button>
                 <a
                   href="tel:+916398484419"
-                  className="flex items-center gap-1.5 border border-zinc-500 bg-white text-[#0d2818] hover:bg-amber-400 hover:text-white hover:border-amber-500 text-xs sm:text-sm font-medium px-4 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
+                  className="flex items-center gap-1.5 border border-zinc-500 bg-white text-[#0d2818] hover:bg-amber-400 hover:text-white hover:border-amber-500 text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
                 >
                   <Phone className="w-3.5 h-3.5 shrink-0" />
                   Call Now
@@ -499,28 +485,21 @@ export default function ShowCustomService({
               </div>
             </div>
           </div>
+
+          {/* Price badge */}
+          {isSpecific && minPrice && (
+            <div className="absolute bottom-4 right-3 sm:right-4 bg-amber-300 rounded-xl px-2 sm:px-4 py-3 shadow-md text-right z-10 w-28 sm:w-fit">
+              <p className="text-[10px] font-medium uppercase tracking-wide">
+                {isCustom ? "Packages Starting From" : "Starting Price"}
+              </p>
+              <p className="text-lg sm:text-2xl font-bold leading-tight">
+                ₹{minPrice.toLocaleString("en-IN")}*
+              </p>
+              <p className="text-[9px] font-medium">Onwards</p>
+            </div>
+          )}
         </div>
       </section>
-
-      {/* ══════════════════════════════════════
-          TRUST BADGES STRIP (specific/custom)
-          ══════════════════════════════════════ */}
-      {heroTrustBadges && (
-        <div className="w-full bg-white border-b border-amber-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3">
-            <div className="flex flex-wrap justify-around gap-y-3 gap-x-2">
-              {heroTrustBadges.map((item) => (
-                <div key={item.label} className="flex items-center gap-1.5">
-                  <span className="text-base">{item.icon}</span>
-                  <span className="text-[10px] sm:text-xs text-zinc-600 font-medium">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       <section className="w-full py-8 pt-0 md:py-10 md:pt-0 sm:max-w-7xl mx-auto">
         {/* ══════════════════════════════════════
@@ -555,7 +534,7 @@ export default function ShowCustomService({
     WE DECORATE EVERY VENUE
     ══════════════════════════════════════ */}
         {!shouldHidePackages && (
-          <section className="w-full py-8 pt-0 md:py-10 md:pt-0  px-4 sm:px-8 md:px-12 pb-12">
+          <section className="w-full py-8 pt-0 md:py-10 md:pt-0 px-4 sm:px-8 md:px-12 pb-12">
             <SectionHeading
               title={
                 isCustom
@@ -565,44 +544,221 @@ export default function ShowCustomService({
               subtitle={
                 isCustom
                   ? "From intimate gatherings to grand celebrations."
-                  : "Choose from our curated packages or customize as per your needs in the form."
+                  : "Choose from our curated packages or customize as per your needs."
               }
             />
-            <SortBar value={lowSort} onChange={setLowSort} />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {venueProducts.map((product) => (
-                <Link
-                  key={product._id}
-                  href={`/store/${product.type}/${product.slug}`}
-                  className="relative rounded-2xl overflow-hidden aspect-[4/3] group cursor-pointer"
-                >
-                  <Image
-                    src={
-                      product.image ||
-                      products.bannerImage ||
-                      "/services/placeholder.jpg"
-                    }
-                    fill
-                    alt={product.title}
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/80 via-[#0d2818]/30 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3
-                      className="text-white font-semibold text-sm sm:text-base"
-                      style={{
-                        fontFamily: "'Playfair Display', Georgia, serif",
-                      }}
-                    >
-                      {product.title}
-                    </h3>
-                    <p className="text-white/70 text-xs mt-0.5">
-                      ₹{Number(product.price).toLocaleString("en-IN")}+
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <SortBar value={prodSort} onChange={setProdSort} />
+
+            {/* ── CUSTOM: image overlay venue cards ── */}
+            {isCustom && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {venueProducts.map((product, i) => (
+                  <Link
+                    key={product._id}
+                    href={`/store/${product.type}/${product.slug}`}
+                    className="group bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col no-underline"
+                  >
+                    {/* Image with badge */}
+                    <div className="relative w-full aspect-[16/9] overflow-hidden">
+                      <Image
+                        src={product.image || "/services/placeholder.jpg"}
+                        fill
+                        alt={product.title}
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                        <span className="block w-full py-2 bg-white text-[#0d2818] font-semibold rounded-full text-xs text-center">
+                          View Details
+                        </span>
+                      </div>
+                      {/* Badge */}
+                      {TRUST_BADGES_PRODUCTS[i] && (
+                        <span
+                          className={`absolute top-2 left-2 z-10 ${TRUST_BADGES_PRODUCTS[i].color} text-white text-[10px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full`}
+                        >
+                          {TRUST_BADGES_PRODUCTS[i].label}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Card body */}
+                    <div className="flex flex-col gap-3 p-4 flex-1">
+                      {/* Title + price range */}
+                      <div>
+                        <h3 className="text-base sm:text-lg font-semibold text-[#0d2818] leading-snug">
+                          {product.title}
+                        </h3>
+                        {product.description && (
+                          <p className="text-xs text-zinc-400 mt-0.5 line-clamp-1">
+                            {product.description}
+                          </p>
+                        )}
+                        <div className="mt-2">
+                          <p className="text-[11px] text-zinc-500">
+                            Starting from
+                          </p>
+                          <p className="text-lg sm:text-xl font-bold text-amber-600 leading-tight">
+                            ₹{Number(product.price).toLocaleString("en-IN")}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Divider */}
+                      <div className="border-t border-amber-50" />
+
+                      {/* Inclusions */}
+                      {product.inclusion && (
+                        <ul className="flex flex-col gap-1.5">
+                          {product.inclusion
+                            .split(",")
+                            .map((item) => item.trim())
+                            .slice(0, 5)
+                            .map((feat) => (
+                              <li
+                                key={feat}
+                                className="flex items-start gap-2 text-xs sm:text-[13px] text-zinc-600"
+                              >
+                                <Check className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                                {feat}
+                              </li>
+                            ))}
+                        </ul>
+                      )}
+
+                      {/* Book button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          window.open(
+                            `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type}/${product.slug}`,
+                            "_blank",
+                            "noopener,noreferrer",
+                          );
+                        }}
+                        className="mt-auto cursor-pointer flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-800 text-white text-xs sm:text-sm font-medium py-2.5 rounded-xl transition-colors duration-200"
+                      >
+                        <Image
+                          src="/svg-icons/whatsapp.svg"
+                          width={15}
+                          height={15}
+                          alt="whatsapp"
+                        />
+                        Book Now
+                      </button>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {/* ── SPECIFIC: proper package cards ── */}
+            {!isCustom && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {venueProducts.map((product, i) => (
+                  <Link
+                    key={product._id}
+                    href={`/store/${product.type}/${product.slug}`}
+                    className="group bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col no-underline"
+                  >
+                    {/* Image with badge */}
+                    <div className="relative w-full aspect-[16/9] overflow-hidden">
+                      <Image
+                        src={product.image || "/services/placeholder.jpg"}
+                        fill
+                        alt={product.title}
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                        <span className="block w-full py-2 bg-white text-[#0d2818] font-semibold rounded-full text-xs text-center">
+                          View Details
+                        </span>
+                      </div>
+                      {/* Badge */}
+                      {TRUST_BADGES_PRODUCTS[i] && (
+                        <span
+                          className={`absolute top-2 left-2 z-10 ${TRUST_BADGES_PRODUCTS[i].color} text-white text-[10px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full`}
+                        >
+                          {TRUST_BADGES_PRODUCTS[i].label}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Card body */}
+                    <div className="flex flex-col gap-3 p-4 flex-1">
+                      {/* Title + price range */}
+                      <div>
+                        <h3 className="text-base sm:text-lg font-semibold text-[#0d2818] leading-snug">
+                          {product.title}
+                        </h3>
+                        {product.description && (
+                          <p className="text-xs text-zinc-400 mt-0.5 line-clamp-1">
+                            {product.description}
+                          </p>
+                        )}
+                        <div className="mt-2">
+                          <p className="text-[11px] text-zinc-500">
+                            Starting from
+                          </p>
+                          <p className="text-lg sm:text-xl font-bold text-amber-600 leading-tight">
+                            ₹{Number(product.price).toLocaleString("en-IN")}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Divider */}
+                      <div className="border-t border-amber-50" />
+
+                      {/* Inclusions */}
+                      {product.inclusion && (
+                        <ul className="flex flex-col gap-1.5">
+                          {product.inclusion
+                            .split(",")
+                            .map((item) => item.trim())
+                            .slice(0, 5)
+                            .map((feat) => (
+                              <li
+                                key={feat}
+                                className="flex items-start gap-2 text-xs sm:text-[13px] text-zinc-600"
+                              >
+                                <Check className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                                {feat}
+                              </li>
+                            ))}
+                        </ul>
+                      )}
+
+                      {/* Book button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          window.open(
+                            `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type}/${product.slug}`,
+                            "_blank",
+                            "noopener,noreferrer",
+                          );
+                        }}
+                        className="mt-auto cursor-pointer flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-800 text-white text-xs sm:text-sm font-medium py-2.5 rounded-xl transition-colors duration-200"
+                      >
+                        <Image
+                          src="/svg-icons/whatsapp.svg"
+                          width={15}
+                          height={15}
+                          alt="whatsapp"
+                        />
+                        Book Now
+                      </button>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+
             <div className="flex justify-center mt-5">
               <button
                 onClick={() =>
@@ -623,55 +779,6 @@ export default function ShowCustomService({
         {/* ══════════════════════════════════════
             HOW WE WORK + CONTACT FORM (custom only)
             ══════════════════════════════════════ */}
-        {isCustom && (
-          <section className="w-full py-8 md:py-10 px-4 sm:px-8 md:px-12 pb-12">
-            <div className="flex flex-col gap-5 max-w-4xl mx-auto">
-              {/* ── Left: How We Work + Why Choose Us ── */}
-              <div className="flex flex-col gap-5">
-                <SectionHeading
-                  title="How We Work"
-                  subtitle="Simple process to make your dream wedding a reality"
-                />
-
-                <div className="flex flex-col gap-3">
-                  {HOW_WE_WORK_STEPS.map((step, i) => (
-                    <div
-                      key={step.label}
-                      className="flex items-center gap-3 bg-white rounded-xl border border-amber-100 px-4 py-3"
-                    >
-                      <div className="w-8 h-8 shrink-0 rounded-full bg-[#0d2818] text-amber-400 flex items-center justify-center font-bold text-xs">
-                        {i + 1}
-                      </div>
-                      <p className="text-sm font-medium text-[#0d2818]">
-                        {step.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="bg-white rounded-2xl border border-amber-100 p-5">
-                  <h3
-                    className="text-sm font-semibold text-[#0d2818] mb-3 tracking-wide uppercase"
-                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-                  >
-                    Why Choose White Green Decors?
-                  </h3>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {WHY_CHOOSE_US.map((point) => (
-                      <li
-                        key={point}
-                        className="flex items-center gap-2 text-xs text-zinc-600"
-                      >
-                        <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* ══════════════════════════════════════
             SPECIFIC MODE BOTTOM SECTION

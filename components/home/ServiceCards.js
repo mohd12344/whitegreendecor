@@ -105,9 +105,9 @@ function MobileCard({ card }) {
   </div>
 
   {/* Content */}
-  <div className="flex flex-col flex-1 py-1.5 px-1">
+  <div className="flex flex-col flex-1 py-1.5 px-2">
     {/* Title */}
-    <h3 className="text-sm font-semibold text-gray-900 leading-snug">
+    <h3 className="text-sm font-semibold text-zinc-800 leading-snug">
       {card.title}
     </h3>
 
@@ -115,7 +115,7 @@ function MobileCard({ card }) {
     <div className="mt-auto pt-1.5 border-t border-gray-100">
   <div className="mb-3">
     <p className="text-[11px] text-gray-500">Starting From</p>
-    <p className="text-green-800 font-bold text-lg">
+    <p className="text-lg sm:text-xl font-bold text-amber-600 leading-tight">
       ₹{card.price?.toLocaleString("en-IN")}
     </p>
   </div>
