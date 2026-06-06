@@ -15,7 +15,7 @@ export default function ProductCards() {
 
   const getCards = async () => {
     try {
-      const res = await fetch("/api/search/product/grouped?c=3&l=4");
+      const res = await fetch("/api/search/product/grouped?c=4&l=4");
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
       setSections(data.res); // [{ type, label, products }]

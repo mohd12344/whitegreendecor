@@ -28,7 +28,7 @@ export default function ServiceCards({ cards = [], categoryLabel, categorySlug }
   return (
     <section>
       {categoryLabel && (
-        <h3 className="font-['Playfair_Display'] text-base sm:text-xl md:text-2xl font-semibold text-[#0d2818] mb-3 sm:mb-4 pl-0.5">
+        <h3 className="font-['Playfair_Display'] text-[1.5rem] sm:text-xl md:text-3xl font-semibold text-[#0d2818] mb-3 sm:mb-4 pl-0.5">
           {categoryLabel}
         </h3>
       )}
@@ -166,7 +166,7 @@ function DesktopCard({ card }) {
             e.stopPropagation();
             e.preventDefault();
             window.open(
-              `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${card.type}/${card.slug}`,
+              `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/$${encodeURIComponent(card.type)}/${card.slug}`,
               "_blank",
               "noopener,noreferrer"
             );

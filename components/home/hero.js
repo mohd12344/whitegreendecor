@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { LayoutGrid, MoveRight } from "lucide-react";
+import { ShowcaseSkeleton } from "../services/skeletons/SectionSkeleton";
 import Link from "next/link";
 
 const banners = [
@@ -18,41 +18,10 @@ const showCase = [
   { src: "/svg-icons/complete.svg", title: "Complete Solution" },
 ];
 
-const serviceShow = [
-  {
-    src: "/cards-pic/haldi-mehendi-shows.png",
-    label: "Haldi/Mehndi Decoration",
-    link: "/services/haldi-mehndi-combo",
-  },
-  {
-    src: "/cards-pic/mehendi-show.png",
-    label: "Mehendi Decor",
-    link: "/services/mehendi-decoration",
-  },
-  {
-    src: "/cards-pic/car-decor-show.png",
-    label: "Car Decoration",
-    link: "/services/car-decoration",
-  },
-  {
-    src: "/cards-pic/houses-show.png",
-    label: "House Decor",
-    link: "/services/wedding-house-decoration",
-  },
-  {
-    src: "/cards-pic/room-show.png",
-    label: "Room Decor",
-    link: "/services/first-night-room-decoration",
-  },
-  {
-    src: "/cards-pic/ring-show.png",
-    label: "Ring ceremony Decor",
-    link: "/services/ring-ceremony-decoration",
-  },
-];
-
 const Hero = () => {
   const [current, setCurrent] = useState(0);
+  const [serviceShow, setServiceShow] = useState([]);
+  const [loadingShowcase, setLoadingShowcase] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,6 +29,21 @@ const Hero = () => {
     }, 4000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/groupSection?showcase=true")
+      .then((res) => res.json())
+      .then((data) => {
+        const mapped = data.result.map((section) => ({
+          src: section.cardImage,
+          label: section.title,
+          link: `/services/${section.href}`,
+          pc: section.order > 6, // or whatever field you wanna use
+        }));
+        setServiceShow(mapped);
+        setLoadingShowcase(false); // 👈
+      });
   }, []);
 
   return (
@@ -154,49 +138,35 @@ const Hero = () => {
         </div>
       </div>
       <div className="py-6 md:py-10 md:pb-0">
-        <div className="grid grid-cols-2 md:flex md:items-start md:justify-center gap-4 sm:gap-5 md:gap-6 px-4 sm:px-8 md:px-12">
-          {serviceShow.map((item) => (
-            <Link
-              href={item.link}
-              key={item.label}
-              className={`
-        flex
+        <div className="grid grid-cols-2 md:flex md:items-start md:justify-center gap-4 sm:gap-5 md:gap-9 px-4 sm:px-8 md:px-12">
+          {loadingShowcase ? (
+            <ShowcaseSkeleton />
+          ) : (
+            serviceShow.map((item) => (
+              <Link
+                href={item.link}
+                key={item.label}
+                className={`
+        ${item.pc ? "hidden md:flex" : "flex"}
         flex-col items-center gap-2
-        w-full md:w-24 lg:w-28 xl:w-32
+        w-full md:w-24 lg:w-28 xl:w-38
       `}
-            >
-              <div className="relative rounded-2xl overflow-hidden w-full aspect-square shadow-sm">
-                <Image
-                  src={item.src}
-                  fill
-                  className="object-cover"
-                  alt={item.label}
-                />
-              </div>
+              >
+                <div className="relative rounded-2xl overflow-hidden w-full aspect-square shadow-sm">
+                  <Image
+                    src={item.src ?? "/placeholder.png"}
+                    fill
+                    className="object-cover"
+                    alt={item.label}
+                  />
+                </div>
 
-              <span className="font-medium text-zinc-700 text-center text-xs sm:text-sm leading-snug">
-                {item.label}
-              </span>
-            </Link>
-          ))}
-
-          {/* View All */}
-          <div className="col-span-2 flex justify-center mt-2 md:mt-0">
-            <Link
-              href="/services"
-              className="w-full sm:w-[220px] md:w-24 lg:w-28 xl:w-32"
-            >
-              <div className="flex flex-row md:flex-col items-center justify-center gap-2 md:gap-1.5 px-4 py-3 md:p-0 w-full md:aspect-square bg-stone-50 border border-amber-400 rounded-2xl group hover:bg-amber-50 transition-all duration-200">
-                <LayoutGrid className="text-yellow-500 w-5 h-5 md:w-6 md:h-6 shrink-0" />
-
-                <span className="font-medium text-xs sm:text-sm text-center leading-snug">
-                  View All Services
+                <span className="font-medium text-zinc-700 text-center text-xs sm:text-sm leading-snug">
+                  {item.label}
                 </span>
-
-                <MoveRight className="text-yellow-500 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200 shrink-0" />
-              </div>
-            </Link>
-          </div>
+              </Link>
+            ))
+          )}
         </div>
       </div>
     </section>

@@ -256,7 +256,7 @@ function PackageCard({ product, i, processEnv }) {
             e.stopPropagation();
             e.preventDefault();
             window.open(
-              `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type}/${product.slug}`,
+              `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${encodeURIComponent(product.type)}/${product.slug}`,
               "_blank",
               "noopener,noreferrer",
             );
@@ -490,10 +490,10 @@ export default function ShowCustomService({
           {isSpecific && minPrice && (
             <div className="absolute bottom-4 right-3 sm:right-4 bg-amber-300 rounded-xl px-2 sm:px-4 py-3 shadow-md text-right z-10 w-28 sm:w-fit">
               <p className="text-[10px] font-medium uppercase tracking-wide">
-                {isCustom ? "Packages Starting From" : "Starting Price"}
+                Packages Starting From
               </p>
               <p className="text-lg sm:text-2xl font-bold leading-tight">
-                ₹{minPrice.toLocaleString("en-IN")}*
+                {isCustom ? "₹50,000*" : "₹7,999*"}
               </p>
               <p className="text-[9px] font-medium">Onwards</p>
             </div>
@@ -633,7 +633,7 @@ export default function ShowCustomService({
                           e.stopPropagation();
                           e.preventDefault();
                           window.open(
-                            `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type}/${product.slug}`,
+                            `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${encodeURIComponent(product.type)}/${product.slug}`,
                             "_blank",
                             "noopener,noreferrer",
                           );
@@ -738,7 +738,7 @@ export default function ShowCustomService({
                           e.stopPropagation();
                           e.preventDefault();
                           window.open(
-                            `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type}/${product.slug}`,
+                            `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${encodeURIComponent(product.type)}/${product.slug}`,
                             "_blank",
                             "noopener,noreferrer",
                           );

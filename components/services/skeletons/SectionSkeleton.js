@@ -2,6 +2,43 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
+export function ShowcaseSkeleton() {
+  return (
+    <div className="py-6 md:py-10 md:pb-0">
+      <div className="grid grid-cols-2 md:flex md:items-start md:justify-center gap-4 sm:gap-5 md:gap-9 px-4 sm:px-8 md:px-12">
+
+        {/* mobile: 6 cards (2-col grid), desktop: 7 cards in flex row */}
+        {Array(6).fill(null).map((_, i) => (
+          <div
+            key={i}
+            className={`
+              ${i === 6 ? "hidden md:flex" : "flex"}
+              flex-col items-center gap-2
+              w-full md:w-24 lg:w-28 xl:w-38
+            `}
+          >
+            <Skeleton
+              className="w-full aspect-square"
+              style={{ borderRadius: "1rem" }}
+            />
+            <Skeleton width="70%" height={14} />
+          </div>
+        ))}
+
+        {/* 7th card — desktop only */}
+        <div className="hidden md:flex flex-col items-center gap-2 md:w-24 lg:w-28 xl:w-38">
+          <Skeleton
+            className="w-full aspect-square"
+            style={{ borderRadius: "1rem" }}
+          />
+          <Skeleton width="70%" height={14} />
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 export function ServicesSkeleton() {
   return (
     <section className="relative">

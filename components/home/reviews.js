@@ -45,7 +45,7 @@ function SectionHeading({ label }) {
   return (
     <div className="flex items-center justify-center gap-3 mb-6 sm:mb-8">
       <span className="h-px w-7 sm:w-16 bg-amber-400" />
-      <p className="text-xs sm:text-sm tracking-widest uppercase text-zinc-600 font-bold">
+      <p className="text-sm sm:text-lg tracking-widest uppercase text-zinc-600 font-bold">
         {label}
       </p>
       <span className="h-px w-7 sm:w-16 bg-amber-400" />
@@ -126,7 +126,7 @@ function Gallery() {
           <button
             key={src}
             onClick={() => setLightboxIndex(i)}
-            className="relative flex-shrink-0 w-24 sm:w-40 h-24 sm:h-40 rounded-2xl overflow-hidden cursor-pointer focus:outline-none"
+            className="relative flex-shrink-0 w-60 h-54 sm:w-40sm:h-40 rounded-2xl overflow-hidden cursor-pointer focus:outline-none"
           >
             <Image
               src={src}
@@ -167,7 +167,7 @@ function ReviewsSection() {
 
   return (
     <>
-      <div className="mt-10 sm:mt-14 bg-stone-50 border border-amber-100 rounded-[2rem] overflow-hidden">
+      <div className="mt-5 sm:mt-14 bg-stone-50 border border-amber-100 rounded-[2rem] overflow-hidden">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
           {/* LEFT CONTENT */}
           <div className="p-5 sm:p-8 lg:p-12 flex flex-col gap-3 sm:gap-5">

@@ -39,6 +39,11 @@ function TogglePill({ label, description, active, onChange, color = "green" }) {
       off: "bg-white text-gray-400 border-gray-200",
       dot: "bg-amber-400",
     },
+    blue: {
+      on: "bg-blue-700 text-white border-blue-700",
+      off: "bg-white text-gray-400 border-gray-200",
+      dot: "bg-blue-400",
+    },
   };
   const c = colors[color];
 
@@ -63,7 +68,6 @@ function TogglePill({ label, description, active, onChange, color = "green" }) {
 function SectionFlagRow({ section, onPatch }) {
   return (
     <div className="flex flex-col gap-2 mt-2">
-      {/* ── Toggles row ── */}
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-[10px] text-gray-400 uppercase tracking-wider mr-1">
           Page Type:
@@ -84,16 +88,22 @@ function SectionFlagRow({ section, onPatch }) {
           onChange={() => onPatch(section._id, { custom: !section.custom })}
           color="amber"
         />
+
+        <TogglePill
+          label="Showcase"
+          description="Show on homepage showcase cards"
+          active={!!section.isShowcase}
+          onChange={() => onPatch(section._id, { isShowcase: !section.isShowcase })}
+          color="blue"
+        />
       </div>
 
-      {/* ── Preview info card ── */}
       {section.custom && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs max-w-2xl">
           <p className="font-semibold text-amber-700 mb-2">
             🎊 Page Type: Full Wedding Decoration
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {/* Bundle */}
             <div className="bg-white rounded-lg border border-amber-200 p-3 flex flex-col gap-1">
               <div className="flex items-center gap-1.5 mb-1">
                 <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
@@ -112,7 +122,6 @@ function SectionFlagRow({ section, onPatch }) {
               </p>
             </div>
 
-            {/* Single service */}
             <div className="bg-white rounded-lg border border-green-200 p-3 flex flex-col gap-1">
               <div className="flex items-center gap-1.5 mb-1">
                 <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />

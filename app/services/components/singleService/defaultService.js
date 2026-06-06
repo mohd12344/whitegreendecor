@@ -296,7 +296,7 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
                         e.stopPropagation();
                         e.preventDefault();
                         window.open(
-                          `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type}/${product.slug}`,
+                          `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${encodeURIComponent(product.type)}/${product.slug}`,
                           "_blank",
                           "noopener,noreferrer",
                         );

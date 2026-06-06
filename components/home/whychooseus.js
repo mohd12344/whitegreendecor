@@ -6,8 +6,9 @@ import {
   Headphones,
   Settings,
   Gem,
-  Award,
+  ShieldCheck,
   CheckCircle,
+  Camera,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +19,7 @@ const stats = [
   { icon: Star, value: "4.9/5", label: "Google Rating" },
   { icon: Clock, value: "100%", label: "On Time Delivery" },
   { icon: Headphones, value: "24/7", label: "Customer Support" },
+  { icon: ShieldCheck, value: "100%", label: "Damage-Free Guarantee" },
 ];
 
 const features = [
@@ -46,6 +48,11 @@ const features = [
     title: "100% Satisfaction Guarantee",
     desc: "Your happiness is our top priority.",
   },
+  {
+    icon: Camera,
+    title: "Real Work, Real Photos",
+    desc: "Every photo you see is from our actual events — no stock images.",
+  },
 ];
 
 export default function WhyChooseUs() {
@@ -57,7 +64,7 @@ export default function WhyChooseUs() {
           Why Choose Us
           <span className="w-8 h-px bg-amber-400" />
         </div>
-        <div className="grid grid-cols-3 place-items-center lg:grid-cols-5 gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6">
+        <div className="grid grid-cols-3 place-items-center lg:grid-cols-6 gap-x-4 gap-y-4 sm:gap-x-3 sm:gap-y-6">
           {stats.map((item) => (
             <div key={item.label} className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-amber-400/40 flex items-center justify-center shrink-0">
@@ -103,7 +110,7 @@ export default function WhyChooseUs() {
         <div className="hidden lg:block w-px bg-gray-100 mx-5" />
 
         {/* Features Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 flex-1 px-4 sm:px-0 pb-4 lg:pb-0">
+        <div className="grid justify-center  md:justify-start grid-cols-2 lg:grid-cols-4 gap-5 flex-1 px-4 sm:px-0 pb-4 lg:pb-0">
           {features.map(({ icon: Icon, title, desc }) => (
             <div key={title} className="flex flex-col items-start gap-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-amber-400/30 flex items-center justify-center shrink-0">
