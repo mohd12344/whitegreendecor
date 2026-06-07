@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, useEffect, useCallback } from "react";
+import { Palette, Sparkles, Clock, BadgeIndianRupee } from "lucide-react";
 import {
   Phone,
   Heart,
@@ -93,18 +94,6 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
     };
   }
 
-  const HIDE_PACKAGE_KEYWORDS = [
-    "car decoration",
-    "first night room decoration",
-    "birthday decoration",
-    "anniversary decoration",
-    "puja decoration",
-  ];
-
-  const shouldHidePackages = HIDE_PACKAGE_KEYWORDS.some((keyword) =>
-    products.title.toLowerCase().includes(keyword.toLowerCase()),
-  );
-
   const HIDE_QUOTATION_FORM_KEYWORDS = [
     "car decoration",
     "first night room decoration",
@@ -118,51 +107,49 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
     <main className="bg-stone-50">
       {/* ── Hero Banner ── unchanged ── */}
       <section className="w-full overflow-hidden">
-        <div className="relative w-full h-62 sm:h-58 md:h-90 lg:h-[22rem] overflow-hidden">
-          <div className="flex h-full transition-transform duration-700 ease-in-out">
-            <div className="relative flex-shrink-0 w-full h-full">
-              <Image
-                src={products.bannerImage || "/logo.png"}
-                fill
-                alt={slug}
-                className="object-cover"
-                priority
-              />
-            </div>
-          </div>
+        <div className="relative w-full h-64 sm:h-72 md:h-80 lg:h-[22rem] overflow-hidden">
+          <Image
+            src={products.bannerImage || "/logo.png"}
+            fill
+            alt={slug}
+            className="object-cover"
+            priority
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0e1a10] via-[#0e1a10]/80 to-transparent pointer-events-none" />
+
           <div className="absolute inset-0 flex items-center px-4 sm:px-8 z-10">
-            <div className="title flex flex-col sm:gap-3">
-              <div className="flex items-center gap-2 sm:mb-2">
+            <div className="flex flex-col gap-2 sm:gap-3 w-[70%] sm:w-[60%] md:w-1/2 min-w-0">
+              <div className="flex items-center gap-2">
                 <span className="w-4 h-px bg-amber-500 shrink-0" />
-                <span className="text-amber-400 text-[10px] sm:text-[11px] sm:text-xs tracking-widest italic leading-none">
+                <span className="text-amber-400 text-[10px] sm:text-xs tracking-widest italic leading-none truncate">
                   Celebrate Tradition, Create Beautiful Memories
                 </span>
                 <span className="w-4 h-px bg-amber-500 shrink-0" />
               </div>
-              <h1 className="font-['Playfair_Display'] sm:mt-2 sm:mt-0 text-2xl sm:text-4xl md:text-5xl font-bold text-white/90 leading-[50px] max-w-xs sm:max-w-sm md:max-w-md">
+              <h1
+                className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white/90 leading-tight break-words"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
                 {products.title}
               </h1>
               <div className="hidden sm:flex items-center gap-0.5">
-                <span className="w-12 sm:w-16 md:w-20 h-px bg-amber-400" />
-                <Heart size={20} className="shrink-0 fill-amber-400" />
-                <span className="w-12 sm:w-16 md:w-20 h-px bg-amber-400" />
+                <span className="w-12 sm:w-16 h-px bg-amber-400" />
+                <Heart size={18} className="shrink-0 fill-amber-400" />
+                <span className="w-12 sm:w-16 h-px bg-amber-400" />
               </div>
-              <p className="text-white/75 sm:mt-0 text-xs sm:text-sm leading-relaxed max-w-[260px] sm:max-w-xs md:max-w-sm">
+              <p className="text-white/75 text-xs sm:text-sm leading-relaxed line-clamp-2 sm:max-w-lg">
                 {`Vibrant ${products.title} that bring happiness, positivity and unforgettable memories to life.`}
               </p>
-              <div className="flex flex-wrap mt-4 items-center gap-2 sm:gap-3 sm:mt-3">
+              <div className="flex items-center gap-2 sm:gap-3 my-1.5 sm:mb-2">
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
+                  onClick={() =>
                     window.open(
                       "https://wa.me/916398484419",
                       "_blank",
                       "noopener,noreferrer",
-                    );
-                  }}
-                  className="flex items-center gap-1.5 bg-green-600 hover:bg-green-800 text-white text-xs sm:text-sm font-medium px-4 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
+                    )
+                  }
+                  className="flex items-center gap-1.5 bg-green-600 hover:bg-green-800 text-white text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
                 >
                   <Image
                     src="/svg-icons/whatsapp.svg"
@@ -174,11 +161,29 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
                 </button>
                 <a
                   href="tel:+916398484419"
-                  className="flex items-center gap-1.5 border border-zinc-500 bg-white text-[#0d2818] hover:bg-amber-400 hover:text-white hover:border-amber-500 text-xs sm:text-sm font-medium px-4 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
+                  className="flex items-center gap-1.5 border border-zinc-500 bg-white text-[#0d2818] hover:bg-amber-400 hover:text-white hover:border-amber-500 text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
                 >
                   <Phone className="w-3.5 h-3.5 shrink-0" />
                   Call Now
                 </a>
+              </div>
+              <div className="flex gap-1 sm:gap-8 mt-0.5 sm:mt-2">
+                {[
+                  { icon: Palette, label: "Custom Designs" },
+                  { icon: Sparkles, label: "Premium Quality" },
+                  { icon: Clock, label: "On-Time Delivery" },
+                  { icon: BadgeIndianRupee, label: "Affordable Pricing" },
+                ].map((b) => (
+                  <div
+                    key={b.label}
+                    className="flex flex-col sm:flex-row items-center gap-0.5"
+                  >
+                    <b.icon className="w-4 sm:w-5 h-4 sm:h-5 text-amber-400" />
+                    <span className="text-white/70 text-[9px] font-medium text-center leading-snug min-w-[57px] sm:max-w-[50px]">
+                      {b.label}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -189,182 +194,121 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
         {/* ══════════════════════════════════════════
             ── OUR PACKAGES SECTION — REDESIGNED ──
             ══════════════════════════════════════════ */}
-        {!shouldHidePackages && (
-          <section className="w-full py-10 pt-8 sm:py-12 px-4 sm:px-8 md:px-12">
-            {/* Heading */}
-            <div className="flex flex-col items-center gap-1.5 mb-4">
-              <div className="flex items-center gap-3">
-                <span className="h-px w-10 sm:w-16 bg-amber-400" />
-                <h2
-                  className="text-center text-sm sm:text-base md:text-lg font-semibold tracking-widest text-[#0d2818] uppercase"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-                >
-                  Our{" "}
-                  {products.title?.includes("Decorations")
-                    ? products.title
-                    : `${products.title} Decorations`}
-                </h2>
-                <span className="h-px w-10 sm:w-16 bg-amber-400" />
-              </div>
-              <p className="text-zinc-500 text-xs sm:text-sm text-center">
-                Choose from our curated packages or customize as per your needs.
-              </p>
+
+        <section className="w-full py-10 pt-8 sm:py-12 px-4 sm:px-8 md:px-12">
+          {/* Heading */}
+          <div className="flex flex-col items-center gap-1.5 mb-4">
+            <div className="flex items-center gap-3">
+              <span className="h-px w-10 sm:w-16 bg-amber-400" />
+              <h2
+                className="text-center text-sm sm:text-base md:text-lg font-semibold tracking-widest text-[#0d2818] uppercase"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                Our{" "}
+                {products.title?.includes("Decorations")
+                  ? products.title
+                  : `${products.title} Decorations`}
+              </h2>
+              <span className="h-px w-10 sm:w-16 bg-amber-400" />
             </div>
+            <p className="text-zinc-500 text-xs sm:text-sm text-center">
+              Choose from our curated packages or customize as per your needs.
+            </p>
+          </div>
 
-            <SortBar value={prodSort} onChange={setProdSort} />
+          <SortBar value={prodSort} onChange={setProdSort} />
 
-            {/* ── Package Cards Grid ── */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {sortedProducts.map((product, i) => (
-                <Link
-                  key={product._id}
-                  href={`/store/${product.type}/${product.slug}`}
-                  className="group bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col no-underline"
-                >
-                  {/* Image with badge */}
-                  <div className="relative w-full aspect-[16/9] overflow-hidden">
-                    <Image
-                      src={product.image || "/services/placeholder.jpg"}
-                      fill
-                      alt={product.title}
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                      <span className="block w-full py-2 bg-white text-[#0d2818] font-semibold rounded-full text-xs text-center">
-                        View Details
-                      </span>
-                    </div>
-                    {/* Badge */}
-                    {TRUST_BADGES_PRODUCTS[i] && (
-                      <span
-                        className={`absolute top-2 left-2 z-10 ${TRUST_BADGES_PRODUCTS[i].color} text-white text-[10px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full`}
-                      >
-                        {TRUST_BADGES_PRODUCTS[i].label}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Card body */}
-                  <div className="flex flex-col gap-3 p-4 flex-1">
-                    {/* Title + price range */}
-                    <div>
-                      <h3 className="text-base sm:text-lg font-semibold text-[#0d2818] leading-snug">
-                        {product.title}
-                      </h3>
-                      {product.description && (
-                        <p className="text-xs text-zinc-400 mt-0.5 line-clamp-1">
-                          {product.description}
-                        </p>
-                      )}
-                      <div className="mt-1.5">
-                        <p className="text-[11px] text-zinc-400">
-                          Starting from
-                        </p>
-                        <p className="text-lg sm:text-xl font-bold text-amber-600 leading-tight">
-                          ₹{Number(product.price).toLocaleString("en-IN")}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="border-t border-amber-50" />
-
-                    {/* Inclusions */}
-                    {product.inclusion && (
-                      <ul className="flex flex-col gap-1.5">
-                        {product.inclusion
-                          .split(",")
-                          .map((item) => item.trim())
-                          .slice(0, 5)
-                          .map((feat) => (
-                            <li
-                              key={feat}
-                              className="flex items-start gap-2 text-xs sm:text-[13px] text-zinc-600"
-                            >
-                              <Check className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                              {feat}
-                            </li>
-                          ))}
-                      </ul>
-                    )}
-
-                    {/* Book button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        window.open(
-                          `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${encodeURIComponent(product.type)}/${product.slug}`,
-                          "_blank",
-                          "noopener,noreferrer",
-                        );
-                      }}
-                      className="mt-auto cursor-pointer flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-800 text-white text-xs sm:text-sm font-medium py-2.5 rounded-xl transition-colors duration-200"
-                    >
-                      <Image
-                        src="/svg-icons/whatsapp.svg"
-                        width={15}
-                        height={15}
-                        alt="whatsapp"
-                      />
-                      Book Now
-                    </button>
-                  </div>
-                </Link>
-              ))}
-
-              {/* ── Custom Decor CTA Card ── */}
-              <div className="bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm flex flex-col">
-                {/* Top decorative band */}
-                <div className="bg-[#0d2818] px-5 py-6 flex flex-col items-center gap-2 text-center">
-                  <span className="text-2xl">🎨</span>
-                  <h3
-                    className="text-white text-base sm:text-lg font-semibold"
-                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-                  >
-                    Need Custom Decor?
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    <span className="h-px w-8 bg-amber-400" />
-                    <span className="text-amber-400 text-[10px] tracking-widest uppercase">
-                      Personalized for you
+          {/* ── Package Cards Grid ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {sortedProducts.map((product, i) => (
+              <Link
+                key={product._id}
+                href={`/store/${product.type}/${product.slug}`}
+                className="group bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col no-underline"
+              >
+                {/* Image with badge */}
+                <div className="relative w-full aspect-[16/9] overflow-hidden">
+                  <Image
+                    src={product.image || "/services/placeholder.jpg"}
+                    fill
+                    alt={product.title}
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d2818]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    <span className="block w-full py-2 bg-white text-[#0d2818] font-semibold rounded-full text-xs text-center">
+                      View Details
                     </span>
-                    <span className="h-px w-8 bg-amber-400" />
                   </div>
+                  {/* Badge */}
+                  {TRUST_BADGES_PRODUCTS[i] && (
+                    <span
+                      className={`absolute top-2 left-2 z-10 ${TRUST_BADGES_PRODUCTS[i].color} text-white text-[10px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full`}
+                    >
+                      {TRUST_BADGES_PRODUCTS[i].label}
+                    </span>
+                  )}
                 </div>
 
-                {/* Body */}
-                <div className="flex flex-col gap-5 p-6 flex-1 text-center">
-                  <ul className="flex flex-col gap-2 w-full">
-                    {[
-                      "Theme as per your style",
-                      "Custom floral & lighting",
-                      "On-site consultation",
-                      "Luxury wedding stage setups",
-                      "Haldi & Mehendi decoration",
-                      "Birthday & surprise room decor",
-                    ].map((point) => (
-                      <li
-                        key={point}
-                        className="flex items-center gap-2 text-xs text-zinc-600"
-                      >
-                        <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
+                {/* Card body */}
+                <div className="flex flex-col gap-3 p-4 flex-1">
+                  {/* Title + price range */}
+                  <div>
+                    <h3 className="text-base sm:text-lg font-semibold text-[#0d2818] leading-snug">
+                      {product.title}
+                    </h3>
+                    {product.description && (
+                      <p className="text-xs text-zinc-400 mt-0.5 line-clamp-1">
+                        {product.description}
+                      </p>
+                    )}
+                    <div className="mt-1.5">
+                      <p className="text-[11px] text-zinc-400">Starting from</p>
+                      <p className="text-lg sm:text-xl font-bold text-amber-600 leading-tight">
+                        ₹{Number(product.price).toLocaleString("en-IN")}
+                      </p>
+                    </div>
+                  </div>
 
+                  {/* Divider */}
+                  <div className="border-t border-amber-50" />
+
+                  {/* Inclusions */}
+                  {product.inclusion && (
+                    <ul className="flex flex-col gap-1.5">
+                      {product.inclusion
+                        .split(",")
+                        .map((item) => item.trim())
+                        .slice(0, 5)
+                        .map((feat) => (
+                          <li
+                            key={feat}
+                            className="flex items-start gap-2 text-xs sm:text-[13px] text-zinc-600"
+                          >
+                            <Check className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                            {feat}
+                          </li>
+                        ))}
+                    </ul>
+                  )}
+
+                  {/* Book button */}
                   <button
-                    onClick={() =>
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
                       window.open(
-                        "https://wa.me/916398484419",
+                        `https://wa.me/916398484419?text=${encodeURIComponent(
+                          `Hi! I'm interested in booking ${product.title} link: ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")}/${product.slug}`,
+                        )}`,
                         "_blank",
                         "noopener,noreferrer",
-                      )
-                    }
-                    className="w-full flex items-center justify-center gap-2 bg-[#0d2818] hover:bg-[#1a3d28] text-white text-sm font-medium py-2.5 rounded-xl transition-colors duration-200"
+                      );
+                    }}
+                    className="mt-auto cursor-pointer flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-800 text-white text-xs sm:text-sm font-medium py-2.5 rounded-xl transition-colors duration-200"
                   >
                     <Image
                       src="/svg-icons/whatsapp.svg"
@@ -372,26 +316,89 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
                       height={15}
                       alt="whatsapp"
                     />
-                    Chat with Us
+                    Book Now
                   </button>
+                </div>
+              </Link>
+            ))}
 
-                  <a
-                    href="tel:+916398484419"
-                    className="text-xs text-zinc-400 hover:text-[#0d2818] transition-colors duration-200 underline underline-offset-2"
-                  >
-                    or call +91 63984 84419
-                  </a>
+            {/* ── Custom Decor CTA Card ── */}
+            <div className="bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm flex flex-col">
+              {/* Top decorative band */}
+              <div className="bg-[#0d2818] px-5 py-6 flex flex-col items-center gap-2 text-center">
+                <span className="text-2xl">🎨</span>
+                <h3
+                  className="text-white text-base sm:text-lg font-semibold"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  Need Custom Decor?
+                </h3>
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-8 bg-amber-400" />
+                  <span className="text-amber-400 text-[10px] tracking-widest uppercase">
+                    Personalized for you
+                  </span>
+                  <span className="h-px w-8 bg-amber-400" />
                 </div>
               </div>
-            </div>
 
-            {products.products.length === 0 && (
-              <p className="text-center text-gray-400 py-20">
-                No packages available yet.
-              </p>
-            )}
-          </section>
-        )}
+              {/* Body */}
+              <div className="flex flex-col gap-5 p-6 flex-1 text-center">
+                <ul className="flex flex-col gap-2 w-full">
+                  {[
+                    "Theme as per your style",
+                    "Custom floral & lighting",
+                    "On-site consultation",
+                    "Luxury wedding stage setups",
+                    "Haldi & Mehendi decoration",
+                    "Birthday & surprise room decor",
+                  ].map((point) => (
+                    <li
+                      key={point}
+                      className="flex items-center gap-2 text-xs text-zinc-600"
+                    >
+                      <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://wa.me/916398484419",
+                      "_blank",
+                      "noopener,noreferrer",
+                    )
+                  }
+                  className="w-full flex items-center justify-center gap-2 bg-[#0d2818] hover:bg-[#1a3d28] text-white text-sm font-medium py-2.5 rounded-xl transition-colors duration-200"
+                >
+                  <Image
+                    src="/svg-icons/whatsapp.svg"
+                    width={15}
+                    height={15}
+                    alt="whatsapp"
+                  />
+                  Chat with Us
+                </button>
+
+                <a
+                  href="tel:+916398484419"
+                  className="text-xs text-zinc-400 hover:text-[#0d2818] transition-colors duration-200 underline underline-offset-2"
+                >
+                  or call +91 63984 84419
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {products.products.length === 0 && (
+            <p className="text-center text-gray-400 py-20">
+              No packages available yet.
+            </p>
+          )}
+        </section>
+
         {!shouldHideQuotationForm && <ContactPage title={products.title} />}
       </section>
     </main>

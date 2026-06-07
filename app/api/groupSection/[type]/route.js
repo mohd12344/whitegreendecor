@@ -9,12 +9,14 @@ export async function GET(_, { params }) {
 
   try {
     const section = await Section.findOne({ slug: type }).lean();
+    console.log("section found:", section);
+    
     const products = await Product.find({
       sectionId: section._id,
       isActive: true,
-    })
-      .sort({ order: 1 })
-      .lean();
+    }).sort({ order: 1 }).lean();
+    
+    console.log("products found:", products.length);
 
     return NextResponse.json({ ...section, products });
   } catch (error) {
