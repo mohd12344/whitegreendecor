@@ -118,7 +118,7 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
           <div className="absolute inset-0 bg-gradient-to-r from-[#0e1a10] via-[#0e1a10]/80 to-transparent pointer-events-none" />
 
           <div className="absolute inset-0 flex items-center px-4 sm:px-8 z-10">
-            <div className="flex flex-col gap-2 sm:gap-3 w-[70%] sm:w-[60%] md:w-1/2 min-w-0">
+            <div className="flex flex-col gap-2 sm:gap-3 w-[75%] sm:w-[60%] md:w-1/2 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="w-4 h-px bg-amber-500 shrink-0" />
                 <span className="text-amber-400 text-[10px] sm:text-xs tracking-widest italic leading-none truncate">
@@ -191,13 +191,130 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
       </section>
 
       <section className="w-full sm:max-w-7xl mx-auto">
+        <div className="w-full flex flex-col gap-10 sm:gap-10 py-10 pb-4 sm:pb-8 sm:py-14">
+          <div className="low-budget-section">
+            <div className="flex items-center justify-center gap-3 mb-3 px-4">
+              <span className="h-px w-10 sm:w-16 bg-amber-400" />
+              <h2
+                className="text-center text-sm sm:text-base md:text-lg font-semibold tracking-widest text-[#0d2818] uppercase"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                Budget Friendly {products.title.split(" ")[0]}{" "}
+                {lowPriceProducts.length > 1 ? "Decorations" : "Decoration"}
+              </h2>
+              <span className="h-px w-10 sm:w-16 bg-amber-400" />
+            </div>
+
+            <SortBar value={lowSort} onChange={setLowSort} />
+
+            <div className="relative px-4 sm:px-8 md:px-3">
+              {lowArrows.left && (
+                <button
+                  onClick={() => scroll("left", lowScrollRef)}
+                  aria-label="Scroll left"
+                  className="absolute left-1 sm:left-2.5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 hidden sm:flex items-center justify-center bg-white border border-amber-200 rounded-full shadow-md hover:bg-amber-400 hover:border-amber-400 hover:text-white text-[#0d2818] transition-all duration-200"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              )}
+              <div
+                ref={lowScrollRef}
+                onScroll={handleLowScroll}
+                className="grid grid-cols-2 gap-3 sm:flex sm:gap-4 sm:overflow-x-auto sm:scroll-smooth sm:pb-2 sm:mx-10"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                {sortedLowProducts.map((product) => (
+                  <Link
+                    key={product._id}
+                    href={`/store/${product.type}/${product.slug}`}
+                    className="w-full sm:shrink-0 sm:w-56 md:w-60 bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col group"
+                  >
+                    <div className="relative w-full aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={product.image || "/services/placeholder.jpg"}
+                        fill
+                        alt={product.title}
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2 pt-1.5 sm:pt-3 p-3 flex-1">
+                      <span className="text-sm text-amber-500 font-semibold">
+                        ₹{product.price?.toLocaleString("en-IN")}
+                      </span>
+                      <h3 className="text-sm font-semibold text-[#0d2818] leading-snug line-clamp-2">
+                        {product.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-x-3 gap-y-1">
+                        {["Quick Setup", "Budget Friendly"].map((tag) => (
+                          <span
+                            key={tag}
+                            className="flex items-center gap-1.5 text-[11px] sm:text-xs text-zinc-600"
+                          >
+                            <Check className="w-3 h-3 shrink-0 text-amber-400" />
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          window.open(
+                            `https://wa.me/916398484419?text=Hi! I'm interested in booking the ${process.env.NEXT_PUBLIC_BASE_URL}/store/${product.type}/${product.slug}`,
+                            "_blank",
+                            "noopener,noreferrer",
+                          );
+                        }}
+                        className="mt-auto cursor-pointer flex items-center justify-center gap-1.5 w-full bg-green-600 hover:bg-green-800 text-white text-xs font-medium py-2 rounded-lg transition-colors duration-200"
+                      >
+                        <Image
+                          src="/svg-icons/whatsapp.svg"
+                          width={14}
+                          height={14}
+                          alt="whatsapp"
+                        />
+                        Book on WhatsApp
+                      </button>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              {lowArrows.right && (
+                <button
+                  onClick={() => scroll("right", lowScrollRef)}
+                  aria-label="Scroll right"
+                  className="absolute hidden sm:flex right-1 sm:right-2.5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 items-center justify-center bg-white border border-amber-200 rounded-full shadow-md hover:bg-amber-400 hover:border-amber-400 hover:text-white text-[#0d2818] transition-all duration-200"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="mx-4 sm:mx-8 md:mx-12 border border-amber-100 rounded-2xl bg-white py-5 px-4 sm:px-8">
+            <div className="flex flex-wrap justify-around gap-y-5 gap-x-4">
+              {TRUST_BADGES_LOWCOST_PRODUCTS.map((item) => (
+                <div
+                  key={item.label}
+                  className={`${item.pcOnly ? "hidden sm:flex" : "flex"} flex-col items-center gap-1 sm:gap-1.5 text-center sm:min-w-[80px]`}
+                >
+                  <span className="text-lg sm:text-2xl">{item.icon}</span>
+                  <span className="text-[8px] sm:text-xs text-zinc-600 leading-snug max-w-[90px]">
+                    {item.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* ══════════════════════════════════════════
             ── OUR PACKAGES SECTION — REDESIGNED ──
             ══════════════════════════════════════════ */}
 
-        <section className="w-full py-10 pt-8 sm:py-12 px-4 sm:px-8 md:px-12">
+        <section className="w-full py-10 pt-8 sm:py-12 sm:pt-4 px-4 sm:px-8 md:px-12">
           {/* Heading */}
-          <div className="flex flex-col items-center gap-1.5 mb-4">
+          <div className="flex flex-col items-center gap-1.5 mb-2">
             <div className="flex items-center gap-3">
               <span className="h-px w-10 sm:w-16 bg-amber-400" />
               <h2
@@ -205,7 +322,9 @@ export default function ShowDecorService({ products, slug, lowPriceProducts }) {
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 Our{" "}
-                {products.title?.includes("Decorations")
+                {["decorations", "decoration", "decor"].some((word) =>
+                  products.title?.toLowerCase().includes(word),
+                )
                   ? products.title
                   : `${products.title} Decorations`}
               </h2>

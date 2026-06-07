@@ -447,7 +447,7 @@ export default function ShowCustomService({
 
           {/* Price badge */}
           {isSpecific && minPrice && (
-            <div className="absolute bottom-4 right-3 sm:right-4 bg-amber-300 rounded-xl px-2 sm:px-4 py-3 shadow-md text-right z-10 w-28 sm:w-fit">
+            <div className="absolute hidden md:block sm:bottom-4 sm:right-4 bg-amber-300 rounded-xl px-2 sm:px-4 py-3 shadow-md text-right z-10 w-28 sm:w-fit">
               <p className="text-[10px] font-medium uppercase tracking-wide">
                 Packages Starting From
               </p>
@@ -461,6 +461,44 @@ export default function ShowCustomService({
       </section>
 
       <section className="w-full py-8 pt-0 md:py-10 md:pt-0 sm:max-w-7xl mx-auto">
+        <div className="block md:hidden mx-4 mt-4 mb-1">
+          <div className="flex items-center justify-between bg-[#0d2818] rounded-2xl px-5 py-3.5 shadow-sm">
+            <div className="flex flex-col">
+              <span className="text-amber-400 text-[9px] uppercase tracking-widest font-medium">
+                Packages Starting From
+              </span>
+              <span
+                className="text-white text-2xl font-bold leading-tight"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                {isCustom ? "₹50,000" : "₹7,999"}
+                <span className="text-sm text-white/50 font-normal">*</span>
+              </span>
+              <span className="text-white/40 text-[9px]">
+                Onwards · Customizable
+              </span>
+            </div>
+            <button
+              onClick={() =>
+                window.open(
+                  "https://wa.me/916398484419",
+                  "_blank",
+                  "noopener,noreferrer",
+                )
+              }
+              className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-[#0d2818] text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors duration-200 shrink-0"
+            >
+              <Image
+                src="/svg-icons/whatsapp.svg"
+                width={14}
+                height={14}
+                alt="wa"
+                className="brightness-0"
+              />
+              Book Now
+            </button>
+          </div>
+        </div>
         {/* ══════════ OUR WEDDING DECOR SERVICES (custom only) ══════════ */}
         {isCustom && <WeddingServicesSection services={weddingServices} />}
 
