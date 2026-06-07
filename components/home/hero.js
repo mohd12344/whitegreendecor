@@ -32,18 +32,29 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
-    fetch("/api/groupSection?showcase=true")
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchShowcase = async () => {
+      try {
+        setLoadingShowcase(true);
+
+        const res = await fetch("/api/groupSection?showcase=true");
+        const data = await res.json();
+
         const mapped = data.result.map((section) => ({
           src: section.cardImage,
           label: section.title,
           link: `/services/${section.href}`,
-          pc: section.order > 6, // or whatever field you wanna use
+          pc: section.order > 6,
         }));
+
         setServiceShow(mapped);
-        setLoadingShowcase(false); // 👈
-      });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoadingShowcase(false);
+      }
+    };
+
+    fetchShowcase();
   }, []);
 
   return (
@@ -147,10 +158,10 @@ const Hero = () => {
                 href={item.link}
                 key={item.label}
                 className={`
-        ${item.pc ? "hidden md:flex" : "flex"}
-        flex-col items-center gap-2
-        w-full md:w-24 lg:w-28 xl:w-38
-      `}
+          ${item.pc ? "hidden md:flex" : "flex"}
+          flex-col items-center gap-2
+          w-full md:w-24 lg:w-28 xl:w-38
+        `}
               >
                 <div className="relative rounded-2xl overflow-hidden w-full aspect-square shadow-sm">
                   <Image

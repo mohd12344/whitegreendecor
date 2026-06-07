@@ -368,7 +368,7 @@ export default function ShowCustomService({
           <div className="absolute inset-0 bg-gradient-to-r from-[#0e1a10] via-[#0e1a10]/80 to-transparent pointer-events-none" />
 
           <div className="absolute inset-0 flex items-center px-4 sm:px-8 z-10">
-            <div className="flex flex-col gap-1.5 w-[55%] sm:w-[60%] md:w-1/2 min-w-0">
+            <div className="flex flex-col gap-1.5 w-[60%] md:w-1/2 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="w-4 h-px bg-amber-500 shrink-0" />
                 <span className="text-amber-400 text-[10px] sm:text-xs tracking-widest italic leading-none truncate">
