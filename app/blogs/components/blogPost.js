@@ -53,29 +53,34 @@ export default function BlogPost({ slug }) {
   const [loading, setLoading] = useState(true);
   const [recentBlogs, setRecentBlogs] = useState([]);
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const res = await fetch(`/api/blog/blogs/${slug}`);
-        const data = await res.json();
-        setBlog(data.result);
-      } catch (err) {
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const fetchRecent = async () => {
-      // ← add try/catch, it was missing
-      const res = await fetch("/api/blog"); // ← no 's' — fetches all blogs
+useEffect(() => {
+  const fetchBlog = async () => {
+    try {
+      const res = await fetch(`/api/blog/blogs/${slug}`);
       const data = await res.json();
+      setBlog(data.result);
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchRecent = async () => {   // ← defined at same level, not inside try
+    try {
+      const res = await fetch("/api/blog");
+      const data = await res.json();
+      console.log("recent raw:", data); // remove after confirming
       setRecentBlogs(
         data.result?.filter((b) => b.slug !== slug).slice(0, 3) || [],
       );
-    };
-    fetchBlog();
-    fetchRecent();
-  }, [slug]);
+    } catch (err) {
+      console.error("Failed to fetch recent blogs:", err);
+    }
+  };
+
+  fetchBlog();
+  fetchRecent();
+}, [slug]);
 
   if (loading) return <BlogPostSkeleton />;
   if (!blog)
