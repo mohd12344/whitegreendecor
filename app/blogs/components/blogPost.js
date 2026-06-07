@@ -66,16 +66,12 @@ export default function BlogPost({ slug }) {
     };
 
     const fetchRecent = async () => {
-      try {
-        // ← add try/catch, it was missing
-        const res = await fetch("/api/blog"); // ← no 's' — fetches all blogs
-        const data = await res.json();
-        setRecentBlogs(
-          data.result?.filter((b) => b.slug !== slug).slice(0, 3) || [],
-        );
-      } catch (err) {
-        console.error("Failed to fetch recent blogs:", err);
-      }
+      // ← add try/catch, it was missing
+      const res = await fetch("/api/blog"); // ← no 's' — fetches all blogs
+      const data = await res.json();
+      setRecentBlogs(
+        data.result?.filter((b) => b.slug !== slug).slice(0, 3) || [],
+      );
     };
     fetchBlog();
     fetchRecent();
