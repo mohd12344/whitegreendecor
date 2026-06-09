@@ -130,7 +130,7 @@ useEffect(() => {
         </div>
 
         {blog.image && (
-          <div className="relative aspect-video rounded-2xl overflow-hidden bg-[#e8f0eb] mb-10">
+          <div className="relative aspect-video rounded-2xl overflow-hidden bg-[#e8f0eb] mb-4 sm:mb-6">
             <Image
               src={blog.image}
               alt={blog.title}
@@ -141,7 +141,7 @@ useEffect(() => {
         )}
       </section>
 
-      <article className="max-w-5xl mx-auto px-4 sm:px-6 pb-20">
+      <article className="max-w-5xl mx-auto px-4 sm:px-6 pb-8 sm:pb-20">
         {/* dangerouslySetInnerHTML renders the HTML TipTap saved */}
         <div
           className="
