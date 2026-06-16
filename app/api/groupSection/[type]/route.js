@@ -9,14 +9,17 @@ export async function GET(_, { params }) {
 
   try {
     const section = await Section.findOne({ slug: type }).lean();
-    console.log("section found:", section);
-    
-    const products = await Product.find({
+
+    const productQuery = {
       sectionId: section._id,
       isActive: true,
-    }).sort({ order: 1 }).lean();
-    
-    console.log("products found:", products.length);
+    };
+
+    if (!section.specific && !section.custom) {
+      productQuery.price = { $gt: 50000 };
+    }
+
+    const products = await Product.find(productQuery).sort({ order: 1 }).lean();
 
     return NextResponse.json({ ...section, products });
   } catch (error) {

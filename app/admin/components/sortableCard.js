@@ -173,7 +173,14 @@ export default function SortableCard({
               type="number"
               onChange={(e) => onChange("price", e.target.value)}
               className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] font-semibold outline-none focus:border-[#1a4d2e] w-full"
-              placeholder="Price e.g. 13000"
+              placeholder="Starting Price e.g. 13000"
+            />
+            <input
+              value={card.endingPrice ?? 0}
+              type="number"
+              onChange={(e) => onChange("endingPrice", e.target.value)}
+              className="border border-gray-200 rounded-lg px-2 py-1 text-sm text-[#6e6f6f] font-semibold outline-none focus:border-[#1a4d2e] w-full"
+              placeholder="Ending Price e.g. 25000 (optional)"
             />
             <input
               value={`${card.type} (non changable)`}
@@ -222,7 +229,13 @@ export default function SortableCard({
                 {card.title}
               </h4>
               <div className="text-sm sm:text-base text-[#6e6f6f] font-semibold">
-                ₹{Number(card.price).toLocaleString()} <span>&bull;</span>{" "}
+                ₹{Number(card.price).toLocaleString()}
+                {card.endingPrice &&
+                card.endingPrice > 0 &&
+                card.endingPrice !== card.price
+                  ? ` - ₹${Number(card.endingPrice).toLocaleString()}`
+                  : ""}
+                <span> &bull; </span>
                 {card.type}
               </div>
             </div>

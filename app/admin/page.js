@@ -93,9 +93,23 @@ function SectionFlagRow({ section, onPatch }) {
           label="Showcase"
           description="Show on homepage showcase cards"
           active={!!section.isShowcase}
-          onChange={() => onPatch(section._id, { isShowcase: !section.isShowcase })}
+          onChange={() =>
+            onPatch(section._id, { isShowcase: !section.isShowcase })
+          }
           color="blue"
         />
+
+        {!section.custom && !section.specific && (
+          <TogglePill
+            label="Packages"
+            description="Show packages section on this page"
+            active={!!section.showPackages}
+            onChange={() =>
+              onPatch(section._id, { showPackages: !section.showPackages })
+            }
+            color="blue"
+          />
+        )}
       </div>
 
       {section.custom && (

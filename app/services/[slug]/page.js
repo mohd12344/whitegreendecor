@@ -32,7 +32,7 @@ export default async function Decors({ params }) {
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection/${slug}`,
   );
   const lowPrice = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection/${slug}/${10000}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/groupSection/${slug}/${50000}`,
   );
 
   const products = await data.json();

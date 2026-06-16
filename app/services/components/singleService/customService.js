@@ -660,6 +660,10 @@ export default function ShowCustomService({
                           </p>
                           <p className="text-lg sm:text-xl font-bold text-amber-600 leading-tight">
                             ₹{Number(product.price).toLocaleString("en-IN")}
+                            {product.endingPrice > 0 &&
+                            product.endingPrice !== product.price
+                              ? ` - ₹${Number(product.endingPrice).toLocaleString("en-IN")}`
+                              : ""}
                           </p>
                         </div>
                       </div>
