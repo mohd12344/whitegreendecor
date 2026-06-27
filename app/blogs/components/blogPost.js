@@ -53,34 +53,35 @@ export default function BlogPost({ slug }) {
   const [loading, setLoading] = useState(true);
   const [recentBlogs, setRecentBlogs] = useState([]);
 
-useEffect(() => {
-  const fetchBlog = async () => {
-    try {
-      const res = await fetch(`/api/blog/blogs/${slug}`);
-      const data = await res.json();
-      setBlog(data.result);
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await fetch(`/api/blog/blogs/${slug}`);
+        const data = await res.json();
+        setBlog(data.result);
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchRecent = async () => {   // ← defined at same level, not inside try
-    try {
-      const res = await fetch("/api/blog");
-      const data = await res.json();
-      console.log("recent raw:", data); // remove after confirming
-      setRecentBlogs(
-        data.result?.filter((b) => b.slug !== slug).slice(0, 3) || [],
-      );
-    } catch (err) {
-      console.error("Failed to fetch recent blogs:", err);
-    }
-  };
+    const fetchRecent = async () => {
+      // ← defined at same level, not inside try
+      try {
+        const res = await fetch("/api/blog");
+        const data = await res.json();
+        console.log("recent raw:", data); // remove after confirming
+        setRecentBlogs(
+          data.result?.filter((b) => b.slug !== slug).slice(0, 3) || [],
+        );
+      } catch (err) {
+        console.error("Failed to fetch recent blogs:", err);
+      }
+    };
 
-  fetchBlog();
-  fetchRecent();
-}, [slug]);
+    fetchBlog();
+    fetchRecent();
+  }, [slug]);
 
   if (loading) return <BlogPostSkeleton />;
   if (!blog)
@@ -144,13 +145,13 @@ useEffect(() => {
       <article className="max-w-5xl mx-auto px-4 sm:px-6 pb-8 sm:pb-20">
         {/* dangerouslySetInnerHTML renders the HTML TipTap saved */}
         <div
-          className="
+          className=" prose-p:font-[Inter]
       prose prose-lg prose-gray max-w-none
       prose-headings:font-serif prose-headings:text-gray-900
       prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:font-semibold
       prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:font-semibold
-      prose-p:text-gray-600 prose-p:leading-relaxed prose-p:font-light prose-p:text-base prose-p:sm:text-lg
-      prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-a:font-medium
+      prose-p:text-[#292929] prose-p:leading-relaxed prose-p:font-light prose-p:text-base prose-p:sm:text-lg
+      prose-a:text-green-600 prose-a:no-underline hover:prose-a:underline prose-a:font-medium
       prose-strong:text-gray-800 prose-strong:font-semibold
     "
           dangerouslySetInnerHTML={{ __html: blog.content }}
